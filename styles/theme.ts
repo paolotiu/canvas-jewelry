@@ -64,10 +64,42 @@ const colors = {
   white: '#FFF',
   black: '#222',
   gray: '#E5E5E5',
-  inactive: 'D7D4D4',
+  inactive: '#D7D4D4',
   headerText: '#222',
   mainText: '#555',
   secondaryText: '#888',
+
+  inactiveTransparent: 'rgba(145,145,145,0.45)',
+  activeTransparent: 'rgba(10,10,10,0.40)',
+  carousel: {
+    inactiveSlide: '#CCC',
+    activeSlide: 'rgba(10,10,10,0.40)',
+  },
+  whiteAlpha: {
+    50: 'rgba(255, 255, 255, 0.04)',
+    100: 'rgba(255, 255, 255, 0.06)',
+    200: 'rgba(255, 255, 255, 0.08)',
+    300: 'rgba(255, 255, 255, 0.16)',
+    400: 'rgba(255, 255, 255, 0.24)',
+    500: 'rgba(255, 255, 255, 0.36)',
+    600: 'rgba(255, 255, 255, 0.48)',
+    700: 'rgba(255, 255, 255, 0.64)',
+    800: 'rgba(255, 255, 255, 0.80)',
+    900: 'rgba(255, 255, 255, 0.92)',
+  },
+
+  blackAlpha: {
+    50: 'rgba(0, 0, 0, 0.04)',
+    100: 'rgba(0, 0, 0, 0.06)',
+    200: 'rgba(0, 0, 0, 0.08)',
+    300: 'rgba(0, 0, 0, 0.16)',
+    400: 'rgba(0, 0, 0, 0.24)',
+    500: 'rgba(0, 0, 0, 0.36)',
+    600: 'rgba(0, 0, 0, 0.48)',
+    700: 'rgba(0, 0, 0, 0.64)',
+    800: 'rgba(0, 0, 0, 0.80)',
+    900: 'rgba(0, 0, 0, 0.92)',
+  },
 };
 
 export const theme = { typography, colors, borderRadius };
