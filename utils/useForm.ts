@@ -67,7 +67,7 @@ export const useForm = <T extends Record<string, unknown>>(
     run();
   }, [inputs, schema]);
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = e.target;
 
     setInputs((prev) => ({ ...prev, [name]: value }));
