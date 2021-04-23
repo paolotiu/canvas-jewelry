@@ -1,3 +1,4 @@
+import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import Form from '@components/General/Form';
 import FormControl from '@components/General/FormControl';
@@ -7,7 +8,7 @@ import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { useForm } from '@utils/useForm';
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 
 const Wrapper = styled.div`
   padding: 100px 5px;
@@ -31,10 +32,36 @@ const FormHeader = styled.div`
 
 const AddItem = () => {
   const { inputs, handleChange } = useForm({ name: '', price: 0, description: '' });
+  const [images, setImages] = useState<FileList | null>();
+  const [imagePaths, setImagePaths] = useState<string[]>([]);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const { files } = e.target;
+    setImages(files);
+    if (files) {
+      setImagePaths(Array.from(files).map((file) => URL.createObjectURL(file)));
+    } else {
+      setImagePaths([]);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('/api/items', inputs);
+    const data = new FormData();
+
+    // Append inputs to form
+    Object.entries(inputs).forEach(([key, val]) => {
+      data.append(key, String(val));
+    });
+
+    // Append images
+    if (images) {
+      Array.from(images).forEach((image, i) => {
+        data.append(`image_${i}`, image);
+      });
+    }
+
+    axios.post('/api/items', data);
   };
   return (
     <Wrapper>
@@ -75,7 +102,12 @@ const AddItem = () => {
           />
         </FormControl>
         <FormControl>
-          <Button size="lg" primary>
+          <label htmlFor="photos">Photos</label>
+          <Input type="file" multiple onChange={handleFileChange} />
+          <Carousel withButtons images={imagePaths} />
+        </FormControl>
+        <FormControl>
+          <Button type="submit" size="lg" primary>
             Create Item
           </Button>
         </FormControl>
