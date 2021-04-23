@@ -4,18 +4,46 @@ import Item from '@models/Item';
 import { NextApiResponse } from 'next';
 import { createError } from '@utils/createError';
 import { NextApiRequestWithData, withFormidable } from '@utils/withFormidable';
+import { UploadApiOptions, UploadApiResponse, v2 as cloudinary } from 'cloudinary';
+
+const uploadAsync = (path: string, options: UploadApiOptions) =>
+  new Promise<UploadApiResponse>((resolve, reject) => {
+    cloudinary.uploader.upload(path, options, (err, result) => {
+      if (err) reject(err);
+      if (!result) reject(result);
+      resolve(result as UploadApiResponse);
+    });
+  });
 
 const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
-  const { method, body } = req;
+  const { method, body, files } = req;
 
   switch (method) {
     case 'POST':
-      const existingItem = await Item.findOne({ name: body.name });
+      try {
+        const existingItem = await Item.findOne({ name: body.name });
 
-      if (existingItem) return createError(res, 401, 'Item with that name already exists');
+        if (existingItem) return createError(res, 401, 'Item with that name already exists');
 
-      const item = await Item.create(body);
-      res.status(201).json({ success: true, data: item });
+        let urls: string[] = [];
+        if (files) {
+          urls = (
+            await Promise.all(
+              files.map((file) =>
+                uploadAsync(file.path, {
+                  folder: 'canvas',
+                  public_id: file.name?.replace('.jpg', '') || undefined,
+                }),
+              ),
+            )
+          ).map((response) => response.url);
+        }
+
+        const item = await Item.create({ ...body, images: urls });
+        res.status(201).json({ success: true, data: item });
+      } catch (e) {
+        return createError(res, 400, e.message);
+      }
       break;
     case 'GET':
       const items = await Item.find();

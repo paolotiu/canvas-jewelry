@@ -12,6 +12,7 @@
     "@emotion/styled": "^11.3.0",
     "@types/mongoose": "^5.10.5",
     "axios": "^0.21.1",
+    "cloudinary": "^1.25.1",
     "embla-carousel": "^4.5.0",
     "eslint-config-prettier": "^8.2.0",
     "formidable": "^1.2.2",

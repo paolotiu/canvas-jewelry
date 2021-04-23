@@ -4,6 +4,7 @@ export interface Item {
   name: string;
   price: number;
   description: string;
+  images: string[];
 }
 
 const ItemSchema = new Schema({
@@ -22,6 +23,7 @@ const ItemSchema = new Schema({
   category: {
     type: String,
   },
+  images: [String],
 });
 
 interface ItemDocument extends Item, Document {}
