@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { breakpoints, createBreakpoint } from '@styles/breakpoints';
+import { createBreakpoint } from '@styles/breakpoints';
+import FormControl from './FormControl';
 
 const Form = styled.form`
   padding: 1em;
@@ -10,7 +11,7 @@ const Form = styled.form`
     ${createBreakpoint(450)} {
       display: flex;
 
-      div {
+      ${FormControl} {
         flex: 1;
       }
     }

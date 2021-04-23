@@ -1,5 +1,6 @@
 import Button from '@components/General/Button';
 import Form from '@components/General/Form';
+import FormControl from '@components/General/FormControl';
 import Input from '@components/General/Input';
 import TextArea from '@components/General/TextArea';
 import styled from '@emotion/styled';
@@ -19,16 +20,6 @@ const Wrapper = styled.div`
   form {
     width: 100%;
     max-width: 1000px;
-  }
-`;
-
-const FormControl = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-
-  label {
-    padding-bottom: 5px;
   }
 `;
 
