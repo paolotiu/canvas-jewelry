@@ -22,7 +22,8 @@
       "@models/*": ["models/*"],
       "@pages/*": ["pages/*"],
       "@utils/*": ["utils/*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"]
     }
   },
   "exclude": ["node_modules"],

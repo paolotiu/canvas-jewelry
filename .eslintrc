@@ -20,7 +20,10 @@
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "consistent-return": "off"
   },
 
   "ignorePatterns": ["types.ts", "*.js"]
