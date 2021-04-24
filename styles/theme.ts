@@ -68,9 +68,11 @@ const colors = {
   headerText: '#222',
   mainText: '#555',
   secondaryText: '#888',
-
+  success: '#4ADE80',
+  neutral: '#334155',
   inactiveTransparent: 'rgba(145,145,145,0.45)',
   activeTransparent: 'rgba(10,10,10,0.40)',
+
   carousel: {
     inactiveSlide: '#CCC',
     activeSlide: 'rgba(10,10,10,0.40)',
@@ -100,7 +102,24 @@ const colors = {
     800: 'rgba(0, 0, 0, 0.80)',
     900: 'rgba(0, 0, 0, 0.92)',
   },
+
+  coolGray: {
+    50: '#f9fafb',
+    100: '#f3f4f6',
+    200: '#e5e7eb',
+    300: '#d1d5db',
+    400: '#9ca3af',
+    500: '#6b7280',
+    600: '#4b5563',
+    700: '#374151',
+    800: '#1f2937',
+    900: '#111827',
+  },
 };
+export type ButtonColors = Exclude<
+  keyof typeof colors,
+  'coolGray' | 'blackAlpha' | 'whiteAlpha' | 'carousel'
+>;
 
 export const theme = { typography, colors, borderRadius };
 export type ThemeType = typeof theme;
