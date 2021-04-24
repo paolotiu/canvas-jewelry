@@ -4,10 +4,11 @@ import FormControl from './FormControl';
 import TextArea from './TextArea';
 import Input from './Input';
 
-const Form = styled.form`
+const Form = styled.form<{ withBorder?: boolean }>`
   padding: 1em;
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  border: 1px solid ${({ theme }) => theme.colors.gray};
+  ${({ withBorder, theme: { colors } }) => withBorder && `border: 1px solid ${colors.gray}`};
+
   .short-inputs {
     padding-top: 1rem;
     ${createBreakpoint(450)} {
@@ -17,6 +18,11 @@ const Form = styled.form`
         flex: 1;
       }
     }
+  }
+
+  label {
+    font-weight: ${({ theme }) => theme.typography.fontWeights.semibold};
+    color: ${({ theme }) => theme.colors.coolGray[600]};
   }
 `;
 

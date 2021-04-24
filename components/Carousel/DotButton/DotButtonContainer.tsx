@@ -4,7 +4,8 @@ const DotButtonContainer = styled.div`
   width: 100%;
   display: flex;
   position: absolute;
-  bottom: 30px;
+  bottom: 15px;
+
   justify-content: center;
 `;
 

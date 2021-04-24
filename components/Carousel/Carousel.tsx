@@ -8,15 +8,17 @@ import DotButton from './DotButton/DotButton';
 import DotButtonContainer from './DotButton/DotButtonContainer';
 
 const Wrapper = styled.div`
+  --max: 400px;
   width: 100%;
   display: flex;
-  justify-content: center;
 `;
 
 const Embla = styled.div`
   overflow: hidden;
   width: 100%;
   position: relative;
+  max-height: var(--max);
+  max-width: var(--max);
 `;
 const EmblaContainer = styled.div`
   display: flex;
@@ -25,7 +27,6 @@ const EmblaSlide = styled.div`
   position: relative;
   flex: 0 0 100%;
   margin: 0.3rem;
-  height: 400px;
 `;
 
 interface Props {
