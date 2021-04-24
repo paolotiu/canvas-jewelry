@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { createBreakpoint } from '@styles/breakpoints';
 import FormControl from './FormControl';
+import TextArea from './TextArea';
+import Input from './Input';
 
 const Form = styled.form`
   padding: 1em;
@@ -17,4 +19,5 @@ const Form = styled.form`
     }
   }
 `;
-export default Form;
+
+export default Object.assign(Form, { TextArea, FormControl, Input });

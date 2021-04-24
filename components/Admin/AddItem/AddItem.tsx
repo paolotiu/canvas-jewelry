@@ -1,9 +1,6 @@
 import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
-import Form from '@components/General/Form';
-import FormControl from '@components/General/FormControl';
-import Input from '@components/General/Input';
-import TextArea from '@components/General/TextArea';
+import Form from '@components/General/Form/Form';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { useForm } from '@utils/useForm';
@@ -68,20 +65,20 @@ const AddItem = () => {
       <Form onSubmit={handleSubmit}>
         <FormHeader> CREATE ITEM</FormHeader>
         <div className="short-inputs">
-          <FormControl>
+          <Form.FormControl>
             <label htmlFor="name">Name:</label>
-            <Input
+            <Form.Input
               type="text"
               value={inputs.name}
               onChange={handleChange}
               name="name"
               placeholder="Item Name"
             />
-          </FormControl>
+          </Form.FormControl>
 
-          <FormControl>
+          <Form.FormControl>
             <label htmlFor="price">Price:</label>
-            <Input
+            <Form.Input
               type="number"
               value={inputs.price}
               onChange={handleChange}
@@ -89,28 +86,28 @@ const AddItem = () => {
               name="price"
               placeholder="Item Price"
             />
-          </FormControl>
+          </Form.FormControl>
         </div>
-        <FormControl>
+        <Form.FormControl>
           <label htmlFor="description">Description:</label>
-          <TextArea
+          <Form.TextArea
             rows={10}
             style={{ resize: 'none' }}
             value={inputs.description}
             name="description"
             onChange={handleChange}
           />
-        </FormControl>
-        <FormControl>
+        </Form.FormControl>
+        <Form.FormControl>
           <label htmlFor="photos">Photos</label>
-          <Input type="file" multiple onChange={handleFileChange} />
+          <Form.Input type="file" multiple onChange={handleFileChange} />
           <Carousel withButtons images={imagePaths} />
-        </FormControl>
-        <FormControl>
+        </Form.FormControl>
+        <Form.FormControl>
           <Button type="submit" size="lg" primary>
             Create Item
           </Button>
-        </FormControl>
+        </Form.FormControl>
       </Form>
     </Wrapper>
   );
