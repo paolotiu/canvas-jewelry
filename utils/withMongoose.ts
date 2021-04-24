@@ -18,3 +18,17 @@ export const withMongoose = (handler: NextApiHandler) => async (
   });
   return handler(req, res);
 };
+
+export const connectDb = async () => {
+  if (mongoose.connections[0].readyState) {
+    return mongoose;
+  }
+  // Use new db connection
+  await mongoose.connect(process.env.MONGODB_URI as string, {
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useNewUrlParser: true,
+  });
+  return mongoose;
+};

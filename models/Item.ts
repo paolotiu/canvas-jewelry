@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import mongoose, { Schema, model, Document, Model } from 'mongoose';
 
-export interface Item {
+export interface ItemInterface {
   name: string;
   price: number;
   description: string;
   images: string[];
+  _id: string;
 }
 
 const ItemSchema = new Schema({
@@ -26,7 +28,8 @@ const ItemSchema = new Schema({
   images: [String],
 });
 
-interface ItemDocument extends Item, Document {}
+interface ItemNoId extends Omit<ItemInterface, '_id'> {}
+interface ItemDocument extends ItemNoId, Document {}
 export type ItemModel = Model<ItemDocument>;
 
 export default (mongoose.models.Item as ItemModel) || model<ItemDocument>('Item', ItemSchema);
