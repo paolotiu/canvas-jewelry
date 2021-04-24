@@ -4,8 +4,9 @@ import Form from '@components/General/Form/Form';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { useForm } from '@utils/useForm';
+import { useImages } from '@utils/useImages';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 
 const Wrapper = styled.div`
   padding: 100px 5px;
@@ -29,44 +30,20 @@ const FormHeader = styled.div`
 
 const AddItem = () => {
   const { inputs, handleChange } = useForm({ name: '', price: 0, description: '' });
-  const [images, setImages] = useState<FileList | null>();
-  const [imagePaths, setImagePaths] = useState<string[]>([]);
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const { files } = e.target;
-    setImages(files);
-    if (files) {
-      setImagePaths(Array.from(files).map((file) => URL.createObjectURL(file)));
-    } else {
-      setImagePaths([]);
-    }
-  };
+  const { imagePaths, handleFileChange, getFormData } = useImages();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData();
-
-    // Append inputs to form
-    Object.entries(inputs).forEach(([key, val]) => {
-      data.append(key, String(val));
-    });
-
-    // Append images
-    if (images) {
-      Array.from(images).forEach((image) => {
-        data.append(image.name, image);
-      });
-    }
-
+    const data = getFormData(inputs);
     axios.post('/api/items', data);
   };
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} withBorder>
         <FormHeader> CREATE ITEM</FormHeader>
         <div className="short-inputs">
           <Form.FormControl>
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name">Name</label>
             <Form.Input
               type="text"
               value={inputs.name}
@@ -77,7 +54,7 @@ const AddItem = () => {
           </Form.FormControl>
 
           <Form.FormControl>
-            <label htmlFor="price">Price:</label>
+            <label htmlFor="price">Price</label>
             <Form.Input
               type="number"
               value={inputs.price}
@@ -89,7 +66,7 @@ const AddItem = () => {
           </Form.FormControl>
         </div>
         <Form.FormControl>
-          <label htmlFor="description">Description:</label>
+          <label htmlFor="description">Description</label>
           <Form.TextArea
             rows={10}
             style={{ resize: 'none' }}
@@ -104,7 +81,7 @@ const AddItem = () => {
           <Carousel withButtons images={imagePaths} />
         </Form.FormControl>
         <Form.FormControl>
-          <Button type="submit" size="lg" primary>
+          <Button type="submit" size="lg" backgroundColor="black" withBorder isWhite>
             Create Item
           </Button>
         </Form.FormControl>
