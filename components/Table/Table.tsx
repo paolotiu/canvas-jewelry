@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import styled from '@emotion/styled';
 import { ItemInterface } from '@models/Item';
 import React from 'react';
@@ -13,17 +14,33 @@ const StyledTable = styled.table`
   th,
   td {
     padding: 1rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   }
-  thead {
+
+  th {
+    border-width: 2px;
+  }
+
+  tbody tr {
+    cursor: pointer;
+    :hover {
+      background-color: ${({ theme }) => theme.colors.blackAlpha[50]};
+    }
+  }
+
+  tr:last-child td {
+    border-bottom-width: 0;
+  }
+  /* thead {
     color: white;
     background: ${({ theme }) => theme.colors.black};
-  }
+  } */
 
   text-align: center;
 
-  tr:nth-of-type(even) {
+  /* tr:nth-of-type(even) {
     background: ${({ theme }) => theme.colors.gray};
-  }
+  } */
 `;
 
 const columns: Column<ItemInterface>[] = [
@@ -61,9 +78,9 @@ const Table = ({ items }: Props) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                ))}
+                {row.cells.map((cell) => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                })}
               </tr>
             );
           })}

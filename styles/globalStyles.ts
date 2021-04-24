@@ -11,6 +11,7 @@ Document
   /**
 Use a better box model (opinionated).
 */
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap');
 
   *,
   *::before,
@@ -55,8 +56,7 @@ Improve consistency of default fonts in all browsers. (https://github.com/sindre
 */
 
   body {
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-      'Apple Color Emoji', 'Segoe UI Emoji';
+    font-family: 'Lato', sans-serif;
   }
 
   /*
@@ -150,6 +150,8 @@ Tabular data
   table {
     text-indent: 0; /* 1 */
     border-color: inherit; /* 2 */
+
+    border-collapse: collapse;
   }
 
   /*
@@ -285,5 +287,10 @@ Add the correct display in Chrome and Safari.
 
   summary {
     display: list-item;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
   }
 `;
