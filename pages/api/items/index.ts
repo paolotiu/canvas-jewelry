@@ -17,7 +17,6 @@ const uploadAsync = (path: string, options: UploadApiOptions) =>
 
 const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
   const { method, body, files } = req;
-
   switch (method) {
     case 'POST':
       try {
@@ -47,7 +46,7 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
       break;
     case 'GET':
       const items = await Item.find();
-      res.status(201).json(items);
+      res.status(200).json(items);
       break;
     default:
       createError(res, 404, 'HTTP verb not used');
