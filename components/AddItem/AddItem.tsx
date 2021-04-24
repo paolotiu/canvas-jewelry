@@ -56,8 +56,8 @@ const AddItem = () => {
 
     // Append images
     if (images) {
-      Array.from(images).forEach((image, i) => {
-        data.append(`image_${i}`, image);
+      Array.from(images).forEach((image) => {
+        data.append(image.name, image);
       });
     }
 

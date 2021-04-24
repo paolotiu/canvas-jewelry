@@ -1,9 +1,9 @@
-import formidable, { Fields, Files } from 'formidable';
+import formidable, { Fields, Files, File } from 'formidable';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 type NextApiHandlerWithFiles = (req: NextApiRequestWithData, res: NextApiResponse) => void;
 export interface NextApiRequestWithData extends NextApiRequest {
-  files?: any[];
+  files?: File[];
 }
 
 export const withFormidable = (handler: NextApiHandlerWithFiles) => async (
@@ -22,7 +22,7 @@ export const withFormidable = (handler: NextApiHandlerWithFiles) => async (
 
     // Attach parsed data to req
     req.body = data.fields;
-    (req as NextApiRequestWithData).files = [data.files];
+    (req as NextApiRequestWithData).files = Object.values(data.files).flat();
   } catch (error) {
     res.statusCode = 400;
     res.json({ success: false, message: error.message });
