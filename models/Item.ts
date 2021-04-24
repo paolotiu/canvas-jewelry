@@ -32,4 +32,4 @@ interface ItemNoId extends Omit<ItemInterface, '_id'> {}
 interface ItemDocument extends ItemNoId, Document {}
 export type ItemModel = Model<ItemDocument>;
 
-export default (mongoose.models.Item as ItemModel) || model<ItemDocument>('Item', ItemSchema);
+export default (mongoose.models?.Item as ItemModel) || model<ItemDocument>('Item', ItemSchema);
