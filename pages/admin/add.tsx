@@ -1,4 +1,4 @@
-import AddItem from '@components/AddItem/AddItem';
+import AddItem from '@components/Admin/AddItem/AddItem';
 import React from 'react';
 
 const Add = () => <AddItem />;

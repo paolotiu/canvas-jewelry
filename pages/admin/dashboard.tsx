@@ -1,4 +1,4 @@
-import Dashboard from '@components/Dashboard/Dashboard';
+import Dashboard from '@components/Admin/Dashboard/Dashboard';
 import Item from '@models/Item';
 import { cleanMongoData } from '@utils/cleanMongoData';
 import { connectDb } from '@utils/withMongoose';
