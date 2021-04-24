@@ -1,6 +1,7 @@
 /* eslint-disable arrow-body-style */
 import styled from '@emotion/styled';
 import { ItemInterface } from '@models/Item';
+import Link from 'next/link';
 import React from 'react';
 import { Column, useTable } from 'react-table';
 
@@ -11,6 +12,8 @@ const TableWrapper = styled.div`
 const StyledTable = styled.table`
   overflow: scroll;
   width: 100%;
+  text-align: left;
+
   th,
   td {
     padding: 1rem;
@@ -31,16 +34,6 @@ const StyledTable = styled.table`
   tr:last-child td {
     border-bottom-width: 0;
   }
-  /* thead {
-    color: white;
-    background: ${({ theme }) => theme.colors.black};
-  } */
-
-  text-align: center;
-
-  /* tr:nth-of-type(even) {
-    background: ${({ theme }) => theme.colors.gray};
-  } */
 `;
 
 const columns: Column<ItemInterface>[] = [
@@ -76,12 +69,15 @@ const Table = ({ items }: Props) => {
         <tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
+            const props = row.getRowProps();
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-                })}
-              </tr>
+              <Link href={`/admin/item/${row.original._id}`} key={props.key}>
+                <tr {...props}>
+                  {row.cells.map((cell) => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  })}
+                </tr>
+              </Link>
             );
           })}
         </tbody>
