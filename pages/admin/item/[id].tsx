@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ItemPage = ({ id }: Props) => {
-  const { data, isLoading } = useQuery<{ item: ItemInterface }>(
+  const { data, isLoading, refetch } = useQuery<{ item: ItemInterface }>(
     ['item', id],
     () => getItemById(id),
     { enabled: false },
@@ -20,7 +20,7 @@ const ItemPage = ({ id }: Props) => {
   if (isLoading) return <div>Loading...</div>;
 
   if (!data) return <div>hey</div>;
-  return <EditItem item={data.item} />;
+  return <EditItem item={data.item} refetch={refetch} />;
 };
 
 export default ItemPage;
