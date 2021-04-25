@@ -6,16 +6,10 @@ import { breakpoints } from '@styles/breakpoints';
 import { apiHandler } from '@utils/apiHandler';
 import { useForm } from '@utils/useForm';
 import { useImages } from '@utils/useImages';
+import { ItemSchema } from '@utils/validationSchemas';
 import axios from 'axios';
-import React, { useState } from 'react';
-import * as yup from 'yup';
+import React from 'react';
 import Layout from '../Layout/Layout';
-
-const AddItemSchema = yup.object().shape({
-  name: yup.string().required().max(70),
-  price: yup.number().typeError('price must be a number').required(),
-  description: yup.string(),
-});
 
 const Wrapper = styled.div`
   padding: 100px 5px;
@@ -38,13 +32,21 @@ const FormHeader = styled.div`
 `;
 
 const AddItem = () => {
-  const { inputs, handleChange, clearForm, errors, isError, setErrors } = useForm(
-    { name: '', price: 0, description: '' },
-    AddItemSchema,
-  );
+  const {
+    inputs,
+    handleChange,
+    clearForm,
+    errors,
+    isError,
+    setErrors,
+    isSubmitting,
+    setHasSubmitted,
+    setIsSubmitting,
+    hasSubmitted,
+  } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
+
   const { imagePaths, handleFileChange, getFormData, clearImages } = useImages();
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -77,6 +79,7 @@ const AddItem = () => {
     clearImages();
     clearForm();
   };
+
   return (
     <Layout>
       <Wrapper>
