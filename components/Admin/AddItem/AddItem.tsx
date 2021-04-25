@@ -8,6 +8,7 @@ import { useForm } from '@utils/useForm';
 import { useImages } from '@utils/useImages';
 import { ItemSchema } from '@utils/validationSchemas';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Layout from '../Layout/Layout';
 
@@ -32,6 +33,7 @@ const FormHeader = styled.div`
 `;
 
 const AddItem = () => {
+  const router = useRouter();
   const {
     inputs,
     handleChange,
@@ -53,7 +55,8 @@ const AddItem = () => {
     setHasSubmitted(true);
 
     // Check if errors are present
-    if (isError || isSubmitting) {
+    if (isError) {
+      setIsSubmitting(false);
       return;
     }
 
@@ -74,6 +77,9 @@ const AddItem = () => {
       setIsSubmitting(false);
       return;
     }
+
+    // redirect
+    router.push('/admin/dashboard');
 
     // Clear inputs
     clearImages();
