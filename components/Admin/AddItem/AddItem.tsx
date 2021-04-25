@@ -6,7 +6,14 @@ import { breakpoints } from '@styles/breakpoints';
 import { useForm } from '@utils/useForm';
 import { useImages } from '@utils/useImages';
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
+import * as yup from 'yup';
+
+const AddItemSchema = yup.object().shape({
+  name: yup.string().required().max(70),
+  price: yup.number().typeError('price must be a number').required(),
+  description: yup.string(),
+});
 
 const Wrapper = styled.div`
   padding: 100px 5px;
@@ -29,13 +36,26 @@ const FormHeader = styled.div`
 `;
 
 const AddItem = () => {
-  const { inputs, handleChange } = useForm({ name: '', price: 0, description: '' });
-  const { imagePaths, handleFileChange, getFormData } = useImages();
+  const { inputs, handleChange, clearForm, errors, isError } = useForm(
+    { name: '', price: 0, description: '' },
+    AddItemSchema,
+  );
+  const { imagePaths, handleFileChange, getFormData, clearImages } = useImages();
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setHasSubmitted(true);
+    if (isError) return;
     const data = getFormData(inputs);
-    axios.post('/api/items', data);
+
+    try {
+      await axios.post('/api/items', data);
+      clearImages();
+      clearForm();
+    } catch (err) {
+      console.log(e);
+    }
   };
   return (
     <Wrapper>
@@ -51,6 +71,7 @@ const AddItem = () => {
               name="name"
               placeholder="Item Name"
             />
+            <Form.ErrorText text={errors.name.message} willShow={hasSubmitted} />
           </Form.FormControl>
 
           <Form.FormControl>
@@ -63,6 +84,8 @@ const AddItem = () => {
               name="price"
               placeholder="Item Price"
             />
+
+            <Form.ErrorText text={errors.price.message} willShow={hasSubmitted} />
           </Form.FormControl>
         </div>
         <Form.FormControl>
@@ -77,7 +100,7 @@ const AddItem = () => {
         </Form.FormControl>
         <Form.FormControl>
           <label htmlFor="photos">Photos</label>
-          <Form.Input type="file" multiple onChange={handleFileChange} />
+          <Form.Input type="file" multiple onChange={handleFileChange} accept="image/*" />
           <Carousel withButtons images={imagePaths} />
         </Form.FormControl>
         <Form.FormControl>
