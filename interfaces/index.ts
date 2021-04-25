@@ -4,7 +4,13 @@
 //
 // import { User } from 'path/to/interfaces';
 
+import { ItemInterface } from "@models/Item";
+
 export type User = {
   id: number
   name: string
+}
+
+export interface ItemQueryReturn {
+  item: ItemInterface;
 }
