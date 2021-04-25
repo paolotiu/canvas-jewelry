@@ -3,6 +3,7 @@ import { createBreakpoint } from '@styles/breakpoints';
 import FormControl from './FormControl';
 import TextArea from './TextArea';
 import Input from './Input';
+import ErrorText from './ErrorText';
 
 const Form = styled.form<{ withBorder?: boolean }>`
   padding: 1em;
@@ -26,4 +27,4 @@ const Form = styled.form<{ withBorder?: boolean }>`
   }
 `;
 
-export default Object.assign(Form, { TextArea, FormControl, Input });
+export default Object.assign(Form, { TextArea, FormControl, Input, ErrorText });
