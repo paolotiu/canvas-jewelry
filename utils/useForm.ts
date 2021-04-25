@@ -70,7 +70,12 @@ export const useForm = <T extends Record<string, unknown>>(
   }, [inputs, schema]);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { value, name } = e.target;
+    const { value, name, type } = e.target;
+
+    if (type === 'number') {
+      setInputs((prev) => ({ ...prev, [name]: Number(value) }));
+      return;
+    }
 
     setInputs((prev) => ({ ...prev, [name]: value }));
   };
