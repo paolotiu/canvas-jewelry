@@ -69,6 +69,7 @@ const colors = {
   mainText: '#555',
   secondaryText: '#888',
   success: '#4ADE80',
+  danger: '#E53E3E',
   neutral: '#334155',
   inactiveTransparent: 'rgba(145,145,145,0.45)',
   activeTransparent: 'rgba(10,10,10,0.40)',
