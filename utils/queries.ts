@@ -1,6 +1,8 @@
-import Item from '@models/Item';
+import Item, { ItemInterface } from '@models/Item';
 import axios from 'axios';
 import { cleanMongoData } from './cleanMongoData';
+
+type ItemQuery = (id: string, data?: ItemInterface | FormData) => Promise<{ item: ItemInterface }>;
 
 export const getItems = async () => {
   const res = await axios.get('/api/items');
@@ -8,8 +10,18 @@ export const getItems = async () => {
   return res.data;
 };
 
-export const getItemById = async (id: string) => {
+export const getItemById: ItemQuery = async (id) => {
   const res = await axios.get(`/api/items/${id}`);
+  return res.data;
+};
+
+export const softDeleteItem: ItemQuery = async (id) => {
+  const res = await axios.delete(`/api/items/${id}`);
+  return res.data;
+};
+
+export const updateItem: ItemQuery = async (id, data) => {
+  const res = await axios.put(`/api/items/${id}`, data);
   return res.data;
 };
 
@@ -21,7 +33,7 @@ export const getOneItemFromDb = async (id: string) => {
   return { item: cleanMongoData(res) };
 };
 
-export const getItemsFroDb = async () => {
-  const res = await Item.find();
+export const getItemsFromDb = async () => {
+  const res = await Item.find({ deleted: false });
   return cleanMongoData(res);
 };
