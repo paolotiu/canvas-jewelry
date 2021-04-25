@@ -31,5 +31,10 @@ export const useImages = (initialPaths: string[] = []) => {
     return data;
   };
 
-  return { images, imagePaths, handleFileChange, getFormData };
+  const clearImages = () => {
+    setImagePaths([])
+    setImages(null)
+  }
+
+  return { images, imagePaths, handleFileChange, getFormData , clearImages};
 };
