@@ -33,6 +33,8 @@ export const useForm = <T extends Record<string, unknown>>(
     nullifyErrorObject(initialState),
   );
   const [isError, setIsError] = useState(true);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const checkIfEmpty = <CheckIfEmptyObject extends Record<string, unknown>>(
     obj: CheckIfEmptyObject,
@@ -81,5 +83,18 @@ export const useForm = <T extends Record<string, unknown>>(
     setInputs(emptyObject(inputs) as T);
   };
 
-  return { handleChange, resetForm, clearForm, inputs, isEmpty, errors, isError, setErrors };
+  return {
+    handleChange,
+    resetForm,
+    clearForm,
+    inputs,
+    isEmpty,
+    errors,
+    isError,
+    setErrors,
+    isSubmitting,
+    setIsSubmitting,
+    hasSubmitted,
+    setHasSubmitted,
+  };
 };
