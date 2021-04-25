@@ -8,6 +8,7 @@ export interface ItemInterface {
   images: string[];
   imageIds: string[];
   _id: string;
+  deleted: boolean;
 }
 
 const ItemSchema = new Schema({
@@ -28,6 +29,7 @@ const ItemSchema = new Schema({
   },
   images: [String],
   imageIds: [String],
+  deleted: { type: Boolean, default: false },
 });
 
 interface ItemNoId extends Omit<ItemInterface, '_id'> {}
