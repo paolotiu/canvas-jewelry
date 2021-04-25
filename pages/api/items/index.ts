@@ -24,8 +24,9 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
 
         if (existingItem) return createError(res, 401, 'Item with that name already exists');
 
-        const imageInfo: { urls: string[]; ids: string[] } = { urls: [], ids: [] };
+        const imageInfo: { images: string[]; imageIds: string[] } = { images: [], imageIds: [] };
         if (files) {
+          // result should have the shape of imageInfo
           const result = (
             await Promise.all(
               files.map((file) =>
@@ -37,13 +38,15 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
             )
           ).reduce(
             (prev, curr) => ({
-              urls: [...prev.urls, curr.url],
-              ids: [...prev.ids, curr.public_id],
+              images: [...prev.images, curr.url],
+              imageIds: [...prev.imageIds, curr.public_id],
             }),
             imageInfo,
           );
-          imageInfo.urls = result.urls;
-          imageInfo.ids = result.ids;
+
+          // Apply results
+          imageInfo.images = result.images;
+          imageInfo.imageIds = result.imageIds;
         }
 
         const item = await Item.create({ ...body, ...imageInfo });
