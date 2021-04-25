@@ -24,9 +24,9 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
 
         if (existingItem) return createError(res, 401, 'Item with that name already exists');
 
-        let urls: string[] = [];
+        const imageInfo: { urls: string[]; ids: string[] } = { urls: [], ids: [] };
         if (files) {
-          urls = (
+          const result = (
             await Promise.all(
               files.map((file) =>
                 uploadAsync(file.path, {
@@ -35,10 +35,18 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
                 }),
               ),
             )
-          ).map((response) => response.url);
+          ).reduce(
+            (prev, curr) => ({
+              urls: [...prev.urls, curr.url],
+              ids: [...prev.ids, curr.public_id],
+            }),
+            imageInfo,
+          );
+          imageInfo.urls = result.urls;
+          imageInfo.ids = result.ids;
         }
 
-        const item = await Item.create({ ...body, images: urls });
+        const item = await Item.create({ ...body, ...imageInfo });
         res.status(201).json({ success: true, data: item });
       } catch (e) {
         return createError(res, 400, e.message);

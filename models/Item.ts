@@ -6,6 +6,7 @@ export interface ItemInterface {
   price: number;
   description: string;
   images: string[];
+  imageIds: string[];
   _id: string;
 }
 
@@ -26,6 +27,7 @@ const ItemSchema = new Schema({
     type: String,
   },
   images: [String],
+  imageIds: [String],
 });
 
 interface ItemNoId extends Omit<ItemInterface, '_id'> {}
