@@ -81,5 +81,5 @@ export const useForm = <T extends Record<string, unknown>>(
     setInputs(emptyObject(inputs) as T);
   };
 
-  return { handleChange, resetForm, clearForm, inputs, isEmpty, errors, isError };
+  return { handleChange, resetForm, clearForm, inputs, isEmpty, errors, isError, setErrors };
 };

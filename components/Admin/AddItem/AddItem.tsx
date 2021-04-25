@@ -3,11 +3,13 @@ import Button from '@components/General/Button';
 import Form from '@components/General/Form/Form';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
+import { apiHandler } from '@utils/apiHandler';
 import { useForm } from '@utils/useForm';
 import { useImages } from '@utils/useImages';
 import axios from 'axios';
 import React, { useState } from 'react';
 import * as yup from 'yup';
+import Layout from '../Layout/Layout';
 
 const AddItemSchema = yup.object().shape({
   name: yup.string().required().max(70),
@@ -36,80 +38,107 @@ const FormHeader = styled.div`
 `;
 
 const AddItem = () => {
-  const { inputs, handleChange, clearForm, errors, isError } = useForm(
+  const { inputs, handleChange, clearForm, errors, isError, setErrors } = useForm(
     { name: '', price: 0, description: '' },
     AddItemSchema,
   );
   const { imagePaths, handleFileChange, getFormData, clearImages } = useImages();
   const [hasSubmitted, setHasSubmitted] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
     setHasSubmitted(true);
-    if (isError) return;
+
+    // Check if errors are present
+    if (isError || isSubmitting) {
+      return;
+    }
+
+    // formdata to make it compatible with images
     const data = getFormData(inputs);
 
-    try {
-      await axios.post('/api/items', data);
-      clearImages();
-      clearForm();
-    } catch (err) {
-      console.log(e);
+    const res = await apiHandler(axios.post('/api/items', data));
+
+    // Check response
+    if (res.error) {
+      setErrors((prev) => ({
+        ...prev,
+        name: {
+          message: res.error.message,
+          errors: prev.name.errors,
+        },
+      }));
+      setIsSubmitting(false);
+      return;
     }
+
+    // Clear inputs
+    clearImages();
+    clearForm();
   };
   return (
-    <Wrapper>
-      <Form onSubmit={handleSubmit} withBorder>
-        <FormHeader> CREATE ITEM</FormHeader>
-        <div className="short-inputs">
-          <Form.FormControl>
-            <label htmlFor="name">Name</label>
-            <Form.Input
-              type="text"
-              value={inputs.name}
-              onChange={handleChange}
-              name="name"
-              placeholder="Item Name"
-            />
-            <Form.ErrorText text={errors.name.message} willShow={hasSubmitted} />
-          </Form.FormControl>
+    <Layout>
+      <Wrapper>
+        <Form onSubmit={handleSubmit} withBorder>
+          <FormHeader> CREATE ITEM</FormHeader>
+          <div className="short-inputs">
+            <Form.FormControl>
+              <label htmlFor="name">Name</label>
+              <Form.Input
+                type="text"
+                value={inputs.name}
+                onChange={handleChange}
+                name="name"
+                placeholder="Item Name"
+              />
+              <Form.ErrorText text={errors.name.message} willShow={hasSubmitted} />
+            </Form.FormControl>
 
-          <Form.FormControl>
-            <label htmlFor="price">Price</label>
-            <Form.Input
-              type="number"
-              value={inputs.price}
-              onChange={handleChange}
-              min={0}
-              name="price"
-              placeholder="Item Price"
-            />
+            <Form.FormControl>
+              <label htmlFor="price">Price</label>
+              <Form.Input
+                type="number"
+                value={inputs.price}
+                onChange={handleChange}
+                min={0}
+                name="price"
+                placeholder="Item Price"
+              />
 
-            <Form.ErrorText text={errors.price.message} willShow={hasSubmitted} />
+              <Form.ErrorText text={errors.price.message} willShow={hasSubmitted} />
+            </Form.FormControl>
+          </div>
+          <Form.FormControl>
+            <label htmlFor="description">Description</label>
+            <Form.TextArea
+              rows={10}
+              style={{ resize: 'none' }}
+              value={inputs.description}
+              name="description"
+              onChange={handleChange}
+            />
           </Form.FormControl>
-        </div>
-        <Form.FormControl>
-          <label htmlFor="description">Description</label>
-          <Form.TextArea
-            rows={10}
-            style={{ resize: 'none' }}
-            value={inputs.description}
-            name="description"
-            onChange={handleChange}
-          />
-        </Form.FormControl>
-        <Form.FormControl>
-          <label htmlFor="photos">Photos</label>
-          <Form.Input type="file" multiple onChange={handleFileChange} accept="image/*" />
-          <Carousel withButtons images={imagePaths} />
-        </Form.FormControl>
-        <Form.FormControl>
-          <Button type="submit" size="lg" backgroundColor="black" withBorder isWhite>
-            Create Item
-          </Button>
-        </Form.FormControl>
-      </Form>
-    </Wrapper>
+          <Form.FormControl>
+            <label htmlFor="photos">Photos</label>
+            <Form.Input type="file" multiple onChange={handleFileChange} accept="image/*" />
+            <Carousel withButtons images={imagePaths} />
+          </Form.FormControl>
+          <Form.FormControl>
+            <Button
+              type="submit"
+              size="lg"
+              backgroundColor="black"
+              withBorder
+              isWhite
+              disabled={isSubmitting}
+            >
+              Create Item
+            </Button>
+          </Form.FormControl>
+        </Form>
+      </Wrapper>
+    </Layout>
   );
 };
 
