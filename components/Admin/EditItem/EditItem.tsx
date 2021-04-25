@@ -1,4 +1,3 @@
-import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import Form from '@components/General/Form/Form';
 import Layout from '@components/Admin/Layout/Layout';
@@ -13,7 +12,11 @@ import React from 'react';
 import { apiHandler } from '@utils/apiHandler';
 import { ItemSchema } from '@utils/validationSchemas';
 import isMatch from 'lodash.ismatch';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import dynamic from 'next/dynamic';
+
+const Carousel = dynamic(() => import('@components/Carousel/Carousel'));
+const Toaster = dynamic<any>(() => import('react-hot-toast').then((mod) => mod.Toaster));
 
 const FlexCenter = styled.div`
   display: flex;
