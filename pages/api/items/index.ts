@@ -56,7 +56,7 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
       }
       break;
     case 'GET':
-      const items = await Item.find();
+      const items = await Item.find({ deleted: false });
       res.status(200).json(items);
       break;
     default:
