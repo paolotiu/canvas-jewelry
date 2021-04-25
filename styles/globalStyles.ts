@@ -289,6 +289,11 @@ Add the correct display in Chrome and Safari.
     display: list-item;
   }
 
+  html,
+  body {
+    height: 100%;
+  }
+
   * {
     margin: 0;
     padding: 0;
