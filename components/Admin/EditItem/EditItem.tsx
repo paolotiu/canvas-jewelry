@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { apiHandler } from '@utils/apiHandler';
 import { ItemSchema } from '@utils/validationSchemas';
+import isMatch from 'lodash.ismatch';
 import toast, { Toaster } from 'react-hot-toast';
 
 const FlexCenter = styled.div`
@@ -84,7 +85,9 @@ const EditItem = ({ item, refetch }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isError) {
+
+    // SKip network call if nothing changes
+    if (isError || isMatch(item, inputs)) {
       return;
     }
 
@@ -101,6 +104,7 @@ const EditItem = ({ item, refetch }: Props) => {
 
       return;
     }
+
     toast.success('Updated item');
     refetch();
   };
