@@ -1,6 +1,6 @@
-import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import Form from '@components/General/Form/Form';
+import ImageInputContainer from '@components/General/Form/ImageInputContainer';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { apiHandler } from '@utils/apiHandler';
@@ -47,7 +47,10 @@ const AddItem = () => {
     hasSubmitted,
   } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
 
-  const { imagePaths, handleFileChange, getFormData, clearImages } = useImages();
+  const { getFormData, clearImages, handleInput, imagePaths, deleteImage } = useImages([], {
+    additive: true,
+    max: 5,
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,12 +81,11 @@ const AddItem = () => {
       return;
     }
 
-    // redirect
-    router.push('/admin/dashboard');
-
     // Clear inputs
     clearImages();
     clearForm();
+    // redirect
+    await router.push('/admin/dashboard');
   };
 
   return (
@@ -129,9 +131,11 @@ const AddItem = () => {
             />
           </Form.FormControl>
           <Form.FormControl>
-            <label htmlFor="photos">Photos</label>
-            <Form.Input type="file" multiple onChange={handleFileChange} accept="image/*" />
-            <Carousel withButtons images={imagePaths} />
+            <ImageInputContainer
+              onDelete={deleteImage}
+              imagePaths={imagePaths}
+              onChange={handleInput}
+            />
           </Form.FormControl>
           <Form.FormControl>
             <Button

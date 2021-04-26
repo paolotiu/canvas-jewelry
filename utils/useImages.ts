@@ -1,15 +1,48 @@
 import { useState } from 'react';
+import intersectionWith from 'lodash.intersectionwith';
+import unionWith from 'lodash.unionwith';
 
-export const useImages = (initialPaths: string[] = []) => {
-  const [images, setImages] = useState<FileList | null>();
+interface UseImagesConfig {
+  max?: number;
+  additive?: boolean;
+}
+export const useImages = (initialPaths: string[] = [], config: UseImagesConfig = {}) => {
+  const [images, setImages] = useState<File[]>([]);
   const [imagePaths, setImagePaths] = useState(initialPaths);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { files } = e.target;
-    setImages(files);
+
+    const filesArray = Array.from(files || []);
+    const comparator = (x: File, y: File) => x.name === y.name && x.size === y.size;
+    const duplicates = intersectionWith(images, filesArray, comparator);
+    const union = unionWith(images, filesArray, comparator);
+
+    if (config.max && union.length > config.max) {
+      const sliced = union.slice(0, config.max);
+      const slicedFilePaths = sliced.map((file) => URL.createObjectURL(file));
+      // Appends added files
+      setImages(sliced);
+      setImagePaths(slicedFilePaths);
+      e.target.files = null;
+      return;
+    }
+
+    if (config.additive) {
+      // Appends added files
+
+      const filePaths = union.map((file) => URL.createObjectURL(file));
+      setImages(union);
+      setImagePaths(filePaths);
+      e.target.files = null;
+      return;
+    }
+
+    // Replace images
+    setImages(filesArray);
     if (files) {
-      setImagePaths(Array.from(files).map((file) => URL.createObjectURL(file)));
+      setImagePaths(filePaths);
     } else {
       setImagePaths([]);
     }
@@ -24,7 +57,7 @@ export const useImages = (initialPaths: string[] = []) => {
     });
     // Append images
     if (images) {
-      Array.from(images).forEach((image) => {
+      images.forEach((image) => {
         data.append(image.name, image);
       });
     }
@@ -32,9 +65,27 @@ export const useImages = (initialPaths: string[] = []) => {
   };
 
   const clearImages = () => {
-    setImagePaths([])
-    setImages(null)
-  }
+    setImagePaths([]);
+    setImages([]);
+  };
 
-  return { images, imagePaths, handleFileChange, getFormData , clearImages};
+  const deleteImage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const tempPaths = Array.from(imagePaths);
+    const tempImages = Array.from(images);
+    tempPaths.splice(index, 1);
+    tempImages.splice(index, 1);
+    setImagePaths(tempPaths);
+    setImages(tempImages);
+  };
+
+  return {
+    images,
+    imagePaths,
+    handleInput,
+    getFormData,
+    clearImages,
+    deleteImage,
+  };
 };
