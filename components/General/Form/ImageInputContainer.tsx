@@ -29,7 +29,7 @@ const ImageInputContainer = ({ imagePaths, defaultCount = 5, onDelete, onChange 
     <>
       <StyledImageInputContainer>
         {imagePaths.map((src, i) => (
-          <ImageInput index={i} src={src} onDeleteClick={onDelete} key={i} onChange={onChange} />
+          <ImageInput index={i} src={src} onDeleteClick={onDelete} key={src} onChange={onChange} />
         ))}
         {range(placeholderStartIndex, defaultCount).map((val) => (
           <ImageInput index={val} onDeleteClick={onDelete} onChange={onChange} key={val} />
