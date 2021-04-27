@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useEmblaCarousel } from 'embla-carousel/react';
 import styled from '@emotion/styled';
 import { v4 as uuid } from 'uuid';

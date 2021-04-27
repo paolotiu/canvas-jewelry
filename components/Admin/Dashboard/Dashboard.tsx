@@ -4,7 +4,6 @@ import Table from '@components/Table/Table';
 import styled from '@emotion/styled';
 import { ItemInterface } from '@models/Item';
 import Link from 'next/link';
-import React from 'react';
 
 const Wrapper = styled.div`
   display: grid;

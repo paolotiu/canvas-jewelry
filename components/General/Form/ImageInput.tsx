@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
+import * as React from 'react';
 import Button from '../Button';
 
 interface ImageSquareProps {

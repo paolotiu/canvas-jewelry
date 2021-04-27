@@ -1,7 +1,6 @@
 import Dashboard from '@components/Admin/Dashboard/Dashboard';
 import { ItemInterface } from '@models/Item';
 import { getItems } from '@utils/queries';
-import React from 'react';
 import { useQuery } from 'react-query';
 
 const DashboardPage = () => {

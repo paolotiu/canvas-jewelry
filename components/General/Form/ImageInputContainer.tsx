@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styled from '@emotion/styled';
 import { range } from '@utils/range';
-import React from 'react';
+import * as React from 'react';
 import ImageInput from './ImageInput';
 
 const StyledImageInputContainer = styled.div`

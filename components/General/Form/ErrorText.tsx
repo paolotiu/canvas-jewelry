@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import React from 'react';
 
 const StyledErrorText = styled.span`
   padding: 0.3rem 0;

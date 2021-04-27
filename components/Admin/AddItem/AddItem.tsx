@@ -9,7 +9,7 @@ import { useImages } from '@utils/hooks/useImages';
 import { ItemSchema } from '@utils/validationSchemas';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React from 'react';
+import * as React from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import Layout from '../Layout/Layout';
 

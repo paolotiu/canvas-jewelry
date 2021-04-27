@@ -3,7 +3,6 @@ import { ItemInterface } from '@models/Item';
 import { getItemById, getOneItemFromDb } from '@utils/queries';
 import { connectDb } from '@utils/withMongoose';
 import { GetServerSideProps } from 'next';
-import React from 'react';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 

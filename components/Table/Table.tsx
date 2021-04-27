@@ -2,7 +2,6 @@
 import styled from '@emotion/styled';
 import { ItemInterface } from '@models/Item';
 import Link from 'next/link';
-import React from 'react';
 import { Column, useTable } from 'react-table';
 
 const TableWrapper = styled.div`

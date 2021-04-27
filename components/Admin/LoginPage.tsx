@@ -1,6 +1,5 @@
 import Input from '@components/General/Input';
 import { useForm } from '@utils/useForm';
-import React from 'react';
 
 const LoginPage = () => {
   const { inputs } = useForm({

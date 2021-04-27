@@ -9,7 +9,7 @@ import { softDeleteItem, updateItem } from '@utils/queries';
 import { useForm } from '@utils/hooks/useForm';
 import { useImages } from '@utils/hooks/useImages';
 import { useRouter } from 'next/router';
-import React from 'react';
+import * as React from 'react';
 import { apiHandler } from '@utils/apiHandler';
 import { ItemSchema } from '@utils/validationSchemas';
 import toast from 'react-hot-toast';
