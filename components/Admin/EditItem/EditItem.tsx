@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import Button from '@components/General/Button';
 import Form from '@components/General/Form/Form';
 import Layout from '@components/Admin/Layout/Layout';
@@ -5,22 +6,29 @@ import styled from '@emotion/styled';
 import { ItemInterface } from '@models/Item';
 import { breakpoints } from '@styles/breakpoints';
 import { softDeleteItem, updateItem } from '@utils/queries';
-import { useForm } from '@utils/useForm';
-import { useImages } from '@utils/useImages';
+import { useForm } from '@utils/hooks/useForm';
+import { useImages } from '@utils/hooks/useImages';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { apiHandler } from '@utils/apiHandler';
 import { ItemSchema } from '@utils/validationSchemas';
-import isMatch from 'lodash.ismatch';
 import toast from 'react-hot-toast';
-import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import ImageInputContainer from '@components/General/Form/ImageInputContainer';
 
-const Carousel = dynamic(() => import('@components/Carousel/Carousel'));
-const Toaster = dynamic<any>(() => import('react-hot-toast').then((mod) => mod.Toaster));
+const Toaster = dynamic<any>(() => import('react-hot-toast').then((mod) => mod.Toaster), {
+  ssr: false,
+});
 
-const FlexCenter = styled.div`
+const Content = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  h1 {
+    padding: 1rem;
+    color: ${({ theme }) => theme.colors.mainText};
+  }
 `;
 
 const DeleteButton = styled(Button)`
@@ -35,19 +43,15 @@ const DeleteButton = styled(Button)`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  button {
-  }
 `;
 
 const Wrapper = styled.div`
   display: grid;
-
   width: 100%;
   max-width: 1080px;
   grid-template-columns: 1fr;
 
   .constants {
-    padding: 1em;
     grid-row-start: 1;
   }
 
@@ -68,7 +72,13 @@ interface Props {
 
 const EditItem = ({ item, refetch }: Props) => {
   const router = useRouter();
-  const { handleFileChange, imagePaths, getFormData } = useImages(item.images);
+  const { handleFileChange, getFormData, deleteImage, getImagePaths } = useImages(item.images, {
+    additive: true,
+    onError: (err) => {
+      toast.error(err);
+    },
+    max: 10,
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const { inputs, handleChange, isError, errors, setErrors } = useForm(
@@ -89,12 +99,12 @@ const EditItem = ({ item, refetch }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // SKip network call if nothing changes
-    if (isError || isMatch(item, inputs)) {
+    if (isError) {
       return;
     }
 
     const data = getFormData(inputs);
+
     const res = await apiHandler(updateItem(item._id, data));
     if (res.error) {
       setErrors((prev) => ({
@@ -114,7 +124,10 @@ const EditItem = ({ item, refetch }: Props) => {
 
   return (
     <Layout>
-      <FlexCenter>
+      <Content>
+        <h1>
+          <Link href="/admin/dashboard">Item</Link> / <span>{item.name}</span>
+        </h1>
         <Wrapper>
           <Form onSubmit={handleSubmit}>
             <Form.FormControl>
@@ -136,9 +149,11 @@ const EditItem = ({ item, refetch }: Props) => {
               />
             </Form.FormControl>
             <Form.FormControl>
-              <label htmlFor="photos">Photos</label>
-              <Input type="file" multiple name="photos" onChange={handleFileChange} />
-              <Carousel images={imagePaths} withButtons />
+              <ImageInputContainer
+                imagePaths={getImagePaths()}
+                onChange={handleFileChange}
+                onDelete={deleteImage}
+              />
             </Form.FormControl>
             <Form.FormControl>
               <ButtonContainer>
@@ -164,8 +179,8 @@ const EditItem = ({ item, refetch }: Props) => {
             </Form.FormControl>
           </div>
         </Wrapper>
-      </FlexCenter>
-      <Toaster position="bottom-center" />
+      </Content>
+      <Toaster />
     </Layout>
   );
 };
