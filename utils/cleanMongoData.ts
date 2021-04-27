@@ -9,8 +9,10 @@ export const cleanMongoData = <T extends Document>(res: T[] | T) => {
       return item;
     });
   }
-  const item = res.toObject();
+  const item = res.toJSON();
   // eslint-disable-next-line no-underscore-dangle
   item._id = item._id?.toString();
-  return item;
+
+  // React-query/Next issue workaround: https://github.com/tannerlinsley/react-query/issues/1458#issuecomment-788447705
+  return JSON.parse(JSON.stringify(item));
 };

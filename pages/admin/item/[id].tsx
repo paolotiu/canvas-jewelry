@@ -11,10 +11,8 @@ interface Props {
 }
 
 const ItemPage = ({ id }: Props) => {
-  const { data, isLoading, refetch } = useQuery<{ item: ItemInterface }>(
-    ['item', id],
-    () => getItemById(id),
-    { enabled: false },
+  const { data, isLoading, refetch } = useQuery<{ item: ItemInterface }>(['item', id], () =>
+    getItemById(id),
   );
   if (isLoading) return <div>Loading...</div>;
 
