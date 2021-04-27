@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import intersectionWith from 'lodash.intersectionwith';
 import unionWith from 'lodash.unionwith';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 
-export const filesToImageObjects = (files: File[]) => {
+export const filesToImageObjects = (files: File[], existingPaths?: string[]) => {
   return files.reduce<ImageObject[]>(
-    (prev, curr) => [...prev, { file: curr, path: URL.createObjectURL(curr) }],
+    (prev, file, i) => [...prev, { file, path: existingPaths?.[i] || URL.createObjectURL(file) }],
     [],
   );
 };
@@ -15,6 +15,7 @@ interface UseImagesConfig {
   max?: number;
   additive?: boolean;
   onError?: (error: string) => void;
+  duplicates?: boolean;
 }
 
 interface ImageObject {
@@ -22,31 +23,37 @@ interface ImageObject {
   path: string;
 }
 export const useImages = (initialPaths: string[] = [], config: UseImagesConfig = {}) => {
-  const [images, setImages] = useState<ImageObject[]>([]);
+  // Put the initalPaths in a ref to prevent infinite loops
+  const initialPathsRef = useRef(initialPaths);
 
+  const [images, setImages] = useState<ImageObject[]>([]);
   const [imagePaths, setImagePaths] = useState(initialPaths);
 
+  // Function to initialize images from urls
   const initializeImages = useCallback(async () => {
     const files = await Promise.all(
-      initialPaths.map(async (url) => {
+      initialPathsRef.current.map(async (url) => {
         const res = await axios.get(url, {
           responseType: 'blob',
         });
         return new File([res.data], uuid());
       }),
     );
-    const imageObjects = filesToImageObjects(files);
+    const imageObjects = filesToImageObjects(files, initialPathsRef.current);
 
     setImages(imageObjects);
-  }, [initialPaths]);
+  }, [initialPathsRef]);
 
   useEffect(() => {
+    // Initialize the images
     initializeImages();
   }, [initializeImages]);
 
+  // Onchange of file input
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
+    // Resets input to allow uploads of the same images
     const resetInput = () => {
       e.target.value = '';
     };
@@ -58,15 +65,22 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     const filesArray = Array.from(files || []);
 
     // Reduce to a ImageType
-    const imageObjects = filesToImageObjects(filesArray);
+    const incomingImageObjects = filesToImageObjects(filesArray);
+
+    // Add duplicates
+    if (config.additive && config.duplicates) {
+      setImages((prev) => [...prev, ...incomingImageObjects]);
+      resetInput();
+      return;
+    }
 
     // The fields on where if two files have the same value on these fields
     // it deems the file to be a duplicate
-    const comparator = (x: ImageObject, y: ImageObject) =>
-      x.file.name === y.file.name && x.file.size === y.file.size;
+    const comparator = (current: ImageObject, incoming: ImageObject) =>
+      current.file.name === incoming.file.name && current.file.size === incoming.file.size;
 
     // Get duplicates
-    const duplicates = intersectionWith(images, imageObjects, comparator);
+    const duplicates = intersectionWith(images, incomingImageObjects, comparator);
 
     // Show toast
     if (duplicates.length && config.onError) {
@@ -80,7 +94,7 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     }
 
     // Get union of previous and current files/images
-    const union = unionWith(images, imageObjects, comparator);
+    const union = unionWith(images, incomingImageObjects, comparator);
 
     // No. of images received is greater than the max
     if (config.max && union.length > config.max) {
@@ -104,12 +118,8 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     }
 
     // Replace images
-    setImages(imageObjects);
-    if (files) {
-      setImagePaths(filesArray.map((file) => URL.createObjectURL(file)));
-    } else {
-      setImagePaths([]);
-    }
+    setImages(incomingImageObjects);
+    setImagePaths(filesArray.map((file) => URL.createObjectURL(file)));
     resetInput();
   };
 
@@ -150,6 +160,10 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     setImages(tempImages);
   };
 
+  const getImagePaths = () => {
+    return images.map((image) => image.path);
+  };
+
   return {
     images,
     imagePaths,
@@ -157,5 +171,6 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     getFormData,
     clearImages,
     deleteImage,
+    getImagePaths,
   };
 };
