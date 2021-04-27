@@ -4,8 +4,8 @@ import ImageInputContainer from '@components/General/Form/ImageInputContainer';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { apiHandler } from '@utils/apiHandler';
-import { useForm } from '@utils/useForm';
-import { useImages } from '@utils/useImages';
+import { useForm } from '@utils/hooks/useForm';
+import { useImages } from '@utils/hooks/useImages';
 import { ItemSchema } from '@utils/validationSchemas';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -48,11 +48,12 @@ const AddItem = () => {
     hasSubmitted,
   } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
 
-  const { getFormData, clearImages, handleFileChange, imagePaths, deleteImage } = useImages([], {
+  const { getFormData, clearImages, handleFileChange, deleteImage, getImagePaths } = useImages([], {
     additive: true,
     onError: (e) => {
       toast.error(e);
     },
+    max: 5,
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -136,7 +137,7 @@ const AddItem = () => {
           <Form.FormControl>
             <ImageInputContainer
               onDelete={deleteImage}
-              imagePaths={imagePaths}
+              imagePaths={getImagePaths()}
               onChange={handleFileChange}
             />
           </Form.FormControl>

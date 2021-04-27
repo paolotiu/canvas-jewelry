@@ -27,7 +27,6 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
   const initialPathsRef = useRef(initialPaths);
 
   const [images, setImages] = useState<ImageObject[]>([]);
-  const [imagePaths, setImagePaths] = useState(initialPaths);
 
   // Function to initialize images from urls
   const initializeImages = useCallback(async () => {
@@ -65,7 +64,19 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     const filesArray = Array.from(files || []);
 
     // Reduce to a ImageType
-    const incomingImageObjects = filesToImageObjects(filesArray);
+    let incomingImageObjects = filesToImageObjects(filesArray);
+
+    // Uploaded files are greater than max
+    if (config.max && incomingImageObjects.length + images.length > config.max) {
+      // Cut the array
+      const sliced = incomingImageObjects.slice(0, config.max - images.length);
+      incomingImageObjects = sliced;
+
+      // Emit error
+      if (config.onError) {
+        config.onError(`A maximum of ${config.max} images are allowed.`);
+      }
+    }
 
     // Add duplicates
     if (config.additive && config.duplicates) {
@@ -96,30 +107,15 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     // Get union of previous and current files/images
     const union = unionWith(images, incomingImageObjects, comparator);
 
-    // No. of images received is greater than the max
-    if (config.max && union.length > config.max) {
-      // Get sliced arrays to enfore max
-      const sliced = union.slice(0, config.max);
-      const slicedFilePaths = sliced.map((file) => URL.createObjectURL(file));
-      // Appends added files
-      setImages(sliced);
-      setImagePaths(slicedFilePaths);
-      resetInput();
-      return;
-    }
-
     if (config.additive) {
       // Appends added files
-      const filePaths = union.map((image) => URL.createObjectURL(image.file));
       setImages(union);
-      setImagePaths(filePaths);
       resetInput();
       return;
     }
 
     // Replace images
     setImages(incomingImageObjects);
-    setImagePaths(filesArray.map((file) => URL.createObjectURL(file)));
     resetInput();
   };
 
@@ -134,29 +130,21 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     // Append images
     images.forEach((image) => {
       data.append('file', image.file);
-    });
-
-    // Append image paths
-    imagePaths.forEach((val) => {
-      data.append('imagePaths', val);
+      data.append('imagePaths', image.path);
     });
 
     return data;
   };
 
   const clearImages = () => {
-    setImagePaths([]);
     setImages([]);
   };
 
   const deleteImage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
     e.preventDefault();
     e.stopPropagation();
-    const tempPaths = Array.from(imagePaths);
     const tempImages = Array.from(images);
-    tempPaths.splice(index, 1);
     tempImages.splice(index, 1);
-    setImagePaths(tempPaths);
     setImages(tempImages);
   };
 
@@ -166,7 +154,6 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
 
   return {
     images,
-    imagePaths,
     handleFileChange,
     getFormData,
     clearImages,
