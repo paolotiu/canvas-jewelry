@@ -85,9 +85,6 @@ const AddItem = () => {
       return;
     }
 
-    // Clear inputs
-    clearImages();
-    clearForm();
     // redirect
     await router.push('/admin/dashboard');
   };
