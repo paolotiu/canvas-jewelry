@@ -3,6 +3,11 @@ import intersectionWith from 'lodash.intersectionwith';
 import unionWith from 'lodash.unionwith';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
+import { ImageInterface } from '@models/Item';
+
+function areImages(maybeImages: unknown[]): maybeImages is ImageInterface[] {
+  return !!(maybeImages as ImageInterface[])[0]?.url;
+}
 
 export const filesToImageObjects = (files: File[], existingPaths?: string[]) => {
   return files.reduce<ImageObject[]>(
@@ -22,10 +27,15 @@ interface ImageObject {
   file: File;
   path: string;
 }
-export const useImages = (initialPaths: string[] = [], config: UseImagesConfig = {}) => {
-  // Put the initalPaths in a ref to prevent infinite loops
-  const initialPathsRef = useRef(initialPaths);
 
+export const useImages = (
+  initialImages: ImageInterface[] | string[] = [],
+  config: UseImagesConfig = {},
+) => {
+  // Put the initalPaths in a ref to prevent infinite loops
+  const initialPathsRef = useRef<string[]>([]);
+
+  const [willInitialize, setWillInitialize] = useState(false);
   const [images, setImages] = useState<ImageObject[]>([]);
 
   // Function to initialize images from urls
@@ -41,11 +51,17 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     const imageObjects = filesToImageObjects(files, initialPathsRef.current);
 
     setImages(imageObjects);
-  }, [initialPathsRef]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [willInitialize]);
 
   useEffect(() => {
     // Initialize the images
+    const initialPaths = areImages(initialImages)
+      ? initialImages.map((image) => image.url)
+      : initialImages;
+    initialPathsRef.current = initialPaths;
     initializeImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initializeImages]);
 
   // Onchange of file input
@@ -152,6 +168,10 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     return images.map((image) => image.path);
   };
 
+  const reinitializeImages = () => {
+    setWillInitialize(!willInitialize);
+  };
+
   return {
     images,
     handleFileChange,
@@ -159,5 +179,6 @@ export const useImages = (initialPaths: string[] = [], config: UseImagesConfig =
     clearImages,
     deleteImage,
     getImagePaths,
+    reinitializeImages,
   };
 };

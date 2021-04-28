@@ -38,7 +38,6 @@ const AddItem = () => {
   const {
     inputs,
     handleChange,
-    clearForm,
     errors,
     isError,
     setErrors,
@@ -48,7 +47,7 @@ const AddItem = () => {
     hasSubmitted,
   } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
 
-  const { getFormData, clearImages, handleFileChange, deleteImage, getImagePaths } = useImages([], {
+  const { getFormData, handleFileChange, deleteImage, getImagePaths } = useImages([], {
     additive: true,
     onError: (e) => {
       toast.error(e);

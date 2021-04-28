@@ -1,14 +1,61 @@
-import Item from '@models/Item';
+import Item, { ItemDocument } from '@models/Item';
 import { createError } from '@utils/createError';
 import { NextApiRequestWithData, withFormidable } from '@utils/withFormidable';
 import { withMongoose } from '@utils/withMongoose';
 import { NextApiResponse } from 'next';
+// See issue: https://github.com/lodash/lodash/issues/4800
+// eslint-disable-next-line import/no-named-default
+import differenceWith from 'lodash/differenceWith';
 
-const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
-  const { method, query, body } = req;
+import { deleteImages, IncomingImage, uploadNewImages } from '@utils/cloudinary';
+
+interface ReqBody {
+  imagePaths: string[];
+  name: string;
+  description: string;
+  price: number;
+  images: IncomingImage[];
+}
+
+const updateItem = async (
+  req: NextApiRequestWithData<ReqBody>,
+  res: NextApiResponse,
+  item: ItemDocument,
+) => {
+  const { images, description, name, price } = req.body;
+
+  // Get images to delete
+  const imagesToDelete = differenceWith(
+    item.images,
+    images,
+    (image, incomingImage) => image.url === incomingImage.url,
+  );
+
+  // Don't await it
+  // It won't affect any returns anyway
+  deleteImages(imagesToDelete.map((img) => img.public_id));
+
+  // Get new images array
+  const newImages = await uploadNewImages(images, item.images);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // eslint-disable-next-line no-param-reassign
+  item.images = newImages;
+
+  // Update item
+  Object.assign(item, { description, name, price });
+
+  const updatedItem = await item.save();
+  res.json({ item: updatedItem });
+};
+
+const handler = async (req: NextApiRequestWithData<ReqBody>, res: NextApiResponse) => {
+  const { method, query } = req;
+
   const { id } = query;
 
   const item = await Item.findById(id);
+
   if (!item) {
     return createError(res, 400, 'Item with that id not found');
   }
@@ -20,10 +67,7 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
       break;
 
     case 'PUT':
-      Object.assign(item, body);
-      const updatedItem = await item.save();
-      res.json({ item: updatedItem });
-
+      await updateItem(req, res, item);
       break;
 
     case 'DELETE':

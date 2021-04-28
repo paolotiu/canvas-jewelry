@@ -1,5 +1,5 @@
 import EditItem from '@components/Admin/EditItem/EditItem';
-import { ItemInterface } from '@models/Item';
+import { ItemDocument } from '@models/Item';
 import { getItemById, getOneItemFromDb } from '@utils/queries';
 import { connectDb } from '@utils/withMongoose';
 import { GetServerSideProps } from 'next';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ItemPage = ({ id }: Props) => {
-  const { data, isLoading, refetch } = useQuery<{ item: ItemInterface }>(['item', id], () =>
+  const { data, isLoading, refetch } = useQuery<{ item: ItemDocument }>(['item', id], () =>
     getItemById(id),
   );
   if (isLoading) return <div>Loading...</div>;
