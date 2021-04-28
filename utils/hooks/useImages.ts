@@ -51,8 +51,7 @@ export const useImages = (
     const imageObjects = filesToImageObjects(files, initialPathsRef.current);
 
     setImages(imageObjects);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [willInitialize]);
+  }, []);
 
   useEffect(() => {
     // Initialize the images
@@ -61,8 +60,7 @@ export const useImages = (
       : initialImages;
     initialPathsRef.current = initialPaths;
     initializeImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initializeImages]);
+  }, [initialImages, initializeImages]);
 
   // Onchange of file input
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,6 +133,16 @@ export const useImages = (
     resetInput();
   };
 
+  const setImage = (index: number, file: File) => {
+    setImages((prev) => {
+      // Cone array
+      const copy = [...prev];
+      // Replace object of the same index
+      copy[index] = { file, path: URL.createObjectURL(file) };
+      return copy;
+    });
+  };
+
   const getFormData = (inputs: { [key: string]: string | number }) => {
     const data = new FormData();
 
@@ -180,5 +188,6 @@ export const useImages = (
     deleteImage,
     getImagePaths,
     reinitializeImages,
+    setImage,
   };
 };

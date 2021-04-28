@@ -1,22 +1,17 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import mongoose, { Schema, model, Document, Model } from 'mongoose';
+import mongoose, { Schema, model, Document, Model, Types } from 'mongoose';
 
-export interface ImageInterface {
-  _id: string;
+export interface ImageInterface extends Types.Embedded {
   url: string;
   /** The cloudinary public id */
   public_id: string;
 }
 
 export interface ItemInterface {
-  _id: string;
   name: string;
   price: number;
   description: string;
-  images: {
-    url: string;
-    public_id: string;
-  }[];
+  images: ImageInterface[];
   imagePublicIds: string[];
   imageUrls: string[];
   deleted: boolean;
@@ -62,8 +57,7 @@ ItemSchema.virtual('imageUrls').get(function getImageUrls(this: ItemInterface) {
 ItemSchema.set('toJSON', { virtuals: true });
 ItemSchema.set('toObject', { virtuals: true });
 
-interface ItemNoId extends Omit<ItemInterface, '_id'> {}
-interface ItemDocument extends ItemNoId, Document {}
+export interface ItemDocument extends ItemInterface, Document {}
 export type ItemModel = Model<ItemDocument>;
 
 export default (mongoose.models?.Item as ItemModel) || model<ItemDocument>('Item', ItemSchema);

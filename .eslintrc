@@ -26,7 +26,9 @@
     "consistent-return": "off",
     "no-underscore-dangle": "off",
     "no-case-declarations": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "arrow-body-style": "off",
+    "no-nested-ternary": "off"
   },
 
   "ignorePatterns": ["types.ts", "*.js"]

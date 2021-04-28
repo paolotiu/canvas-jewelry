@@ -10,6 +10,7 @@ import { ItemSchema } from '@utils/validationSchemas';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import * as React from 'react';
+import { useMemo } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import Layout from '../Layout/Layout';
 
@@ -47,13 +48,17 @@ const AddItem = () => {
     hasSubmitted,
   } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
 
-  const { getFormData, handleFileChange, deleteImage, getImagePaths } = useImages([], {
-    additive: true,
-    onError: (e) => {
-      toast.error(e);
+  const initialData = useMemo(() => [], []);
+  const { getFormData, handleFileChange, deleteImage, getImagePaths, setImage } = useImages(
+    initialData,
+    {
+      additive: true,
+      onError: (e) => {
+        toast.error(e);
+      },
+      max: 5,
     },
-    max: 5,
-  });
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -132,6 +137,7 @@ const AddItem = () => {
           </Form.FormControl>
           <Form.FormControl>
             <ImageInputContainer
+              setImage={setImage}
               onDelete={deleteImage}
               imagePaths={getImagePaths()}
               onChange={handleFileChange}

@@ -1,7 +1,10 @@
+import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import * as React from 'react';
 import Button from '../Button';
+
+const CropperModal = dynamic(() => import('@components/CropperModal/CropperModal'));
 
 interface ImageSquareProps {
   src?: string;
@@ -25,24 +28,39 @@ const ImageSquare = styled.div<ImageSquareProps>`
   background-size: cover;
   border: 1px solid black;
   background-image: ${({ src }) => (src ? `url(${src})` : 'none')};
+  margin: 10px;
 
   input {
     display: none;
   }
 `;
 
-interface Props {
+export interface ImageInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   multiple?: boolean;
   src?: string;
-
+  setImage: (index: number, file: File) => void;
   index: number;
-  onDeleteClick: (e: any, index: number) => void;
+  onDelete: (e: any, index: number) => void;
 }
 
-const ImageInput = ({ onChange, multiple = true, src, index, onDeleteClick }: Props) => {
+const ImageInput = ({
+  onChange,
+  multiple = true,
+  src,
+  index,
+  onDelete,
+  setImage,
+}: ImageInputProps) => {
   const ref = useRef<HTMLInputElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
   return (
     <>
       <ImageSquare
@@ -55,24 +73,33 @@ const ImageInput = ({ onChange, multiple = true, src, index, onDeleteClick }: Pr
           }
         }}
         src={src}
-        draggable
-        onDragEnd={(e) => {
-          const { clientX: x, clientY: y } = e;
-
-          console.log(document.elementFromPoint(x, y)?.className);
-        }}
       >
         {src && (
-          <DeleteButton
-            backgroundColor="inactiveTransparent"
-            borderRadius="full"
-            size="sm"
-            onClick={(e) => {
-              onDeleteClick(e, index);
-            }}
-          >
-            X
-          </DeleteButton>
+          <>
+            <DeleteButton
+              backgroundColor="inactiveTransparent"
+              borderRadius="full"
+              size="sm"
+              onClick={(e) => {
+                onDelete(e, index);
+              }}
+            >
+              X
+            </DeleteButton>
+            <button type="button" onClick={openModal}>
+              Edit
+            </button>
+          </>
+        )}
+        {src && (
+          <CropperModal
+            src={src}
+            setImage={setImage}
+            index={index}
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            closeModal={closeModal}
+          />
         )}
         <input type="file" accept="image/*" onChange={onChange} ref={ref} multiple={multiple} />
       </ImageSquare>

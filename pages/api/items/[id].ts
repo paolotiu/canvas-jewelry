@@ -33,7 +33,9 @@ const updateItem = async (
 
   // Don't await it
   // It won't affect any returns anyway
-  deleteImages(imagesToDelete.map((img) => img.public_id));
+  if (imagesToDelete.length) {
+    deleteImages(imagesToDelete.map((img) => img.public_id));
+  }
 
   // Get new images array
   const newImages = await uploadNewImages(images, item.images);
@@ -68,6 +70,7 @@ const handler = async (req: NextApiRequestWithData<ReqBody>, res: NextApiRespons
 
     case 'PUT':
       await updateItem(req, res, item);
+
       break;
 
     case 'DELETE':

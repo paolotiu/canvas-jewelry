@@ -88,6 +88,7 @@ const EditItem = ({ item, refetch }: Props) => {
     deleteImage,
     getImagePaths,
     reinitializeImages,
+    setImage,
   } = useImages(item.images, {
     additive: true,
     onError: (err) => {
@@ -167,6 +168,7 @@ const EditItem = ({ item, refetch }: Props) => {
             </Form.FormControl>
             <Form.FormControl>
               <ImageInputContainer
+                setImage={setImage}
                 imagePaths={getImagePaths()}
                 onChange={handleFileChange}
                 onDelete={deleteImage}
