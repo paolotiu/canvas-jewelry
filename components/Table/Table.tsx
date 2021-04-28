@@ -1,8 +1,7 @@
 /* eslint-disable arrow-body-style */
 import styled from '@emotion/styled';
-import { ItemInterface } from '@models/Item';
 import Link from 'next/link';
-import { Column, useTable } from 'react-table';
+import { Column, useTable, useSortBy } from 'react-table';
 
 const TableWrapper = styled.div`
   overflow-x: auto;
@@ -21,6 +20,13 @@ const StyledTable = styled.table`
 
   th {
     border-width: 2px;
+    .header-label {
+      display: flex;
+      span {
+        width: 0;
+        padding-left: 10px;
+      }
+    }
   }
 
   tbody tr {
@@ -35,21 +41,30 @@ const StyledTable = styled.table`
   }
 `;
 
-const columns: Column<ItemInterface>[] = [
+interface ItemData {
+  _id: string;
+  price: number;
+  name: string;
+  description: string;
+}
+const columns: Column<ItemData>[] = [
   { Header: 'Name', accessor: 'name' },
   { Header: 'Price', accessor: 'price' },
   { Header: 'Desc', accessor: 'description' },
 ];
 
 interface Props {
-  items: ItemInterface[];
+  items: ItemData[];
 }
 
 const Table = ({ items }: Props) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    data: items,
-    columns,
-  });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable<ItemData>(
+    {
+      data: items,
+      columns,
+    },
+    useSortBy,
+  );
 
   return (
     <TableWrapper>
@@ -58,8 +73,11 @@ const Table = ({ items }: Props) => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((col) => (
-                <th {...col.getHeaderProps()}>
-                  <h4>{col.render('Header')}</h4>
+                <th {...col.getHeaderProps(col.getSortByToggleProps())}>
+                  <div className="header-label">
+                    {col.render('Header')}
+                    <span> {col.isSorted ? (col.isSortedDesc ? ' 🔽' : ' 🔼') : ''} </span>
+                  </div>
                 </th>
               ))}
             </tr>
