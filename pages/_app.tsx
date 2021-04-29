@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
+import { Provider } from 'next-auth/client';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const queryClientRef = useRef<QueryClient>();
@@ -19,7 +20,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClientRef.current}>
         <ThemeProvider theme={theme}>
           <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
+            <Provider session={pageProps.session}>
+              <Component {...pageProps} />
+            </Provider>
           </Hydrate>
         </ThemeProvider>
         <ReactQueryDevtools />
