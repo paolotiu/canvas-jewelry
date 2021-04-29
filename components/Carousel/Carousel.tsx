@@ -8,7 +8,6 @@ import DotButton from './DotButton/DotButton';
 import DotButtonContainer from './DotButton/DotButtonContainer';
 
 const Wrapper = styled.div`
-  --max: 400px;
   width: 100%;
   display: flex;
 `;
@@ -17,15 +16,17 @@ const Embla = styled.div`
   overflow: hidden;
   width: 100%;
   position: relative;
-  max-height: var(--max);
-  max-width: var(--max);
 `;
 const EmblaContainer = styled.div`
   display: flex;
 `;
 const EmblaSlide = styled.div`
   position: relative;
-  flex: 0 0 100%;
+  flex: 0 0 auto;
+  img {
+    width: 100px;
+    height: 100px;
+  }
   margin: 0.3rem;
 `;
 
@@ -67,15 +68,17 @@ const Carousel = ({ withButtons = false, images }: Props) => {
             ))}
           </EmblaContainer>
 
-          <DotButtonContainer>
-            {scrollSnaps.map((_, i) => (
-              <DotButton
-                key={uuid()}
-                onClick={() => emblaApi?.scrollTo(i)}
-                active={i === activeIndex}
-              />
-            ))}
-          </DotButtonContainer>
+          {scrollSnaps.length > 1 && (
+            <DotButtonContainer>
+              {scrollSnaps.map((_, i) => (
+                <DotButton
+                  key={uuid()}
+                  onClick={() => emblaApi?.scrollTo(i)}
+                  active={i === activeIndex}
+                />
+              ))}
+            </DotButtonContainer>
+          )}
 
           {withButtons && images && images.length > 1 && (
             <>

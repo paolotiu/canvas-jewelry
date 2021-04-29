@@ -298,4 +298,12 @@ Add the correct display in Chrome and Safari.
     margin: 0;
     padding: 0;
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    :hover {
+      text-decoration: underline;
+    }
+  }
 `;
