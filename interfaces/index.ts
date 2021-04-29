@@ -4,13 +4,17 @@
 //
 // import { User } from 'path/to/interfaces';
 
-import { ItemInterface } from "@models/Item";
+import { ItemDocument } from '@models/Item';
 
 export type User = {
-  id: number
-  name: string
-}
+  id: number;
+  name: string;
+};
 
 export interface ItemQueryReturn {
-  item: ItemInterface;
+  item: ItemDocument;
+}
+
+export interface Image {
+  url: string;
 }

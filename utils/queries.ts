@@ -1,8 +1,8 @@
-import Item, { ItemInterface } from '@models/Item';
+import Item, { ItemDocument, ItemInterface } from '@models/Item';
 import axios from 'axios';
 import { cleanMongoData } from './cleanMongoData';
 
-type ItemQuery = (id: string, data?: ItemInterface | FormData) => Promise<{ item: ItemInterface }>;
+type ItemQuery = (id: string, data?: ItemInterface | FormData) => Promise<{ item: ItemDocument }>;
 
 export const getItems = async () => {
   const res = await axios.get('/api/items');
