@@ -15,6 +15,7 @@ interface ReqBody {
   description: string;
   price: number;
   images: IncomingImage[];
+  categories: string[];
 }
 
 const updateItem = async (
@@ -56,7 +57,7 @@ const handler = async (req: NextApiRequestWithData<ReqBody>, res: NextApiRespons
 
   const { id } = query;
 
-  const item = await Item.findById(id);
+  const item = await Item.findById(id).populate('categories');
 
   if (!item) {
     return createError(res, 400, 'Item with that id not found');

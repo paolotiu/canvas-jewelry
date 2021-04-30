@@ -1,5 +1,7 @@
 import Item, { ItemDocument, ItemInterface } from '@models/Item';
 import axios from 'axios';
+import { CategoriesReturn } from 'interfaces';
+import mongoose from 'mongoose';
 import { cleanMongoData } from './cleanMongoData';
 
 type ItemQuery = (id: string, data?: ItemInterface | FormData) => Promise<{ item: ItemDocument }>;
@@ -26,9 +28,13 @@ export const updateItem: ItemQuery = async (id, data) => {
 };
 
 export const getOneItemFromDb = async (id: string) => {
-  const res = await Item.findById(id);
+  const isValid = mongoose.Types.ObjectId.isValid(id);
+  if (!isValid) {
+    return null;
+  }
+  const res = await Item.findById(id).populate('categories');
   if (!res) {
-    throw new Error('Item not found');
+    return null;
   }
   return { item: cleanMongoData(res) };
 };
@@ -36,4 +42,9 @@ export const getOneItemFromDb = async (id: string) => {
 export const getItemsFromDb = async () => {
   const res = await Item.find({ deleted: false });
   return cleanMongoData(res);
+};
+
+export const getCategories = async (): Promise<CategoriesReturn> => {
+  const res = await axios.get('/api/categories');
+  return res.data;
 };

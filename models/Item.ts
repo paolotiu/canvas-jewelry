@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
+import { CategoryData } from 'interfaces';
 import mongoose, { Schema, model, Document, Model, Types } from 'mongoose';
 
 export interface ImageInterface extends Types.Embedded {
@@ -15,6 +16,12 @@ export interface ItemInterface {
   imagePublicIds: string[];
   imageUrls: string[];
   deleted: boolean;
+  categories: [CategoryData];
+}
+
+function autoPopulateCategories(this: ItemDocument, next: () => void) {
+  this.populate('categories');
+  next();
 }
 
 const ImageSchema = new Schema({
@@ -35,9 +42,7 @@ const ItemSchema = new Schema({
   description: {
     type: String,
   },
-  category: {
-    type: String,
-  },
+  categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   images: { type: [ImageSchema], default: () => [] },
   imageIds: [String],
   deleted: { type: Boolean, default: false },

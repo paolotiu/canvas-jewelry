@@ -17,6 +17,21 @@ interface ExpectedData {
   images?: ImageInterface;
 }
 
+export function fieldToArray<ReturnType, T extends Record<string, any>>(
+  field: string,
+  formidableData: T,
+): ReturnType[] | undefined {
+  // No data in field
+  if (!formidableData[field]) {
+    return undefined;
+  }
+
+  if (Array.isArray(formidableData[field])) {
+    return formidableData[field];
+  }
+  return [formidableData[field]];
+}
+
 export const withFormidable = (handler: NextApiHandlerWithFiles) => async (
   req: NextApiRequestWithData,
   res: NextApiResponse,
@@ -37,6 +52,8 @@ export const withFormidable = (handler: NextApiHandlerWithFiles) => async (
     // Attach parsed data to req
     req.body = data.fields;
 
+    req.body.categories = fieldToArray('categories', data.fields);
+
     // Temporary solution
     const typedData = (data as unknown) as { fields: ExpectedData; files: Files };
     if (Array.isArray(typedData.fields.imagePaths) && Array.isArray(data.files.file)) {
@@ -56,11 +73,7 @@ export const withFormidable = (handler: NextApiHandlerWithFiles) => async (
       ];
     }
 
-    if (Array.isArray(data.files.file)) {
-      req.files = data.files.file;
-    } else {
-      req.files = data.files.file && [data.files.file];
-    }
+    req.files = fieldToArray('file', data.files);
   } catch (error) {
     res.statusCode = 400;
     res.json({ success: false, message: error.message });
