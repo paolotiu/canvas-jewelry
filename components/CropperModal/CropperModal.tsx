@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'cropperjs/dist/cropper.css';
 import Button from '@components/General/Button';
+import { breakpoints } from '@styles/breakpoints';
 
 const Wrapper = styled.div`
   display: grid;
@@ -59,6 +60,13 @@ interface Props extends Modal.Props {
   closeModal: () => void;
 }
 
+const StyledCropper = styled(Cropper)`
+  width: 200px;
+  ${breakpoints.xs} {
+    width: 400px;
+  }
+`;
+
 const CropperModal = ({ src, setImage, index, closeModal, ...rest }: Props) => {
   const [cropper, setCropper] = useState<any>();
   const onSubmit = () => {
@@ -67,7 +75,6 @@ const CropperModal = ({ src, setImage, index, closeModal, ...rest }: Props) => {
         if (blob) {
           const file = new File([blob], 'cropper', { type: 'image/jpeg' });
           setImage(index, file);
-          closeModal();
         }
       },
 
@@ -79,9 +86,8 @@ const CropperModal = ({ src, setImage, index, closeModal, ...rest }: Props) => {
       <Wrapper>
         <h3>Edit Product Image</h3>
         <CropperWrapper>
-          <Cropper
+          <StyledCropper
             src={src}
-            style={{ width: '400px', height: '400px' }}
             guides
             autoCropArea={1}
             aspectRatio={1 / 1}
