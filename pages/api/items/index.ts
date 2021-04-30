@@ -36,6 +36,7 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
       await addItem(req, res);
       break;
     case 'GET':
+      // Use populate{path} because a new connection will be made if user opens this page first
       const items = await Item.find({ deleted: false }).populate('categories');
       res.status(200).json(items);
       break;

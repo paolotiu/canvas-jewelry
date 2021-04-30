@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { CategoryData } from 'interfaces';
+// Import to register category schema
+import './Category';
 import mongoose, { Schema, model, Document, Model, Types } from 'mongoose';
 
 export interface ImageInterface extends Types.Embedded {
@@ -17,11 +19,6 @@ export interface ItemInterface {
   imageUrls: string[];
   deleted: boolean;
   categories: [CategoryData];
-}
-
-function autoPopulateCategories(this: ItemDocument, next: () => void) {
-  this.populate('categories');
-  next();
 }
 
 const ImageSchema = new Schema({
@@ -65,4 +62,5 @@ ItemSchema.set('toObject', { virtuals: true });
 export interface ItemDocument extends ItemInterface, Document {}
 export type ItemModel = Model<ItemDocument>;
 
-export default (mongoose.models?.Item as ItemModel) || model<ItemDocument>('Item', ItemSchema);
+export default (mongoose.models?.Item as ItemModel) ||
+  model<ItemDocument, ItemModel>('Item', ItemSchema);

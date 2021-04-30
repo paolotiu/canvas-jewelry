@@ -39,7 +39,13 @@ export const deleteImages = (publicIds: string[]) => {
   });
 };
 
-export const uploadNewImages = (images: IncomingImage[], existingImages: ImageInterface[]) => {
+export const uploadNewImages = (
+  images: IncomingImage[] | undefined,
+  existingImages: ImageInterface[],
+) => {
+  if (!images) {
+    return [];
+  }
   return Promise.all(
     images.map(async (img) => {
       // Existing image

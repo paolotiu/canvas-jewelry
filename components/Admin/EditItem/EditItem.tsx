@@ -5,17 +5,18 @@ import Layout from '@components/Admin/Layout/Layout';
 import styled from '@emotion/styled';
 import { ItemDocument } from '@models/Item';
 import { breakpoints } from '@styles/breakpoints';
-import { softDeleteItem, updateItem } from '@utils/queries';
+import { getCategories, softDeleteItem, updateItem } from '@utils/queries';
 import { useForm } from '@utils/hooks/useForm';
 import { useImages } from '@utils/hooks/useImages';
 import { useRouter } from 'next/router';
-import * as React from 'react';
 import { apiHandler } from '@utils/apiHandler';
 import { ItemSchema } from '@utils/validationSchemas';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import ImageInputContainer from '@components/General/Form/ImageInputContainer';
-import { QueryObserverResult, RefetchOptions } from 'react-query';
+import { QueryObserverResult, RefetchOptions, useQuery } from 'react-query';
+import Select, { OptionsType } from 'react-select';
+import React, { useState } from 'react';
 
 const Toaster = dynamic<any>(() => import('react-hot-toast').then((mod) => mod.Toaster), {
   ssr: false,
@@ -82,6 +83,8 @@ interface Props {
 
 const EditItem = ({ item, refetch }: Props) => {
   const router = useRouter();
+
+  const { data: categoriesReturn } = useQuery('categories', () => getCategories());
   const {
     handleFileChange,
     getFormData,
@@ -107,6 +110,10 @@ const EditItem = ({ item, refetch }: Props) => {
     ItemSchema,
   );
 
+  const [itemCategories, setItemCategories] = useState<
+    OptionsType<{ label: string; value: string }>
+  >(item.categories.map((cat) => ({ label: cat.name, value: cat._id })));
+
   const handleDeleteClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     await softDeleteItem(item._id);
@@ -121,6 +128,11 @@ const EditItem = ({ item, refetch }: Props) => {
     }
 
     const data = getFormData(inputs);
+
+    // Append categories
+    itemCategories.forEach((cat) => {
+      data.append('categories', cat.value);
+    });
 
     const res = await apiHandler(updateItem(item._id, data));
     if (res.error) {
@@ -158,6 +170,21 @@ const EditItem = ({ item, refetch }: Props) => {
               <Input type="number" value={inputs.price} name="price" onChange={handleChange} />
               <Form.ErrorText text={errors.price.message} />
             </Form.FormControl>
+            <Form.FormControl>
+              <Select
+                instanceId="react-select"
+                options={categoriesReturn?.categories.map((cat) => ({
+                  label: cat.name,
+                  value: cat._id,
+                }))}
+                value={itemCategories}
+                onChange={(val) => {
+                  setItemCategories(val);
+                }}
+                isMulti
+              />
+            </Form.FormControl>
+
             <Form.FormControl>
               <label htmlFor="description">Description</label>
               <Form.TextArea

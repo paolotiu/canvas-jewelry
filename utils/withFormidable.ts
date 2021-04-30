@@ -53,9 +53,9 @@ export const withFormidable = (handler: NextApiHandlerWithFiles) => async (
     req.body = data.fields;
 
     req.body.categories = fieldToArray('categories', data.fields);
-
     // Temporary solution
     const typedData = (data as unknown) as { fields: ExpectedData; files: Files };
+
     if (Array.isArray(typedData.fields.imagePaths) && Array.isArray(data.files.file)) {
       // If array map it into an array of imageobjects
       const imageObjects = typedData.fields.imagePaths.map((path, i) => ({
@@ -63,7 +63,7 @@ export const withFormidable = (handler: NextApiHandlerWithFiles) => async (
         file: (data.files.file as File[])[i],
       }));
       req.body.images = imageObjects;
-    } else {
+    } else if (typedData.fields.imagePaths) {
       // Not an array
       req.body.images = [
         {

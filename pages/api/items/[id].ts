@@ -23,7 +23,7 @@ const updateItem = async (
   res: NextApiResponse,
   item: ItemDocument,
 ) => {
-  const { images, description, name, price } = req.body;
+  const { images, description, name, price, categories } = req.body;
 
   // Get images to delete
   const imagesToDelete = differenceWith(
@@ -46,7 +46,7 @@ const updateItem = async (
   item.images = newImages;
 
   // Update item
-  Object.assign(item, { description, name, price });
+  Object.assign(item, { description, name, price, categories });
 
   const updatedItem = await item.save();
   res.json({ item: updatedItem });
