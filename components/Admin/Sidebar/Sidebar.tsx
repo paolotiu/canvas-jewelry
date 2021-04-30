@@ -26,7 +26,7 @@ export const StyledSidebar = styled.aside`
 const Sidebar = () => (
   <StyledSidebar>
     <div className="top">
-      <Link href="/admin/dashboard">Dashboard</Link>
+      <Link href="/admin/dashboard/items">Items</Link>
     </div>
     <div className="bottom" />
   </StyledSidebar>

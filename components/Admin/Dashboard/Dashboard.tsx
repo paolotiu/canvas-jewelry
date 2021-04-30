@@ -1,8 +1,8 @@
 import Layout from '@components/Admin/Layout/Layout';
 import Button from '@components/General/Button';
-import Table from '@components/Table/Table';
+import Table, { TableProps } from '@components/Table/Table';
 import styled from '@emotion/styled';
-import { ItemInterface } from '@models/Item';
+import { ItemData } from 'interfaces';
 import Link from 'next/link';
 
 const Wrapper = styled.div`
@@ -16,23 +16,35 @@ const Wrapper = styled.div`
     align-self: center;
   }
 `;
-interface Props {
+interface Props<DataType> extends Omit<TableProps<DataType>, 'data'> {
   title: string;
-  items?: ItemInterface[];
+  addButton?: {
+    label: string;
+    href: string;
+  };
+  data?: DataType[];
 }
 
-const Dashboard = ({ items, title }: Props) => (
+const Dashboard = <DataType extends ItemData>({
+  data,
+  title,
+  columns,
+  addButton,
+  ...rest
+}: Props<DataType>) => (
   <Layout>
     <Wrapper>
       <div className="header">
         <h1>{title}</h1>
-        <Link href="/admin/add">
-          <Button size="sm" borderRadius="md" withBorder>
-            + Add Item
-          </Button>
-        </Link>
+        {addButton ? (
+          <Link href={addButton.href}>
+            <Button size="sm" borderRadius="md" withBorder>
+              {addButton.label}
+            </Button>
+          </Link>
+        ) : null}
       </div>
-      {items && <Table items={items} />}
+      {data && <Table data={data} columns={columns} {...rest} />}
     </Wrapper>
   </Layout>
 );
