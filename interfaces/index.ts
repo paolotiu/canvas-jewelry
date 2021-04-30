@@ -4,7 +4,8 @@
 //
 // import { User } from 'path/to/interfaces';
 
-import { ItemDocument } from '@models/Item';
+import { CategoryInterface } from '@models/Category';
+import { ItemInterface } from '@models/Item';
 
 export type User = {
   id: number;
@@ -12,7 +13,18 @@ export type User = {
 };
 
 export interface ItemQueryReturn {
-  item: ItemDocument;
+  item: ItemData;
+}
+
+export interface CategoriesReturn {
+  categories: CategoryData[];
+}
+
+export interface CategoryData extends CategoryInterface {
+  _id: string;
+}
+export interface ItemData extends ItemInterface {
+  _id: string;
 }
 
 export interface Image {

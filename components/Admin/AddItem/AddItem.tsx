@@ -6,12 +6,14 @@ import { breakpoints } from '@styles/breakpoints';
 import { apiHandler } from '@utils/apiHandler';
 import { useForm } from '@utils/hooks/useForm';
 import { useImages } from '@utils/hooks/useImages';
+import { getCategories } from '@utils/queries';
 import { ItemSchema } from '@utils/validationSchemas';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import * as React from 'react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { useQuery } from 'react-query';
+import Select, { OptionsType } from 'react-select';
 import Layout from '../Layout/Layout';
 
 const Wrapper = styled.div`
@@ -48,7 +50,16 @@ const AddItem = () => {
     hasSubmitted,
   } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
 
+  const { data: categoriesReturn } = useQuery('categories', () => getCategories());
+
+  // Memoized to prevent infinite loop
   const initialData = useMemo(() => [], []);
+
+  // React select state
+  const [itemCategories, setItemCategories] = useState<
+    OptionsType<{ label: string; value: string }>
+  >([]);
+
   const { getFormData, handleFileChange, deleteImage, getImagePaths, setImage } = useImages(
     initialData,
     {
@@ -73,6 +84,9 @@ const AddItem = () => {
 
     // formdata to make it compatible with images
     const data = getFormData(inputs);
+    itemCategories.forEach((cat) => {
+      data.append('categories', cat.value);
+    });
 
     const res = await apiHandler(axios.post('/api/items', data));
 
@@ -90,7 +104,7 @@ const AddItem = () => {
     }
 
     // redirect
-    await router.push('/admin/dashboard');
+    await router.push('/admin/dashboard/items');
   };
 
   return (
@@ -125,6 +139,19 @@ const AddItem = () => {
               <Form.ErrorText text={errors.price.message} willShow={hasSubmitted} />
             </Form.FormControl>
           </div>
+          <Form.FormControl>
+            <Select
+              options={categoriesReturn?.categories.map((cat) => ({
+                label: cat.name,
+                value: cat._id,
+              }))}
+              onChange={(val) => {
+                setItemCategories(val);
+              }}
+              isMulti
+            />
+          </Form.FormControl>
+
           <Form.FormControl>
             <label htmlFor="description">Description</label>
             <Form.TextArea

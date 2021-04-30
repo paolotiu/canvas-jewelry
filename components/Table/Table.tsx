@@ -1,5 +1,6 @@
 /* eslint-disable arrow-body-style */
 import styled from '@emotion/styled';
+import { ItemData } from 'interfaces';
 import Link from 'next/link';
 import { Column, useTable, useSortBy } from 'react-table';
 
@@ -41,26 +42,16 @@ const StyledTable = styled.table`
   }
 `;
 
-interface ItemData {
-  _id: string;
-  price: number;
-  name: string;
-  description: string;
-}
-const columns: Column<ItemData>[] = [
-  { Header: 'Name', accessor: 'name' },
-  { Header: 'Price', accessor: 'price' },
-  { Header: 'Desc', accessor: 'description' },
-];
-
-interface Props {
-  items: ItemData[];
+export interface TableProps<T extends Record<string, any>> {
+  data: T[];
+  columns: Column<T>[];
+  baseLink: string;
 }
 
-const Table = ({ items }: Props) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable<ItemData>(
+const Table = <DataType extends ItemData>({ data, columns, baseLink }: TableProps<DataType>) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable<DataType>(
     {
-      data: items,
+      data,
       columns,
     },
     useSortBy,
@@ -88,7 +79,7 @@ const Table = ({ items }: Props) => {
             prepareRow(row);
             const props = row.getRowProps();
             return (
-              <Link href={`/admin/item/${row.original._id}`} key={props.key}>
+              <Link href={`${baseLink}${row.original._id}`} key={props.key}>
                 <tr {...props}>
                   {row.cells.map((cell) => {
                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
