@@ -1,12 +1,12 @@
-import Item, { ItemDocument, ItemInterface } from '@models/Item';
+import Item, { ItemDocument } from '@models/Item';
 import axios from 'axios';
-import { CategoriesReturn } from 'interfaces';
+import { CategoriesReturn, ItemData } from 'interfaces';
 import mongoose from 'mongoose';
 import { cleanMongoData } from './cleanMongoData';
 
-type ItemQuery = (id: string, data?: ItemInterface | FormData) => Promise<{ item: ItemDocument }>;
+type ItemQuery = (id: string, data?: ItemData | FormData) => Promise<{ item: ItemDocument }>;
 
-export const getItems = async (): Promise<ItemInterface[]> => {
+export const getItems = async (): Promise<ItemData[]> => {
   const res = await axios.get('/api/items');
 
   return res.data;
