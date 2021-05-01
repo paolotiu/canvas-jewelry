@@ -1,7 +1,9 @@
 import Card from '@components/Card/Card';
+import CardContainer from '@components/Card/CardContainer';
 import Carousel from '@components/Carousel/Carousel';
 import Header from '@components/Header/Header';
 import NavGrid from '@components/NavGrid/NavGrid';
+import { Title } from '@components/Title/Title';
 import { getItems } from '@utils/queries';
 import { NavLink } from 'interfaces';
 import React from 'react';
@@ -40,11 +42,9 @@ const Home = (props: Props) => {
 
       <Carousel images={data?.map((item) => item.imageUrls[0]) || []} withAutoPlay />
       <NavGrid links={links} />
-      <div style={{ padding: '50px 0', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-        {data?.map((item) => (
-          <Card src={item.imageUrls[0]} name={item.name} key={item._id} />
-        ))}
-      </div>
+
+      <Title>Best Sellers</Title>
+      <CardContainer items={data || []} />
     </div>
   );
 };
