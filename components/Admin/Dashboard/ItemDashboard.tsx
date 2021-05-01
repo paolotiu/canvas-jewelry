@@ -10,9 +10,27 @@ const TagWrapper = styled.div`
 `;
 
 const columns: Column<ItemData>[] = [
-  { Header: 'Name', accessor: 'name' },
-  { Header: 'Price', accessor: 'price' },
-  { Header: 'Desc', accessor: 'description' },
+  {
+    Header: 'Name',
+    accessor: 'name',
+    sortType: (rowA, rowB, columnId) => {
+      const id = columnId as 'name';
+      const a = rowA.original[id];
+      const b = rowB.original[id];
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    },
+  },
+  {
+    Header: 'Price',
+    accessor: 'price',
+    sortType: (rowA, rowB, columnId) => {
+      const id = columnId as 'price';
+      if (rowA.original[id] > rowB.original[id]) return 1;
+      if (rowA.original[id] < rowB.original[id]) return -1;
+      return 0;
+    },
+  },
+  { Header: 'Desc', accessor: 'description', disableSortBy: true },
   {
     Header: 'Category',
     accessor: (data) => {

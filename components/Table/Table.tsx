@@ -2,7 +2,7 @@
 import styled from '@emotion/styled';
 import { ItemData } from 'interfaces';
 import Link from 'next/link';
-import { Column, useTable, useSortBy } from 'react-table';
+import { Column, useTable, useSortBy, useFilters } from 'react-table';
 
 const TableWrapper = styled.div`
   overflow-x: auto;
@@ -54,6 +54,7 @@ const Table = <DataType extends ItemData>({ data, columns, baseLink }: TableProp
       data,
       columns,
     },
+    useFilters,
     useSortBy,
   );
 
