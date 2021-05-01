@@ -1,5 +1,6 @@
 import CardSection from '@components/Card/CardSection';
 import Carousel from '@components/Carousel/Carousel';
+import Footer from '@components/Footer/Footer';
 import Header from '@components/Header/Header';
 import NavGrid from '@components/NavGrid/NavGrid';
 import { getItems } from '@utils/queries';
@@ -39,6 +40,7 @@ const Home = () => {
       <Carousel images={data?.map((item) => item.imageUrls[0]) || []} withAutoPlay />
       <NavGrid links={links} />
       <CardSection items={data || []} title="Best Sellers" />
+      <Footer />
     </div>
   );
 };

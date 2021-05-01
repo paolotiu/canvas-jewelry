@@ -5,7 +5,7 @@ import { ViewMode } from './CardView';
 
 const StyledCardContainer = styled.div`
   display: grid;
-  padding: 1rem 5px;
+  padding: 1.3rem 5px;
   gap: 0.2rem;
 
   &.square {

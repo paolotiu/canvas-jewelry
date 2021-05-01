@@ -1,13 +1,13 @@
-import Square from '@components/assets/icons/square.svg';
-import Blocks from '@components/assets/icons/4square.svg';
-import List from '@components/assets/icons/listview.svg';
+import Square from '@assets/icons/square.svg';
+import Blocks from '@assets/icons/4square.svg';
+import List from '@assets/icons/listview.svg';
 import styled from '@emotion/styled';
 
 const StyledCardView = styled.div`
   display: flex;
   justify-content: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 2.5rem 2.5rem 1rem 2.5rem;
   color: ${({ theme }) => theme.colors.inactive};
   svg {
     fill: currentColor;

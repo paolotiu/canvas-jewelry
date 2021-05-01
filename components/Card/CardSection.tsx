@@ -13,8 +13,9 @@ const CardSection = ({ title, items }: Props) => {
   const [viewMode, setViewMode] = useState<ViewMode>('square');
   return (
     <section>
-      <Title>{title}</Title>
       <CardView viewMode={viewMode} onClick={(val) => setViewMode(val)} />
+
+      <Title>{title}</Title>
       <CardContainer items={items} viewMode={viewMode} />
     </section>
   );
