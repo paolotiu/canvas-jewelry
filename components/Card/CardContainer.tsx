@@ -31,7 +31,9 @@ const CardContainer = ({ items, viewMode }: Props) => {
     <>
       <StyledCardContainer className={viewMode}>
         {items.map((item) => {
-          return <Card className={viewMode} src={item.imageUrls[0]} name={item.name} />;
+          return (
+            <Card key={item._id} className={viewMode} src={item.imageUrls[0]} name={item.name} />
+          );
         })}
       </StyledCardContainer>
     </>

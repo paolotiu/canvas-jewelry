@@ -46,7 +46,7 @@ const StyledCard = styled.div`
     }
 
     border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
-    &:first-child {
+    &:first-of-type {
       border-top: 1px solid ${({ theme }) => theme.colors.gray};
     }
   }
