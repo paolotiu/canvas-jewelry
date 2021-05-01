@@ -16,7 +16,7 @@ const StyledHeader = styled.header`
     justify-self: center;
   }
 
-  svg {
+  #burger {
     shape-rendering: crispEdges;
   }
 `;
@@ -24,7 +24,7 @@ const StyledHeader = styled.header`
 const Header = () => {
   return (
     <StyledHeader>
-      <Burger />
+      <Burger id="burger" />
       <Image
         src="/logo.png"
         alt="logo"

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import React from 'react';
 
 const StyledCard = styled.div`
@@ -81,7 +80,7 @@ const Card = ({ src, name, className }: Props) => {
   return (
     <StyledCard className={className}>
       <div className="image">
-        <Image src={src} layout="fill" objectFit="fill" />
+        <img src={src} width="100%" height="100%" alt={name} />
       </div>
       <div className="text">
         <h4>{name}</h4>
