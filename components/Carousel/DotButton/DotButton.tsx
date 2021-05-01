@@ -6,7 +6,7 @@ const StyledDotButton = styled(motion.button)<{ active?: boolean }>`
   --background-position: right;
   background-color: transparent;
   border: 0;
-  width: 30px;
+  width: 28px;
   height: 4px;
   display: flex;
   margin: 0 5px;
