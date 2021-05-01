@@ -31,8 +31,8 @@ const links: NavLink[] = [
 ];
 
 const Home = () => {
-  const { data, isLoading } = useQuery('images', () => getItems());
-  if (isLoading) return <p>Loading...</p>;
+  const { data } = useQuery('images', () => getItems());
+  console.log(data);
   return (
     <div>
       <Header />

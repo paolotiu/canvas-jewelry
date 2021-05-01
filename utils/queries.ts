@@ -39,7 +39,7 @@ export const getOneItemFromDb = async (id: string) => {
   return { item: cleanMongoData(res) };
 };
 
-export const getItemsFromDb = async () => {
+export const getItemsFromDb = async (): Promise<ItemData[]> => {
   const res = await Item.find({ deleted: false });
   return cleanMongoData(res);
 };
