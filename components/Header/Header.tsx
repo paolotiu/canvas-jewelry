@@ -1,6 +1,6 @@
 import React from 'react';
-import Burger from '@components/assets/icons/burger.svg';
-import Search from '@components/assets/icons/search.svg';
+import Burger from '@assets/icons/burger.svg';
+import Search from '@assets/icons/search.svg';
 
 import styled from '@emotion/styled';
 import Image from 'next/image';
@@ -14,6 +14,10 @@ const StyledHeader = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   div {
     justify-self: center;
+  }
+
+  svg {
+    shape-rendering: crispEdges;
   }
 `;
 
