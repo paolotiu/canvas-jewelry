@@ -71,6 +71,7 @@ const colors = {
   success: '#4ADE80',
   danger: '#E53E3E',
   neutral: '#334155',
+  footer: '#F6F6F6',
   inactiveTransparent: 'rgba(145,145,145,0.45)',
   activeTransparent: 'rgba(10,10,10,0.40)',
 
