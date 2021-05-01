@@ -29,6 +29,28 @@ const StyledCard = styled.div`
     }
   }
 
+  &.list {
+    padding: 0.5rem 0;
+    flex-direction: row;
+    .image {
+      width: 25%;
+    }
+
+    .text {
+      text-align: left;
+      padding: 0 1rem;
+      align-self: start;
+      h4 {
+        padding-bottom: 0.4rem;
+      }
+    }
+
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+    &:first-child {
+      border-top: 1px solid ${({ theme }) => theme.colors.gray};
+    }
+  }
+
   .text {
     text-align: center;
     padding: 0.4rem 0;
@@ -52,11 +74,12 @@ const StyledCard = styled.div`
 interface Props {
   src: string;
   name: string;
+  className: string;
 }
 
-const Card = ({ src, name }: Props) => {
+const Card = ({ src, name, className }: Props) => {
   return (
-    <StyledCard>
+    <StyledCard className={className}>
       <div className="image">
         <Image src={src} layout="fill" objectFit="fill" />
       </div>

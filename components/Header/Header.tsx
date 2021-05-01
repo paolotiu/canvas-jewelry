@@ -12,15 +12,12 @@ const StyledHeader = styled.header`
   align-items: center;
   background-color: white;
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
-
   div {
-    margin-left: 10px;
     justify-self: center;
   }
 `;
-interface Props {}
 
-const Header = (props: Props) => {
+const Header = () => {
   return (
     <StyledHeader>
       <Burger />
@@ -32,6 +29,7 @@ const Header = (props: Props) => {
         height="30"
         layout="fixed"
         className="logo"
+        objectFit="cover"
       />
       <Search style={{ justifySelf: 'end' }} />
     </StyledHeader>

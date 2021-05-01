@@ -1,25 +1,40 @@
 import styled from '@emotion/styled';
 import { ItemData } from 'interfaces';
 import Card from './Card';
+import { ViewMode } from './CardView';
 
 const StyledCardContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
   padding: 1rem 5px;
   gap: 0.2rem;
+
+  &.square {
+    grid-template-columns: 1fr;
+  }
+
+  &.block {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &.list {
+    gap: 0;
+  }
 `;
 
 interface Props {
   items: ItemData[];
+  viewMode: ViewMode;
 }
 
-const CardContainer = ({ items }: Props) => {
+const CardContainer = ({ items, viewMode }: Props) => {
   return (
-    <StyledCardContainer>
-      {items.map((item) => {
-        return <Card src={item.imageUrls[0]} name={item.name} />;
-      })}
-    </StyledCardContainer>
+    <>
+      <StyledCardContainer className={viewMode}>
+        {items.map((item) => {
+          return <Card className={viewMode} src={item.imageUrls[0]} name={item.name} />;
+        })}
+      </StyledCardContainer>
+    </>
   );
 };
 
