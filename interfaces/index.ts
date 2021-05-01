@@ -30,3 +30,8 @@ export interface ItemData extends ItemInterface {
 export interface Image {
   url: string;
 }
+
+export interface NavLink {
+  href: string;
+  label: string;
+}
