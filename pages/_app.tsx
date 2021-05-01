@@ -16,8 +16,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Global styles={globalStyles} />
       <QueryClientProvider client={queryClientRef.current}>
+        <Global styles={globalStyles} />
         <ThemeProvider theme={theme}>
           <Hydrate state={pageProps.dehydratedState}>
             <Provider session={pageProps.session}>

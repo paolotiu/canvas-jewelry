@@ -6,7 +6,7 @@ import { cleanMongoData } from './cleanMongoData';
 
 type ItemQuery = (id: string, data?: ItemInterface | FormData) => Promise<{ item: ItemDocument }>;
 
-export const getItems = async () => {
+export const getItems = async (): Promise<ItemInterface[]> => {
   const res = await axios.get('/api/items');
 
   return res.data;
