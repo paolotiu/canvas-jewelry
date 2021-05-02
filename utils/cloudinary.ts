@@ -24,10 +24,13 @@ export const uploadImages = async (files: formidable.File[]) => {
       files.map((file) =>
         uploadAsync(file.path, {
           folder: 'canvas',
+          upload_preset: 'canvas',
         }),
       ),
     )
-  ).reduce((prev, curr) => [...prev, { url: curr.secure_url, public_id: curr.public_id }], images);
+  ).reduce((prev, curr) => {
+    return [...prev, { url: curr.secure_url, public_id: curr.public_id }];
+  }, images);
 };
 
 export const deleteImages = (publicIds: string[]) => {
@@ -56,6 +59,7 @@ export const uploadNewImages = (
       // New image
       const res = await uploadAsync(img.file.path, {
         folder: 'canvas',
+        upload_preset: 'canvas',
       });
 
       return { url: res.secure_url, public_id: res.public_id };
