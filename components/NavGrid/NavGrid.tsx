@@ -8,7 +8,8 @@ const StyledNavGrid = styled.nav`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   background-color: ${({ theme }) => theme.colors.gray};
   gap: 1px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+  border: 1px solid ${({ theme }) => theme.colors.gray};
+  border-top: 0;
 `;
 
 const StyledNavLink = styled.span`

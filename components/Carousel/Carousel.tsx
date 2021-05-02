@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { v4 as uuid } from 'uuid';
 import { OptionsType } from 'embla-carousel/vanilla/options';
 import { useRecursiveTimeout } from '@utils/hooks/useRecursiveTimeout';
+import { breakpoints } from '@styles/breakpoints';
 import { NextButton, PrevButton } from './CarouselButtons';
 import DotButton from './DotButton/DotButton';
 import DotButtonContainer from './DotButton/DotButtonContainer';
@@ -11,6 +12,12 @@ import DotButtonContainer from './DotButton/DotButtonContainer';
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
+  grid-column: 1/ -1;
+  grid-row: 1/ -1;
+  ${breakpoints.sm} {
+    grid-column: 1 / span 2;
+    grid-row: 1 / -1;
+  }
 `;
 
 const Embla = styled.div`
@@ -24,6 +31,12 @@ const EmblaContainer = styled.div`
 const EmblaSlide = styled.div`
   position: relative;
   flex: 0 0 100%;
+  display: flex;
+
+  ${breakpoints.sm} {
+    aspect-ratio: unset;
+    max-height: 500px;
+  }
   aspect-ratio: 1/1;
 
   @supports not (aspect-ratio: 1 / 1) {

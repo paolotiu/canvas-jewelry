@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { breakpoints } from '@styles/breakpoints';
 import { ItemData } from 'interfaces';
 import Card from './Card';
 import { ViewMode } from './CardView';
@@ -14,6 +15,9 @@ const StyledCardContainer = styled.div`
 
   &.block {
     grid-template-columns: 1fr 1fr;
+    ${breakpoints.sm} {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
 
   &.list {
