@@ -27,7 +27,7 @@ export const uploadImages = async (files: formidable.File[]) => {
         }),
       ),
     )
-  ).reduce((prev, curr) => [...prev, { url: curr.url, public_id: curr.public_id }], images);
+  ).reduce((prev, curr) => [...prev, { url: curr.secure_url, public_id: curr.public_id }], images);
 };
 
 export const deleteImages = (publicIds: string[]) => {
@@ -58,7 +58,7 @@ export const uploadNewImages = (
         folder: 'canvas',
       });
 
-      return { url: res.url, public_id: res.public_id };
+      return { url: res.secure_url, public_id: res.public_id };
     }),
   );
 };
