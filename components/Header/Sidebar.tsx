@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
-import { useEffect, useRef } from 'react';
 
 const StyledSidebar = styled(motion.aside)`
   height: 100vh;
@@ -94,10 +93,6 @@ interface Props {
 }
 
 const Sidebar = ({ open, closeSidebar }: Props) => {
-  const initalRef = useRef('hidden');
-  useEffect(() => {
-    initalRef.current = 'shown';
-  }, []);
   return (
     <>
       <StyledSidebar variants={variants} animate={open ? 'shown' : 'hidden'} initial="hidden">

@@ -29,6 +29,7 @@ const StyledHeader = styled.header`
 
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
