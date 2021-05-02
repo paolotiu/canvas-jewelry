@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { breakpoints } from '@styles/breakpoints';
 
 export const Title = styled.h2`
   font-weight: ${({ theme }) => theme.typography.fontWeights.bold};
@@ -8,6 +9,11 @@ export const Title = styled.h2`
   position: relative;
   padding: 0.8rem;
   text-align: center;
+
+  ${breakpoints.md} {
+    padding: 0;
+  }
+
   ::after {
     display: block;
     position: absolute;
@@ -18,5 +24,9 @@ export const Title = styled.h2`
     left: 50%;
     transform: translateX(-50%);
     content: '';
+
+    ${breakpoints.md} {
+      display: none;
+    }
   }
 `;

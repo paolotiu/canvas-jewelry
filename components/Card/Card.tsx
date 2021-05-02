@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
+import { motion } from 'framer-motion';
 import React from 'react';
 
-const StyledCard = styled.div`
+const StyledCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,6 +34,7 @@ const StyledCard = styled.div`
     padding: 0.5rem 0;
     flex-direction: row;
     .image {
+      max-width: 100px;
       width: 25%;
     }
 
@@ -99,14 +101,14 @@ interface Props {
 
 const Card = ({ src, name, className }: Props) => {
   return (
-    <StyledCard className={className}>
-      <div className="image">
+    <StyledCard className={className} layout>
+      <motion.div className="image" layout>
         <img src={src} width="100%" height="100%" alt={name} />
-      </div>
-      <div className="text">
+      </motion.div>
+      <motion.div className="text" layout>
         <h4>{name}</h4>
         <p> A description here lmaooo</p>
-      </div>
+      </motion.div>
     </StyledCard>
   );
 };

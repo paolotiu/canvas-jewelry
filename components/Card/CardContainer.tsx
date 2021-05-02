@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { AnimateSharedLayout } from 'framer-motion';
 import { breakpoints } from '@styles/breakpoints';
 import { ItemData } from 'interfaces';
 import Card from './Card';
@@ -14,10 +15,14 @@ const StyledCardContainer = styled.div`
   }
 
   &.block {
-    grid-template-columns: 1fr 1fr;
-    ${breakpoints.sm} {
-      grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    ${breakpoints.md} {
+      grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+  &.cube {
+    grid-template-columns: repeat(5, 1fr);
   }
 
   &.list {
@@ -34,11 +39,13 @@ const CardContainer = ({ items, viewMode }: Props) => {
   return (
     <>
       <StyledCardContainer className={viewMode}>
-        {items.map((item) => {
-          return (
-            <Card key={item._id} className={viewMode} src={item.imageUrls[0]} name={item.name} />
-          );
-        })}
+        <AnimateSharedLayout type="crossfade">
+          {items.map((item) => {
+            return (
+              <Card key={item._id} className={viewMode} src={item.imageUrls[0]} name={item.name} />
+            );
+          })}
+        </AnimateSharedLayout>
       </StyledCardContainer>
     </>
   );
