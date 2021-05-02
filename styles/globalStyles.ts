@@ -36,6 +36,7 @@ Use a more readable tab size (opinionated).
   html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    height: 100%;
   }
 
   /*
@@ -49,6 +50,7 @@ Remove the margin in all browsers.
 
   body {
     margin: 0;
+    height: 100%;
   }
 
   /**
@@ -292,6 +294,10 @@ Add the correct display in Chrome and Safari.
   html,
   body {
     height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   * {

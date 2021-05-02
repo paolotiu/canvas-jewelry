@@ -1,7 +1,6 @@
 import CardSection from '@components/Card/CardSection';
 import Carousel from '@components/Carousel/Carousel';
-import Footer from '@components/Footer/Footer';
-import Header from '@components/Header/Header';
+import Layout from '@components/Layout';
 import NavGrid from '@components/NavGrid/NavGrid';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
@@ -41,14 +40,6 @@ const BannerContainer = styled.div`
   }
 `;
 
-const ContentWrapper = styled.main`
-  ${breakpoints.lg} {
-    display: flex;
-    justify-content: center;
-    margin-left: 250px;
-  }
-`;
-
 const Content = styled.div`
   max-width: 1200px;
   ${breakpoints.md} {
@@ -68,23 +59,18 @@ const Block2 = styled.div`
 const Home = () => {
   const { data } = useQuery('images', () => getItems());
   return (
-    <div>
-      <Header />
-      <ContentWrapper>
-        <Content>
-          <BannerContainer>
-            <Block1 />
-            <Carousel images={data?.map((item) => item.imageUrls[0]) || []} withAutoPlay />
-            <Block2 />
-            <Block2 />
-          </BannerContainer>
-          <NavGrid links={links} />
-          <CardSection items={data || []} title="Best Sellers" />
-        </Content>
-      </ContentWrapper>
-
-      <Footer />
-    </div>
+    <Layout title="The Canvas Jewelry">
+      <Content>
+        <BannerContainer>
+          <Block1 />
+          <Carousel images={data?.map((item) => item.imageUrls[0]) || []} withAutoPlay />
+          <Block2 />
+          <Block2 />
+        </BannerContainer>
+        <NavGrid links={links} />
+        <CardSection items={data || []} title="Best Sellers" />
+      </Content>
+    </Layout>
   );
 };
 
