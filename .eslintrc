@@ -28,7 +28,8 @@
     "no-case-declarations": "off",
     "react/prop-types": "off",
     "arrow-body-style": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "react/jsx-no-undef": "off"
   },
 
   "ignorePatterns": ["types.ts", "*.js"]
