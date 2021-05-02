@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import RightChevron from '@assets/svgs/chevron-right.svg';
-import LeftChevron from '@assets/svgs/chevron-left.svg';
+import RightChevron from '@assets/icons/chevron-right.svg';
+import LeftChevron from '@assets/icons/chevron-left.svg';
 
 const StyledPrevButton = styled.button`
   --spacing: 5%;
