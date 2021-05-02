@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { breakpoints } from '@styles/breakpoints';
 import React from 'react';
 
 const StyledCard = styled.div`
@@ -6,9 +7,8 @@ const StyledCard = styled.div`
   flex-direction: column;
   align-items: center;
   .image {
-    --size: 100px;
     position: relative;
-    width: 99%;
+    width: 100%;
     height: auto;
     aspect-ratio: 1/1;
     overflow: hidden;
@@ -67,6 +67,26 @@ const StyledCard = styled.div`
     p {
       color: ${({ theme }) => theme.colors.secondaryText};
       font-size: ${({ theme }) => theme.typography.fontSizes.sm};
+    }
+
+    ${breakpoints.xs} {
+      h4 {
+        font-size: ${({ theme }) => theme.typography.fontSizes.lg};
+      }
+
+      p {
+        font-family: ${({ theme }) => theme.typography.fontSizes.md};
+      }
+    }
+
+    ${breakpoints.sm} {
+      h4 {
+        font-size: ${({ theme }) => theme.typography.fontSizes.xl};
+      }
+
+      p {
+        font-family: ${({ theme }) => theme.typography.fontSizes.lg};
+      }
     }
   }
 `;
