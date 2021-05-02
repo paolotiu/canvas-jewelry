@@ -1,4 +1,4 @@
-const points = {
+export const points = {
   xs: 576,
   sm: 768,
   md: 992,
