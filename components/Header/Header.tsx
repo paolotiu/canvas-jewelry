@@ -4,8 +4,8 @@ import Search from '@assets/icons/search.svg';
 
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import Sidebar from './Sidebar';
 import { breakpoints, points } from '@styles/breakpoints';
+import Sidebar from './Sidebar';
 
 const StyledHeader = styled.header`
   padding: 0.7rem;

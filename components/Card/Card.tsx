@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 const StyledCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+
   .image {
     position: relative;
     width: 100%;
@@ -42,6 +45,7 @@ const StyledCard = styled(motion.div)`
       text-align: left;
       padding: 0 1rem;
       align-self: start;
+      align-items: flex-start;
       h4 {
         padding-bottom: 0.4rem;
       }
@@ -54,13 +58,29 @@ const StyledCard = styled(motion.div)`
   }
 
   .text {
+    --width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     padding: 0.4rem 0;
     font-size: ${({ theme }) => theme.typography.fontSizes.md};
     font-weight: ${({ theme }) => theme.typography.fontWeights.light};
+
     h4,
     p {
+      display: inline;
+      width: fit-content;
       padding: 0.1rem;
+      position: relative;
+      ::after {
+        content: '';
+        display: block;
+        height: 1px;
+        position: absolute;
+        background: ${({ theme }) => theme.colors.black};
+        width: var(--width);
+      }
     }
     h4 {
       color: ${({ theme }) => theme.colors.mainText};
@@ -97,15 +117,40 @@ interface Props {
   src: string;
   name: string;
   className: string;
+  itemId: string;
 }
 
-const Card = ({ src, name, className }: Props) => {
+const ImageVariants: Variants = {
+  hover: {
+    scale: 1.2,
+    transition: {
+      ease: 'easeIn',
+    },
+  },
+};
+
+const TextVariants: Variants = {
+  hover: {
+    ['--width' as any]: '100%',
+    transition: {
+      ease: 'easeIn',
+    },
+  },
+};
+
+const Card = ({ src, name, className, itemId }: Props) => {
+  const router = useRouter();
   return (
-    <StyledCard className={className} layout>
+    <StyledCard
+      className={className}
+      layout
+      onClick={() => router.push(`/item/${itemId}`)}
+      whileHover={className === 'list' ? '' : 'hover'}
+    >
       <motion.div className="image" layout>
-        <img src={src} width="100%" height="100%" alt={name} />
+        <motion.img src={src} width="100%" height="100%" alt={name} variants={ImageVariants} />
       </motion.div>
-      <motion.div className="text" layout>
+      <motion.div className="text" layout variants={TextVariants}>
         <h4>{name}</h4>
         <p> A description here lmaooo</p>
       </motion.div>

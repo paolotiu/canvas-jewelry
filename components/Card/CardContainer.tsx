@@ -42,7 +42,13 @@ const CardContainer = ({ items, viewMode }: Props) => {
         <AnimateSharedLayout type="crossfade">
           {items.map((item) => {
             return (
-              <Card key={item._id} className={viewMode} src={item.imageUrls[0]} name={item.name} />
+              <Card
+                key={item._id}
+                itemId={item._id}
+                className={viewMode}
+                src={item.imageUrls[0]}
+                name={item.name}
+              />
             );
           })}
         </AnimateSharedLayout>
