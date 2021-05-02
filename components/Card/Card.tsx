@@ -58,7 +58,6 @@ const StyledCard = styled(motion.div)`
   }
 
   .text {
-    --width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,14 +72,6 @@ const StyledCard = styled(motion.div)`
       width: fit-content;
       padding: 0.1rem;
       position: relative;
-      ::after {
-        content: '';
-        display: block;
-        height: 1px;
-        position: absolute;
-        background: ${({ theme }) => theme.colors.black};
-        width: var(--width);
-      }
     }
     h4 {
       color: ${({ theme }) => theme.colors.mainText};
@@ -129,15 +120,6 @@ const ImageVariants: Variants = {
   },
 };
 
-const TextVariants: Variants = {
-  hover: {
-    ['--width' as any]: '100%',
-    transition: {
-      ease: 'easeIn',
-    },
-  },
-};
-
 const Card = ({ src, name, className, itemId }: Props) => {
   const router = useRouter();
   return (
@@ -150,7 +132,7 @@ const Card = ({ src, name, className, itemId }: Props) => {
       <motion.div className="image" layout>
         <motion.img src={src} width="100%" height="100%" alt={name} variants={ImageVariants} />
       </motion.div>
-      <motion.div className="text" layout variants={TextVariants}>
+      <motion.div className="text" layout>
         <h4>{name}</h4>
         <p> A description here lmaooo</p>
       </motion.div>
