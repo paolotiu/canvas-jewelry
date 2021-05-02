@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import Facebook from '@assets/logos/facebook.svg';
 import Instagram from '@assets/logos/instagram.svg';
 import Mail from '@assets/logos/mail.svg';
+import { breakpoints } from '@styles/breakpoints';
 
 const StyledFooter = styled.footer`
   background-color: ${({ theme }) => theme.colors.footer};
@@ -10,6 +11,12 @@ const StyledFooter = styled.footer`
   align-items: center;
   padding: 0.9rem 1rem 0.5rem 1rem;
   gap: 0.7rem;
+
+  ${breakpoints.lg} {
+    // Because of sidebar
+    margin-left: 250px;
+  }
+
   p {
     font-size: ${({ theme }) => theme.typography.fontSizes.xs};
     color: ${({ theme }) => theme.colors.secondaryText};
