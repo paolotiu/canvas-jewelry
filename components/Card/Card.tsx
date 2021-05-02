@@ -11,6 +11,7 @@ const StyledCard = styled.div`
     width: 99%;
     height: auto;
     aspect-ratio: 1/1;
+    overflow: hidden;
 
     // Fallback
     @supports not (aspect-ratio: 1 / 1) {

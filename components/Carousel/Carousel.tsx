@@ -24,6 +24,21 @@ const EmblaContainer = styled.div`
 const EmblaSlide = styled.div`
   position: relative;
   flex: 0 0 100%;
+  aspect-ratio: 1/1;
+
+  @supports not (aspect-ratio: 1 / 1) {
+    ::before {
+      float: left;
+      padding-top: 100%;
+      content: '';
+    }
+
+    ::after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+  }
 `;
 
 interface Props {
