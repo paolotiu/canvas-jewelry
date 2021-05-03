@@ -5,7 +5,7 @@ export interface CategoryInterface {
 }
 
 export const CategorySchema = new Schema({
-  name: String,
+  name: { unique: true, type: String },
 });
 
 interface CategoryDocument extends CategoryInterface, Document {}
