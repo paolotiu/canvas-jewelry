@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Burger from '@assets/icons/burger.svg';
 import Search from '@assets/icons/search.svg';
-
+import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { breakpoints, points } from '@styles/breakpoints';
-import Sidebar from './Sidebar';
+
+const Sidebar = dynamic(
+  () => (window.innerWidth > 500 ? import('./Sidebar') : import('./MobileSidebar')),
+  { ssr: false },
+);
 
 const StyledHeader = styled.header`
   padding: 0.7rem;

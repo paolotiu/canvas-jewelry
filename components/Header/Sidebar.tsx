@@ -87,15 +87,20 @@ const overlayVariants: Variants = {
     },
   },
 };
-interface Props {
+export interface SidebarProps {
   open: boolean;
   closeSidebar: () => void;
+  isHidden?: boolean;
 }
 
-const Sidebar = ({ open, closeSidebar }: Props) => {
+const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
   return (
     <>
-      <StyledSidebar variants={variants} animate={open ? 'shown' : 'hidden'} initial="hidden">
+      <StyledSidebar
+        variants={variants}
+        animate={open ? 'shown' : 'hidden'}
+        initial={isHidden ? 'hidden' : 'shown'}
+      >
         <button type="button" id="close-sidebar" onClick={closeSidebar}>
           X
         </button>
