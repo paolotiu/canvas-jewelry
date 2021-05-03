@@ -54,13 +54,6 @@ const EmblaSlide = styled.div`
   }
 `;
 
-interface Props {
-  withButtons?: boolean;
-  images: string[];
-  withAutoPlay?: boolean;
-  autoPlayInterval?: number;
-}
-
 const emblaConfig: Partial<OptionsType> = {
   // Allow carousel to loop photos
   loop: true,
@@ -71,17 +64,36 @@ const emblaConfig: Partial<OptionsType> = {
   // Don't allow to skip photos
   skipSnaps: false,
 };
-const Carousel = ({ withButtons, images, withAutoPlay, autoPlayInterval = 4000 }: Props) => {
+
+interface Props {
+  withButtons?: boolean;
+  images: string[];
+  withAutoPlay?: boolean;
+  autoPlayInterval?: number;
+  unsetAspectRatio?: boolean;
+}
+
+const Carousel = ({
+  withButtons,
+  images,
+  withAutoPlay,
+  autoPlayInterval = 4000,
+  unsetAspectRatio,
+}: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaConfig);
 
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Autoplay function passed to useRecursiveTimeout
   const autoPlay = useCallback(() => {
     if (!emblaApi) return;
+
     if (emblaApi.canScrollNext()) {
+      // If there is a next slide scroll to it
       emblaApi.scrollNext();
     } else {
+      // If not go back to the first slide
       emblaApi.scrollTo(0);
     }
   }, [emblaApi]);
@@ -123,7 +135,7 @@ const Carousel = ({ withButtons, images, withAutoPlay, autoPlayInterval = 4000 }
         <Embla ref={emblaRef}>
           <EmblaContainer>
             {images?.map((src) => (
-              <EmblaSlide key={src}>
+              <EmblaSlide key={src} style={{ aspectRatio: unsetAspectRatio ? 'unset' : '' }}>
                 <img src={src} alt="" height="100%" width="100%" />
               </EmblaSlide>
             ))}
