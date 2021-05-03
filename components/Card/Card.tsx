@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 const StyledCard = styled(motion.div)`
+  // To prevent css animation artifacts
+  backface-visibility: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
