@@ -1,13 +1,16 @@
 import styled from '@emotion/styled';
 import { ButtonColors, theme as t } from '@styles/theme';
 
+type Colors = keyof typeof t.colors;
 interface ButtonProps {
   size?: keyof typeof t.typography.fontSizes;
   isWhite?: boolean;
   backgroundColor?: ButtonColors;
-  withBorder?: boolean | keyof typeof t.colors;
+  withBorder?: boolean | Colors;
   borderRadius?: keyof typeof t.borderRadius;
   fontWeight?: keyof typeof t.typography.fontWeights;
+  hoverColor?: Colors;
+  color?: Colors;
 }
 const Button = styled.button<ButtonProps>`
   cursor: pointer;
@@ -30,10 +33,20 @@ const Button = styled.button<ButtonProps>`
 
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? theme.colors[backgroundColor] : 'white'};
-  color: ${({ theme, isWhite }) => (isWhite ? theme.colors.white : theme.colors.black)};
+  color: ${({ theme, isWhite, color }) =>
+    color === 'coolGray'
+      ? theme.colors.coolGray[600]
+      : isWhite
+      ? theme.colors.white
+      : theme.colors.black};
 
   padding: ${({ size }) => (size === 'sm' ? '0.35em 1em' : `0.4em 0.8em`)};
   font-weight: ${({ theme, fontWeight }) =>
-    fontWeight ? theme.typography.fontWeights[fontWeight] : 'inital'};
+    fontWeight ? theme.typography.fontWeights[fontWeight] : ''};
+
+  :hover {
+    background-color: ${({ hoverColor, theme: { colors } }) =>
+      hoverColor ? colors[hoverColor] : ''};
+  }
 `;
 export default Button;

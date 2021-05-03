@@ -5,7 +5,7 @@ import Layout from '@components/Admin/Layout/Layout';
 import styled from '@emotion/styled';
 import { ItemDocument } from '@models/Item';
 import { breakpoints } from '@styles/breakpoints';
-import { getCategories, softDeleteItem, updateItem } from '@utils/queries';
+import { softDeleteItem, updateItem } from '@utils/queries';
 import { useForm } from '@utils/hooks/useForm';
 import { useImages } from '@utils/hooks/useImages';
 import { useRouter } from 'next/router';
@@ -14,9 +14,10 @@ import { ItemSchema } from '@utils/validationSchemas';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import ImageInputContainer from '@components/General/Form/ImageInputContainer';
-import { QueryObserverResult, RefetchOptions, useQuery } from 'react-query';
-import Select, { OptionsType } from 'react-select';
+import { QueryObserverResult, RefetchOptions } from 'react-query';
+import { OptionsType } from 'react-select';
 import React, { useState } from 'react';
+import CategorySelect from '@components/General/Form/CategorySelect';
 
 const Toaster = dynamic<any>(() => import('react-hot-toast').then((mod) => mod.Toaster), {
   ssr: false,
@@ -55,6 +56,10 @@ const Wrapper = styled.div`
 
   .constants {
     grid-row-start: 1;
+    padding: 1rem;
+    input {
+      text-overflow: ellipsis;
+    }
   }
 
   ${breakpoints.md} {
@@ -84,7 +89,6 @@ interface Props {
 const EditItem = ({ item, refetch }: Props) => {
   const router = useRouter();
 
-  const { data: categoriesReturn } = useQuery('categories', () => getCategories());
   const {
     handleFileChange,
     getFormData,
@@ -171,18 +175,14 @@ const EditItem = ({ item, refetch }: Props) => {
               <Form.ErrorText text={errors.price.message} />
             </Form.FormControl>
             <Form.FormControl>
-              <Select
-                instanceId="react-select"
-                options={categoriesReturn?.categories.map((cat) => ({
-                  label: cat.name,
-                  value: cat._id,
-                }))}
-                value={itemCategories}
-                onChange={(val) => {
-                  setItemCategories(val);
-                }}
-                isMulti
-              />
+              <div>
+                <CategorySelect
+                  value={itemCategories}
+                  onChange={(val) => {
+                    setItemCategories(val);
+                  }}
+                />
+              </div>
             </Form.FormControl>
 
             <Form.FormControl>
@@ -207,7 +207,7 @@ const EditItem = ({ item, refetch }: Props) => {
                   type="submit"
                   backgroundColor={isError ? 'gray' : 'success'}
                   isWhite
-                  borderRadius="lg"
+                  borderRadius="base"
                   size="md"
                 >
                   Save Changes

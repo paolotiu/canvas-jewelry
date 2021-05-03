@@ -7,6 +7,8 @@ const FormControl = styled.div`
 
   label {
     padding-bottom: 5px;
+    color: ${({ theme }) => theme.colors.coolGray[600]};
+    font-weight: ${({ theme }) => theme.typography.fontWeights.semibold};
   }
 `;
 export default FormControl;

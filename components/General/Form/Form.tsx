@@ -20,11 +20,6 @@ const Form = styled.form<{ withBorder?: boolean }>`
       }
     }
   }
-
-  label {
-    font-weight: ${({ theme }) => theme.typography.fontWeights.semibold};
-    color: ${({ theme }) => theme.colors.coolGray[600]};
-  }
 `;
 
 export default Object.assign(Form, { TextArea, FormControl, Input, ErrorText });
