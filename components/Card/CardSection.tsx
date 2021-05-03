@@ -35,10 +35,18 @@ const CardSection = ({ title, items }: Props) => {
   const [viewMode, setViewMode] = useState<ViewMode>('square');
 
   useEffect(() => {
-    const width = window.innerWidth;
-    if (width > 500) {
-      setViewMode('block');
-    }
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width > 500) {
+        setViewMode('block');
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
+    // Check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (

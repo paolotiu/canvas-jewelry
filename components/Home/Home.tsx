@@ -43,7 +43,7 @@ const BannerContainer = styled.div`
 const Content = styled.div`
   max-width: 1200px;
   ${breakpoints.md} {
-    padding: 1rem;
+    padding: 4rem 1rem 1rem 1rem;
   }
 `;
 

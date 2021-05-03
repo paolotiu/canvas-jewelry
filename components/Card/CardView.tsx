@@ -19,14 +19,14 @@ const StyledCardView = styled.div`
   }
 
   #square {
-    ${breakpoints.md} {
+    ${breakpoints.sm} {
       display: none;
     }
   }
 
   #cubes {
     display: none;
-    ${breakpoints.md} {
+    ${breakpoints.sm} {
       display: block;
     }
   }
