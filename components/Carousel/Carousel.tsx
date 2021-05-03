@@ -33,6 +33,10 @@ const EmblaSlide = styled.div`
   flex: 0 0 100%;
   display: flex;
 
+  img {
+    object-fit: contain;
+  }
+
   ${breakpoints.sm} {
     aspect-ratio: unset;
     max-height: 500px;
@@ -123,9 +127,6 @@ const Carousel = ({
 
       // Stop autoplay when user is holding the slide
       emblaApi.on('pointerDown', stop);
-
-      // Replay on release
-      emblaApi.on('pointerUp', play);
     }
   }, [emblaApi, onSelect, images, withAutoPlay, play, stop]);
 
