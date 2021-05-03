@@ -48,3 +48,8 @@ export const getCategories = async (): Promise<CategoriesReturn> => {
   const res = await axios.get('/api/categories');
   return res.data;
 };
+
+export const createCategory = async (name: string) => {
+  const res = await axios.post('/api/categories', { name });
+  return res.data;
+};
