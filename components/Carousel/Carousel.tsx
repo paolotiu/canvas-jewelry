@@ -132,7 +132,7 @@ const Carousel = ({
 
   return (
     <>
-      <Wrapper>
+      <Wrapper className="carousel-wrapper">
         <Embla ref={emblaRef}>
           <EmblaContainer>
             {images?.map((src) => (
