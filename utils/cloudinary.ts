@@ -29,7 +29,8 @@ export const uploadImages = async (files: formidable.File[]) => {
       ),
     )
   ).reduce((prev, curr) => {
-    return [...prev, { url: curr.secure_url, public_id: curr.public_id }];
+    const url = cloudinary.url(curr.public_id, { fetch_format: 'auto', secure: true });
+    return [...prev, { url, public_id: curr.public_id }];
   }, images);
 };
 
