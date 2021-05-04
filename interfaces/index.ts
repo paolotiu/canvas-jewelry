@@ -7,9 +7,10 @@
 import { CategoryInterface } from '@models/Category';
 import { ItemInterface } from '@models/Item';
 
-export type User = {
-  id: number;
+export type UserJWTPayload = {
   name: string;
+  email: string;
+  admin: boolean;
 };
 
 export interface ItemQueryReturn {

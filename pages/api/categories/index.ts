@@ -1,5 +1,6 @@
 import Category from '@models/Category';
 import Item from '@models/Item';
+import { protectedRoute } from '@utils/apiUtils/protectedRoute';
 import { createError } from '@utils/createError';
 import { withMongoose } from '@utils/withMongoose';
 import { NextApiHandler } from 'next';
@@ -37,7 +38,7 @@ const handler: NextApiHandler = async (req, res) => {
   const { method } = req;
   switch (method) {
     case 'POST':
-      await createCategory(req, res);
+      await protectedRoute(req, res, createCategory);
       break;
 
     case 'GET':

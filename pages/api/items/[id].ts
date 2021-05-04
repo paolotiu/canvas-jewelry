@@ -1,4 +1,4 @@
-import Item, { ItemDocument } from '@models/Item';
+import Item from '@models/Item';
 import { createError } from '@utils/createError';
 import { NextApiRequestWithData, withFormidable } from '@utils/withFormidable';
 import { withMongoose } from '@utils/withMongoose';
@@ -8,6 +8,7 @@ import { NextApiResponse } from 'next';
 import differenceWith from 'lodash/differenceWith';
 
 import { deleteImages, IncomingImage, uploadNewImages } from '@utils/cloudinary';
+import { protectedRoute } from '@utils/apiUtils/protectedRoute';
 
 interface ReqBody {
   imagePaths: string[];
@@ -18,12 +19,15 @@ interface ReqBody {
   categories: string[];
 }
 
-const updateItem = async (
-  req: NextApiRequestWithData<ReqBody>,
-  res: NextApiResponse,
-  item: ItemDocument,
-) => {
+const updateItem = async (req: NextApiRequestWithData<ReqBody>, res: NextApiResponse) => {
   const { images, description, name, price, categories } = req.body;
+  const { id } = req.query;
+
+  const item = await Item.findById(id).populate('categories');
+
+  if (!item) {
+    return createError(res, 400, 'Item with that id not found');
+  }
 
   // Get images to delete
   const imagesToDelete = differenceWith(
@@ -52,6 +56,21 @@ const updateItem = async (
   res.json({ item: updatedItem });
 };
 
+const deleteItem = async (req: NextApiRequestWithData<ReqBody>, res: NextApiResponse) => {
+  const { id } = req.query;
+
+  const item = await Item.findById(id).populate('categories');
+
+  if (!item) {
+    return createError(res, 400, 'Item with that id not found');
+  }
+
+  item.deleted = true;
+  const savedItem = await item.save();
+
+  res.json({ item: savedItem });
+};
+
 const handler = async (req: NextApiRequestWithData<ReqBody>, res: NextApiResponse) => {
   const { method, query } = req;
 
@@ -70,15 +89,12 @@ const handler = async (req: NextApiRequestWithData<ReqBody>, res: NextApiRespons
       break;
 
     case 'PUT':
-      await updateItem(req, res, item);
+      await protectedRoute(req, res, updateItem);
 
       break;
 
     case 'DELETE':
-      item.deleted = true;
-      const savedItem = await item.save();
-
-      res.json({ item: savedItem });
+      await protectedRoute(req, res, deleteItem);
       break;
 
     default:

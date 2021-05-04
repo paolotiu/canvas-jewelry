@@ -5,6 +5,7 @@ import { NextApiResponse } from 'next';
 import { createError } from '@utils/createError';
 import { NextApiRequestWithData, withFormidable } from '@utils/withFormidable';
 import { uploadImages } from '@utils/cloudinary';
+import { protectedRoute } from '@utils/apiUtils/protectedRoute';
 
 const addItem = async (req: NextApiRequestWithData, res: NextApiResponse) => {
   const { body, files } = req;
@@ -33,7 +34,7 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
 
   switch (method) {
     case 'POST':
-      await addItem(req, res);
+      await protectedRoute(req, res, addItem);
       break;
     case 'GET':
       // Use populate{path} because a new connection will be made if user opens this page first

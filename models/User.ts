@@ -8,7 +8,7 @@ export interface UserInterface {
   data: {
     name: string;
     email: string;
-    password: string;
+    admin: boolean;
   };
 }
 const UserSchema = new Schema({

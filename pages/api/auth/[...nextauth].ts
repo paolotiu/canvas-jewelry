@@ -14,10 +14,21 @@ export default NextAuth({
       async authorize(credentials: { email: string; password: string }) {
         await connectDb();
         const user = await User.findOne({ email: credentials.email });
-
         return user ? user.data : null;
       },
     }),
   ],
   secret: process.env.SECRET,
+  callbacks: {
+    async jwt(token, user) {
+      if (user) {
+        // eslint-disable-next-line no-param-reassign
+        token.admin = user.admin;
+      }
+      return token;
+    },
+  },
+  session: {
+    jwt: true,
+  },
 });
