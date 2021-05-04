@@ -50,7 +50,7 @@ const AddItem = () => {
     hasSubmitted,
   } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
 
-  const { data: categoriesReturn } = useQuery('categories', () => getCategories());
+  const { data: categories } = useQuery('categories', () => getCategories());
 
   // Memoized to prevent infinite loop
   const initialData = useMemo(() => [], []);
@@ -141,7 +141,7 @@ const AddItem = () => {
           </div>
           <Form.FormControl>
             <Select
-              options={categoriesReturn?.categories.map((cat) => ({
+              options={categories?.map((cat) => ({
                 label: cat.name,
                 value: cat._id,
               }))}

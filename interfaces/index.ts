@@ -16,10 +16,6 @@ export interface ItemQueryReturn {
   item: ItemData;
 }
 
-export interface CategoriesReturn {
-  categories: CategoryData[];
-}
-
 export interface CategoryData extends CategoryInterface {
   _id: string;
 }

@@ -17,7 +17,7 @@ const createCategory: NextApiHandler = async (req, res) => {
 
 const getCategories: NextApiHandler = async (_req, res) => {
   const categories = await Category.find();
-  res.json({ categories });
+  res.json(categories);
 };
 
 const handler: NextApiHandler = async (req, res) => {

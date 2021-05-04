@@ -57,7 +57,7 @@ interface Props {
 }
 
 const CategorySelect = ({ value, onChange }: Props) => {
-  const { data, refetch } = useQuery('categories', getCategories);
+  const { data: categories, refetch } = useQuery('categories', getCategories);
   const [categoryName, setCategoryName] = useState('');
   const [willPopup, setWillPopup] = useState(false);
 
@@ -140,7 +140,7 @@ const CategorySelect = ({ value, onChange }: Props) => {
         className="react-select"
         instanceId="react-select"
         value={value}
-        options={data?.categories.map((cat) => ({ label: cat.name, value: cat._id }))}
+        options={categories?.map((cat) => ({ label: cat.name, value: cat._id }))}
         onChange={onChange}
         isMulti
       />

@@ -1,6 +1,7 @@
+import Category from '@models/Category';
 import Item, { ItemDocument } from '@models/Item';
 import axios from 'axios';
-import { CategoriesReturn, ItemData } from 'interfaces';
+import { CategoryData, ItemData } from 'interfaces';
 import mongoose from 'mongoose';
 import { cleanMongoData } from './cleanMongoData';
 
@@ -44,9 +45,14 @@ export const getItemsFromDb = async (): Promise<ItemData[]> => {
   return cleanMongoData(res);
 };
 
-export const getCategories = async (): Promise<CategoriesReturn> => {
+export const getCategories = async (): Promise<CategoryData[]> => {
   const res = await axios.get('/api/categories');
   return res.data;
+};
+
+export const getCategoriesFromDb = async (): Promise<CategoryData[]> => {
+  const categories = await Category.find();
+  return cleanMongoData(categories);
 };
 
 export const createCategory = async (name: string) => {
