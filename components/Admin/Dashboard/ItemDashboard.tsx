@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { ItemData } from 'interfaces';
 import { Column } from 'react-table';
 import Dashboard from './Dashboard';
+import { numSort } from './sortFunctions';
 
 const TagWrapper = styled.div`
   display: flex;
@@ -17,18 +18,13 @@ const columns: Column<ItemData>[] = [
       const id = columnId as 'name';
       const a = rowA.original[id];
       const b = rowB.original[id];
-      return a.toLowerCase().localeCompare(b.toLowerCase());
+      return -a.toLowerCase().localeCompare(b.toLowerCase());
     },
   },
   {
     Header: 'Price',
     accessor: 'price',
-    sortType: (rowA, rowB, columnId) => {
-      const id = columnId as 'price';
-      if (rowA.original[id] > rowB.original[id]) return 1;
-      if (rowA.original[id] < rowB.original[id]) return -1;
-      return 0;
-    },
+    sortType: numSort,
   },
   { Header: 'Desc', accessor: 'description', disableSortBy: true },
   {

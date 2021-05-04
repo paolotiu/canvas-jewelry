@@ -1,7 +1,16 @@
 /* eslint-disable arrow-body-style */
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { Column, useTable, useSortBy, useFilters } from 'react-table';
+import React, { useEffect, useRef } from 'react';
+import {
+  Column,
+  useTable,
+  useSortBy,
+  useFilters,
+  useRowSelect,
+  TableToggleCommonProps,
+  TableToggleAllRowsSelectedProps,
+} from 'react-table';
 
 const TableWrapper = styled.div`
   overflow-x: auto;
@@ -41,26 +50,73 @@ const StyledTable = styled.table`
   }
 `;
 
+const Checkbox = React.forwardRef<HTMLInputElement, Partial<TableToggleAllRowsSelectedProps>>(
+  ({ indeterminate, ...rest }, ref: any) => {
+    const defaultRef = useRef();
+    const resolvedRef = ref || defaultRef;
+    useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
+    return (
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <input type="checkbox" ref={resolvedRef} {...rest} />
+      </div>
+    );
+  },
+);
+
 export interface TableProps<T extends Record<string, any>> {
   data: T[];
   columns: Column<T>[];
   baseLink: string;
+  setSelectedRows: (arr: any[]) => void;
 }
 
 const Table = <DataType extends Record<string, unknown>>({
   data,
   columns,
   baseLink,
+  setSelectedRows,
 }: TableProps<DataType>) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable<DataType>(
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    selectedFlatRows,
+  } = useTable<DataType>(
     {
       data,
       columns,
     },
     useFilters,
     useSortBy,
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((col) => [
+        {
+          id: 'selection',
+          Header: ({ getToggleAllRowsSelectedProps }) => {
+            return <Checkbox {...getToggleAllRowsSelectedProps({})} />;
+          },
+          Cell: ({ row }: { row: any }) => {
+            return <Checkbox {...row.getToggleRowSelectedProps()} />;
+          },
+        },
+        ...col,
+      ]);
+    },
   );
 
+  useEffect(() => {
+    setSelectedRows(selectedFlatRows);
+  }, [selectedFlatRows, setSelectedRows]);
   return (
     <TableWrapper>
       <StyledTable {...getTableProps()}>
