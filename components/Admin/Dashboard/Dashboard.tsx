@@ -33,7 +33,7 @@ const Dashboard = <DataType extends Record<string, any>>({
   addButton,
   ...rest
 }: Props<DataType>) => {
-  const [selectedRows, setSelectedRows] = useState<Row<DataType>[]>([]);
+  const [, setSelectedRows] = useState<Row<DataType>[]>([]);
 
   return (
     <Layout>

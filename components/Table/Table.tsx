@@ -8,7 +8,6 @@ import {
   useSortBy,
   useFilters,
   useRowSelect,
-  TableToggleCommonProps,
   TableToggleAllRowsSelectedProps,
 } from 'react-table';
 
