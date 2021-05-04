@@ -46,7 +46,7 @@ export const getItemsFromDb = async (): Promise<ItemData[]> => {
 };
 
 export const getCategories = async (): Promise<CategoryData[]> => {
-  const res = await axios.get('/api/categories');
+  const res = await axios.get<CategoryData[]>('/api/categories');
   return res.data;
 };
 

@@ -2,7 +2,6 @@ import Layout from '@components/Admin/Layout/Layout';
 import Button from '@components/General/Button';
 import Table, { TableProps } from '@components/Table/Table';
 import styled from '@emotion/styled';
-import { ItemData } from 'interfaces';
 import Link from 'next/link';
 
 const Wrapper = styled.div`
@@ -25,7 +24,7 @@ interface Props<DataType> extends Omit<TableProps<DataType>, 'data'> {
   data?: DataType[];
 }
 
-const Dashboard = <DataType extends ItemData>({
+const Dashboard = <DataType extends Record<string, any>>({
   data,
   title,
   columns,

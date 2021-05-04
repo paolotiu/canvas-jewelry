@@ -52,12 +52,14 @@ const AllDashboard = () => {
             </div>
           </ModelCard>
         </Link>
-        <ModelCard>
-          <h3>Categories</h3>
-          <div className="info">
-            <p>Amount: {categories?.length}</p>
-          </div>
-        </ModelCard>
+        <Link shallow href="/admin/dashboard/categories/">
+          <ModelCard>
+            <h3>Categories</h3>
+            <div className="info">
+              <p>Amount: {categories?.length}</p>
+            </div>
+          </ModelCard>
+        </Link>
       </Wrapper>
     </Layout>
   );

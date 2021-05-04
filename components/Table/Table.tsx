@@ -1,6 +1,5 @@
 /* eslint-disable arrow-body-style */
 import styled from '@emotion/styled';
-import { ItemData } from 'interfaces';
 import Link from 'next/link';
 import { Column, useTable, useSortBy, useFilters } from 'react-table';
 
@@ -48,7 +47,11 @@ export interface TableProps<T extends Record<string, any>> {
   baseLink: string;
 }
 
-const Table = <DataType extends ItemData>({ data, columns, baseLink }: TableProps<DataType>) => {
+const Table = <DataType extends Record<string, unknown>>({
+  data,
+  columns,
+  baseLink,
+}: TableProps<DataType>) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable<DataType>(
     {
       data,

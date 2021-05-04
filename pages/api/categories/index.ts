@@ -1,4 +1,5 @@
 import Category from '@models/Category';
+import Item from '@models/Item';
 import { createError } from '@utils/createError';
 import { withMongoose } from '@utils/withMongoose';
 import { NextApiHandler } from 'next';
@@ -16,7 +17,19 @@ const createCategory: NextApiHandler = async (req, res) => {
 };
 
 const getCategories: NextApiHandler = async (_req, res) => {
-  const categories = await Category.find();
+  const categories = await Category.find().lean().exec();
+
+  // Run in parallel
+  await Promise.all(
+    categories.map(async (cat) => {
+      // Get items
+      const items = await Item.find({ categories: cat._id });
+
+      // eslint-disable-next-line no-param-reassign
+      cat.itemCount = items.length;
+    }),
+  );
+
   res.json(categories);
 };
 
