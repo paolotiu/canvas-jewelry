@@ -15,15 +15,28 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-self: center;
+    .buttons {
+      display: grid;
+      grid-auto-flow: column;
+      gap: 1rem;
+      button {
+        height: 100%;
+      }
+    }
   }
 `;
+
 interface Props<DataType> extends Omit<TableProps<DataType>, 'data' | 'setSelectedRows'> {
   title: string;
   addButton?: {
     label: string;
     href: string;
   };
+  deleteButton?: {
+    onDelete?: (data: DataType[]) => void;
+  };
   data?: DataType[];
+  additionalButton?: React.ReactNode;
 }
 
 const Dashboard = <DataType extends Record<string, any>>({
@@ -31,22 +44,43 @@ const Dashboard = <DataType extends Record<string, any>>({
   title,
   columns,
   addButton,
+  deleteButton,
+  additionalButton,
   ...rest
 }: Props<DataType>) => {
-  const [, setSelectedRows] = useState<Row<DataType>[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Row<DataType>[]>([]);
 
   return (
     <Layout>
       <Wrapper>
         <div className="header">
           <h1>{title}</h1>
-          {addButton ? (
-            <Link href={addButton.href}>
-              <Button size="sm" borderRadius="md" withBorder>
-                {addButton.label}
+          <div className="buttons">
+            {deleteButton && (
+              <Button
+                type="button"
+                size="sm"
+                borderRadius="md"
+                withBorder="danger"
+                color="danger"
+                disabled={selectedRows.length === 0}
+                onClick={() =>
+                  deleteButton.onDelete &&
+                  deleteButton.onDelete(selectedRows.map((row) => row.original))
+                }
+              >
+                Delete {`(${selectedRows.length})`}
               </Button>
-            </Link>
-          ) : null}
+            )}
+            {addButton && (
+              <Link href={addButton.href}>
+                <Button size="sm" borderRadius="md" type="button" withBorder>
+                  {addButton.label}
+                </Button>
+              </Link>
+            )}
+            {additionalButton}
+          </div>
         </div>
         {data && (
           <Table data={data} columns={columns} setSelectedRows={setSelectedRows} {...rest} />
