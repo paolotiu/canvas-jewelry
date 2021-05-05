@@ -1,4 +1,5 @@
 import Button from '@components/General/Button';
+import CategorySelect from '@components/General/Form/CategorySelect';
 import Form from '@components/General/Form/Form';
 import ImageInputContainer from '@components/General/Form/ImageInputContainer';
 import styled from '@emotion/styled';
@@ -6,14 +7,12 @@ import { breakpoints } from '@styles/breakpoints';
 import { apiHandler } from '@utils/apiHandler';
 import { useForm } from '@utils/hooks/useForm';
 import { useImages } from '@utils/hooks/useImages';
-import { getCategories } from '@utils/queries';
 import { ItemSchema } from '@utils/validationSchemas';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useQuery } from 'react-query';
-import Select, { OptionsType } from 'react-select';
+import { OptionsType } from 'react-select';
 import Layout from '../Layout/Layout';
 
 const Wrapper = styled.div`
@@ -49,8 +48,6 @@ const AddItem = () => {
     setIsSubmitting,
     hasSubmitted,
   } = useForm({ name: '', price: 0, description: '' }, ItemSchema);
-
-  const { data: categories } = useQuery('categories', () => getCategories());
 
   // Memoized to prevent infinite loop
   const initialData = useMemo(() => [], []);
@@ -111,7 +108,7 @@ const AddItem = () => {
     <Layout>
       <Wrapper>
         <Form onSubmit={handleSubmit} withBorder>
-          <FormHeader> CREATE ITEM</FormHeader>
+          <FormHeader>CREATE ITEM</FormHeader>
           <div className="short-inputs">
             <Form.FormControl>
               <label htmlFor="name">Name</label>
@@ -140,16 +137,7 @@ const AddItem = () => {
             </Form.FormControl>
           </div>
           <Form.FormControl>
-            <Select
-              options={categories?.map((cat) => ({
-                label: cat.name,
-                value: cat._id,
-              }))}
-              onChange={(val) => {
-                setItemCategories(val);
-              }}
-              isMulti
-            />
+            <CategorySelect value={itemCategories} onChange={(val) => setItemCategories(val)} />
           </Form.FormControl>
 
           <Form.FormControl>
