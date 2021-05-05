@@ -1,7 +1,7 @@
 import EditItem from '@components/Admin/EditItem/EditItem';
-import { ItemDocument } from '@models/Item';
 import { getItemById, getOneItemFromDb } from '@utils/queries';
 import { connectDb } from '@utils/withMongoose';
+import { ItemData } from 'interfaces';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
@@ -14,11 +14,10 @@ interface Props {
 
 const ItemPage = ({ id }: Props) => {
   const router = useRouter();
-  const { data, isLoading, refetch } = useQuery<{ item: ItemDocument }>(
+  const { data, isLoading, refetch } = useQuery<{ item: ItemData }>(
     ['item', id],
     () => getItemById(id),
     {
-      retry: false,
       onError: () => {
         // Item does not exist...go back
         router.push('/admin/dashboard/items');
