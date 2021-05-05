@@ -24,7 +24,7 @@ const getCategories: NextApiHandler = async (_req, res) => {
   await Promise.all(
     categories.map(async (cat) => {
       // Get items
-      const items = await Item.find({ categories: cat._id });
+      const items = await Item.find({ categories: cat._id, deleted: false });
 
       // eslint-disable-next-line no-param-reassign
       cat.itemCount = items.length;

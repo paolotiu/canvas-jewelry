@@ -1,11 +1,11 @@
 import Category from '@models/Category';
-import Item, { ItemDocument } from '@models/Item';
+import Item from '@models/Item';
 import axios from 'axios';
 import { CategoryData, ItemData } from 'interfaces';
 import mongoose from 'mongoose';
 import { cleanMongoData } from './cleanMongoData';
 
-type ItemQuery = (id: string, data?: ItemData | FormData) => Promise<{ item: ItemDocument }>;
+type ItemQuery = (id: string, data?: ItemData | FormData) => Promise<{ item: ItemData }>;
 
 export const getItems = async (): Promise<ItemData[]> => {
   const res = await axios.get('/api/items');
@@ -15,6 +15,11 @@ export const getItems = async (): Promise<ItemData[]> => {
 
 export const getItemById: ItemQuery = async (id) => {
   const res = await axios.get(`/api/items/${id}`);
+  return res.data;
+};
+
+export const softDeleteItems = async (ids: string[]) => {
+  const res = await axios.delete(`/api/items`, { data: { ids } });
   return res.data;
 };
 

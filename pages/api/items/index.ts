@@ -29,6 +29,24 @@ const addItem = async (req: NextApiRequestWithData, res: NextApiResponse) => {
   }
 };
 
+const deleteItems = async (
+  req: NextApiRequestWithData<{ ids: string[] }>,
+  res: NextApiResponse,
+) => {
+  const { ids } = req.body;
+
+  const updateRes = await Item.updateMany(
+    { _id: { $in: ids } },
+    { deleted: true },
+    { multi: true },
+  );
+
+  // const deleteRes = await Item.deleteMany({ _id: { $in: ids } });
+  // console.log(deleteRes);
+
+  res.json({ message: 'Ok', modified: updateRes.nModified });
+};
+
 const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
   const { method } = req;
 
@@ -40,6 +58,10 @@ const handler = async (req: NextApiRequestWithData, res: NextApiResponse) => {
       // Use populate{path} because a new connection will be made if user opens this page first
       const items = await Item.find({ deleted: false }).populate('categories');
       res.status(200).json(items);
+      break;
+
+    case 'DELETE':
+      await protectedRoute(req, res, deleteItems);
       break;
     default:
       createError(res, 404, 'HTTP verb not used');
