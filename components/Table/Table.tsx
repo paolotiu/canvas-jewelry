@@ -142,7 +142,19 @@ const Table = <DataType extends Record<string, unknown>>({
             return (
               <tr {...props} onClick={() => router.push(`${baseLink}${row.original._id}`)}>
                 {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+                    <td
+                      {...cell.getCellProps()}
+                      onClick={(e) => {
+                        if (cell.column.id === 'selection') {
+                          e.stopPropagation();
+                        }
+                      }}
+                    >
+                      {cell.render('Cell')}
+                    </td>
+                  );
                 })}
               </tr>
             );
