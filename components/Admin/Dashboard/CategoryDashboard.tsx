@@ -28,12 +28,14 @@ const CategoryDashboard = () => {
   const deleteHandler = useCallback(
     async (selectedData: CategoryData[]) => {
       const res = await apiHandler(deleteCategories(selectedData.map((cat) => cat._id)));
+
       if (res.error) {
         toast.error(res.error.message);
         return;
       }
-
-      toast.success(`Deleted`);
+      toast(`Deleted ${selectedData.length} categor${selectedData.length > 1 ? 'ies' : 'y'}`, {
+        icon: '🗑️',
+      });
 
       refetch();
     },
@@ -46,7 +48,7 @@ const CategoryDashboard = () => {
         data={categories}
         title="Categories"
         deleteButton={{ onDelete: deleteHandler }}
-        additionalButton={<CreateCategoryPopup direction="left" />}
+        additionalButton={<CreateCategoryPopup direction="left" onSubmit={refetch} />}
       />
       <Toaster />
     </>
