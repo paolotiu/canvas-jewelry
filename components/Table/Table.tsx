@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import styled from '@emotion/styled';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react';
 import {
   Column,
@@ -82,6 +82,8 @@ const Table = <DataType extends Record<string, unknown>>({
   baseLink,
   setSelectedRows,
 }: TableProps<DataType>) => {
+  const router = useRouter();
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -138,13 +140,11 @@ const Table = <DataType extends Record<string, unknown>>({
             prepareRow(row);
             const props = row.getRowProps();
             return (
-              <Link href={`${baseLink}${row.original._id}`} key={props.key}>
-                <tr {...props}>
-                  {row.cells.map((cell) => {
-                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-                  })}
-                </tr>
-              </Link>
+              <tr {...props} onClick={() => router.push(`${baseLink}${row.original._id}`)}>
+                {row.cells.map((cell) => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                })}
+              </tr>
             );
           })}
         </tbody>
