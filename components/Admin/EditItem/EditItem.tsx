@@ -3,7 +3,6 @@ import Button from '@components/General/Button';
 import Form from '@components/General/Form/Form';
 import Layout from '@components/Admin/Layout/Layout';
 import styled from '@emotion/styled';
-import { ItemDocument } from '@models/Item';
 import { breakpoints } from '@styles/breakpoints';
 import { softDeleteItem, updateItem } from '@utils/queries';
 import { useForm } from '@utils/hooks/useForm';
@@ -18,6 +17,7 @@ import { QueryObserverResult, RefetchOptions } from 'react-query';
 import { OptionsType } from 'react-select';
 import React, { useState } from 'react';
 import CategorySelect from '@components/General/Form/CategorySelect';
+import { ItemData } from 'interfaces';
 
 const Toaster = dynamic<any>(() => import('react-hot-toast').then((mod) => mod.Toaster), {
   ssr: false,
@@ -73,13 +73,13 @@ const Wrapper = styled.div`
 const Input = styled(Form.Input)``;
 
 interface Props {
-  item: ItemDocument;
+  item: ItemData;
   refetch: (
     options?: RefetchOptions | undefined,
   ) => Promise<
     QueryObserverResult<
       {
-        item: ItemDocument;
+        item: ItemData;
       },
       unknown
     >
