@@ -4,6 +4,7 @@ import Table, { TableProps } from '@components/Table/Table';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { Row } from 'react-table';
 
 const Wrapper = styled.div`
@@ -86,6 +87,8 @@ const Dashboard = <DataType extends Record<string, any>>({
           <Table data={data} columns={columns} setSelectedRows={setSelectedRows} {...rest} />
         )}
       </Wrapper>
+
+      <Toaster />
     </Layout>
   );
 };

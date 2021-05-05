@@ -3,7 +3,7 @@ import { apiHandler } from '@utils/apiHandler';
 import { deleteCategories, getCategories } from '@utils/queries';
 import { CategoryData } from 'interfaces';
 import { useCallback } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import { Column } from 'react-table';
 import Dashboard from './Dashboard';
@@ -50,7 +50,6 @@ const CategoryDashboard = () => {
         deleteButton={{ onDelete: deleteHandler }}
         additionalButton={<CreateCategoryPopup direction="left" onSubmit={refetch} />}
       />
-      <Toaster />
     </>
   );
 };

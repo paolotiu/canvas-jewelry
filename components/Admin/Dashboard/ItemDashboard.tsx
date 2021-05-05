@@ -1,6 +1,10 @@
 import Tag from '@components/Tag/Tag';
 import styled from '@emotion/styled';
+import { apiHandler } from '@utils/apiHandler';
+import { getItems, softDeleteItems } from '@utils/queries';
 import { ItemData } from 'interfaces';
+import toast from 'react-hot-toast';
+import { useQuery } from 'react-query';
 import { Column } from 'react-table';
 import Dashboard from './Dashboard';
 import { numSort } from './sortFunctions';
@@ -46,19 +50,27 @@ const columns: Column<ItemData>[] = [
   },
 ];
 
-interface Props {
-  items?: ItemData[];
-  title: string;
-}
-
-const ItemDashboard = ({ items, title }: Props) => {
+const ItemDashboard = () => {
+  const { data: items, refetch } = useQuery<ItemData[]>('items', getItems);
   return (
     <Dashboard
       baseLink="/admin/item/"
       columns={columns}
       data={items}
-      title={title}
+      title="Items"
       addButton={{ href: '/admin/add', label: '+ Add Item' }}
+      deleteButton={{
+        onDelete: async (data) => {
+          const res = await apiHandler(softDeleteItems(data.map((item) => item._id)));
+          if (res.error) {
+            toast.error(res.error.message);
+            return;
+          }
+
+          toast(`${data.length} item${data.length > 1 ? 's' : ''} deleted`, { icon: '🗑️' });
+          refetch();
+        },
+      }}
     />
   );
 };
