@@ -72,7 +72,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, Partial<TableToggleAllRowsSe
 export interface TableProps<T extends Record<string, any>> {
   data: T[];
   columns: Column<T>[];
-  baseLink: string;
+  baseLink?: string;
   setSelectedRows: (arr: any[]) => void;
 }
 
@@ -140,7 +140,10 @@ const Table = <DataType extends Record<string, unknown>>({
             prepareRow(row);
             const props = row.getRowProps();
             return (
-              <tr {...props} onClick={() => router.push(`${baseLink}${row.original._id}`)}>
+              <tr
+                {...props}
+                onClick={() => baseLink && router.push(`${baseLink}${row.original._id}`)}
+              >
                 {row.cells.map((cell) => {
                   return (
                     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions

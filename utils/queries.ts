@@ -59,3 +59,8 @@ export const createCategory = async (name: string) => {
   const res = await axios.post('/api/categories', { name });
   return res.data;
 };
+
+export const deleteCategories = async (ids: string[]) => {
+  const res = await axios.delete('/api/categories', { data: { ids } });
+  return res.data;
+};

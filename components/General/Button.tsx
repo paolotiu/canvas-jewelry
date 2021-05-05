@@ -36,6 +36,8 @@ const Button = styled.button<ButtonProps>`
   color: ${({ theme, isWhite, color }) =>
     color === 'coolGray'
       ? theme.colors.coolGray[600]
+      : color
+      ? theme.colors[color]
       : isWhite
       ? theme.colors.white
       : theme.colors.black};
@@ -47,6 +49,13 @@ const Button = styled.button<ButtonProps>`
   :hover {
     background-color: ${({ hoverColor, theme: { colors } }) =>
       hoverColor ? colors[hoverColor] : ''};
+  }
+
+  :disabled {
+    cursor: auto;
+    border: none;
+    color: ${({ theme }) => theme.colors.inactive};
+    background-color: ${({ theme }) => theme.colors.gray};
   }
 `;
 export default Button;

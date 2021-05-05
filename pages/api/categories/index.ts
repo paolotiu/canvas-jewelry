@@ -34,6 +34,12 @@ const getCategories: NextApiHandler = async (_req, res) => {
   res.json(categories);
 };
 
+const deleteCategories: NextApiHandler = async (req, res) => {
+  const { ids } = req.body;
+  await Category.deleteMany({ _id: { $in: ids } });
+  res.json(ids);
+};
+
 const handler: NextApiHandler = async (req, res) => {
   const { method } = req;
   switch (method) {
@@ -43,6 +49,10 @@ const handler: NextApiHandler = async (req, res) => {
 
     case 'GET':
       await getCategories(req, res);
+      break;
+
+    case 'DELETE':
+      await protectedRoute(req, res, deleteCategories);
       break;
 
     default:

@@ -15,5 +15,5 @@ export const protectedRoute = async <ReqType extends NextApiRequest>(
     return createError(res, 401, 'Not authorized');
   }
 
-  cb(req, res);
+  return cb(req, res);
 };

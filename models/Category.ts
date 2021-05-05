@@ -17,6 +17,30 @@ CategorySchema.methods.getItemCount = function getItemCount(cb) {
   });
 };
 
+CategorySchema.pre('remove', function removeMiddleware(this: CategoryDocument, next) {
+  // Remove the delete category from affected items
+  this.model('Item').updateMany(
+    { categories: { $in: this._id } },
+    { $pull: { categories: this._id } },
+    { multi: true },
+    next,
+  );
+});
+
+CategorySchema.pre('deleteMany', function deleteManyMiddleware(next) {
+  const ids = this.getQuery()._id.$in;
+
+  // Remove the delete categories from affected items
+  mongoose
+    .model('Item')
+    .updateMany(
+      { categories: { $in: ids } },
+      { $pull: { categories: { $in: ids } } },
+      { multi: true },
+      next,
+    );
+});
+
 CategorySchema.set('toObject', { virtuals: true });
 CategorySchema.set('toJSON', { virtuals: true });
 

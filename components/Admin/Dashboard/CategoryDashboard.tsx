@@ -1,5 +1,9 @@
-import { getCategories } from '@utils/queries';
+import CreateCategoryPopup from '@components/General/Form/CreateCategoryPopup';
+import { apiHandler } from '@utils/apiHandler';
+import { deleteCategories, getCategories } from '@utils/queries';
 import { CategoryData } from 'interfaces';
+import { useCallback } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import { Column } from 'react-table';
 import Dashboard from './Dashboard';
@@ -19,9 +23,33 @@ const Columns: Column<CategoryData>[] = [
 ];
 
 const CategoryDashboard = () => {
-  const { data: categories } = useQuery('categories', getCategories);
+  const { data: categories, refetch } = useQuery('categories', getCategories);
+
+  const deleteHandler = useCallback(
+    async (selectedData: CategoryData[]) => {
+      const res = await apiHandler(deleteCategories(selectedData.map((cat) => cat._id)));
+      if (res.error) {
+        toast.error(res.error.message);
+        return;
+      }
+
+      toast.success(`Deleted`);
+
+      refetch();
+    },
+    [refetch],
+  );
   return (
-    <Dashboard columns={Columns} data={categories} title="Categories" baseLink="/admin/category" />
+    <>
+      <Dashboard
+        columns={Columns}
+        data={categories}
+        title="Categories"
+        deleteButton={{ onDelete: deleteHandler }}
+        additionalButton={<CreateCategoryPopup direction="left" />}
+      />
+      <Toaster />
+    </>
   );
 };
 
