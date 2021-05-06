@@ -14,8 +14,15 @@ export const StyledSidebar = styled.aside`
 
   border-right: 1px solid ${({ theme }) => theme.colors.gray};
 
+  .top {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .bottom {
   }
+
   ${breakpoints.md} {
     width: var(--sidebar-width);
 
@@ -27,6 +34,7 @@ const Sidebar = () => (
   <StyledSidebar>
     <div className="top">
       <Link href="/admin/dashboard/items">Items</Link>
+      <Link href="/admin/dashboard/categories">Categories</Link>
     </div>
     <div className="bottom" />
   </StyledSidebar>
