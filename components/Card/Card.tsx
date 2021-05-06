@@ -109,8 +109,9 @@ const StyledCard = styled(motion.div)`
 interface Props {
   src: string;
   name: string;
-  className: string;
+  className?: string;
   itemId: string;
+  withDescription?: boolean;
 }
 
 const ImageVariants: Variants = {
@@ -122,13 +123,15 @@ const ImageVariants: Variants = {
   },
 };
 
-const Card = ({ src, name, className, itemId }: Props) => {
+const Card = ({ src, name, className, itemId, withDescription = true }: Props) => {
   const router = useRouter();
   return (
     <StyledCard
       className={className}
       layout
-      onClick={() => router.push(`/item/${itemId}`)}
+      onClick={() => {
+        router.push(`/item/${itemId}`);
+      }}
       whileHover={className === 'list' ? '' : 'hover'}
     >
       <motion.div className="image" layout>
@@ -136,7 +139,7 @@ const Card = ({ src, name, className, itemId }: Props) => {
       </motion.div>
       <motion.div className="text" layout>
         <h4>{name}</h4>
-        <p> A description here lmaooo</p>
+        {withDescription && <p> A description here lmaooo</p>}
       </motion.div>
     </StyledCard>
   );

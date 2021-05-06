@@ -135,8 +135,8 @@ const Carousel = ({
       <Wrapper className="carousel-wrapper">
         <Embla ref={emblaRef}>
           <EmblaContainer>
-            {images?.map((src) => (
-              <EmblaSlide key={src} style={{ aspectRatio: unsetAspectRatio ? 'unset' : '' }}>
+            {images?.map((src, i) => (
+              <EmblaSlide key={src || i} style={{ aspectRatio: unsetAspectRatio ? 'unset' : '' }}>
                 <img src={src} alt="" height="100%" width="100%" />
               </EmblaSlide>
             ))}

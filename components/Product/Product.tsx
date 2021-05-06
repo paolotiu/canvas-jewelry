@@ -4,9 +4,10 @@ import ChevronLeft from '@assets/icons/chevron-left.svg';
 import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import { useQuery } from 'react-query';
-import { getItemById } from '@utils/queries';
+import { getCategoryItemsById, getItemById } from '@utils/queries';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
+import ItemCarousel from '@components/ItemCarousel/ItemCarousel';
 
 const InfoBlock = styled.div`
   display: flex;
@@ -73,10 +74,20 @@ const TextContainer = styled.div`
 
 const ContentContainer = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .card-section {
+    grid-column: 1 /-1;
+    padding: 0 4rem;
+    padding-top: 4rem;
+  }
   .content {
     max-width: 1200px;
     padding: 1rem 0;
+    margin: 0 1rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+
     ${breakpoints.sm} {
       padding-top: 4rem;
       display: grid;
@@ -98,9 +109,14 @@ interface Props {
 }
 const Product = ({ id }: Props) => {
   const router = useRouter();
-  const { data } = useQuery(['item', id], () => getItemById(id), { enabled: false });
+  const { data: itemData } = useQuery(['item', id], () => getItemById(id), { enabled: false });
+  const { data } = useQuery(['category', itemData?.item.categories[0]._id], () => {
+    if (itemData) {
+      return getCategoryItemsById(itemData?.item.categories[0]._id);
+    }
+  });
   return (
-    <Layout title={data?.item.name}>
+    <Layout title={itemData?.item.name}>
       <main>
         <InfoBlock>
           <button type="button" className="back" onClick={() => router.back()}>
@@ -111,12 +127,12 @@ const Product = ({ id }: Props) => {
         </InfoBlock>
         <ContentContainer>
           <div className="content">
-            <Carousel withButtons images={data?.item.imageUrls || []} unsetAspectRatio />
+            <Carousel withButtons images={itemData?.item.imageUrls || []} unsetAspectRatio />
             <TextContainer>
               <div className="text">
-                <h3>{data?.item.name} </h3>
-                <p className="description">{data?.item.description}</p>
-                <p className="price">P{data?.item.price}</p>
+                <h3>{itemData?.item.name} </h3>
+                <p className="description">{itemData?.item.description}</p>
+                <p className="price">P{itemData?.item.price}</p>
               </div>
               <div className="button-container">
                 <a
@@ -137,6 +153,8 @@ const Product = ({ id }: Props) => {
               </div>
             </TextContainer>
           </div>
+
+          {data && <ItemCarousel items={data} />}
         </ContentContainer>
       </main>
     </Layout>

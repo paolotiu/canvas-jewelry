@@ -6,11 +6,6 @@ import { useEffect, useState } from 'react';
 import CardContainer from './CardContainer';
 import CardView, { ViewMode } from './CardView';
 
-interface Props {
-  title: string;
-  items: ItemData[];
-}
-
 const StyledCardSection = styled.section`
   ${breakpoints.md} {
     padding-top: 4rem;
@@ -31,8 +26,15 @@ const CardMetaContainer = styled.div`
   }
 `;
 
-const CardSection = ({ title, items }: Props) => {
-  const [viewMode, setViewMode] = useState<ViewMode>('square');
+interface Props {
+  title: string;
+  items: ItemData[];
+  defaultView?: ViewMode;
+  withViewControls?: boolean;
+}
+
+const CardSection = ({ title, items, defaultView, withViewControls = true }: Props) => {
+  const [viewMode, setViewMode] = useState<ViewMode>(defaultView || 'square');
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,16 +45,18 @@ const CardSection = ({ title, items }: Props) => {
     };
     window.addEventListener('resize', handleResize);
 
-    // Check
-    handleResize();
+    if (!defaultView) {
+      // Check
+      handleResize();
+    }
 
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [defaultView]);
 
   return (
-    <StyledCardSection>
+    <StyledCardSection className="card-section">
       <CardMetaContainer>
-        <CardView viewMode={viewMode} onClick={(val) => setViewMode(val)} />
+        {withViewControls && <CardView viewMode={viewMode} onClick={(val) => setViewMode(val)} />}
         <Title>{title}</Title>
       </CardMetaContainer>
       <CardContainer items={items} viewMode={viewMode} />
