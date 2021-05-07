@@ -8,13 +8,14 @@ import { ViewMode } from './CardView';
 const StyledCardContainer = styled.div`
   display: grid;
   padding: 1.3rem 5px;
-  gap: 0.2rem;
+  gap: 0.7rem;
 
   &.square {
     grid-template-columns: 1fr;
   }
 
   &.block {
+    gap: 0.2rem;
     grid-template-columns: repeat(2, 1fr);
     ${breakpoints.md} {
       grid-template-columns: repeat(3, 1fr);

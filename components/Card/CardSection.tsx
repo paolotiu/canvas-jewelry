@@ -12,11 +12,22 @@ const StyledCardSection = styled.section`
   }
 `;
 
-const CardMetaContainer = styled.div`
+const CardMetaContainer = styled.div<{
+  flatten?: boolean;
+}>`
   display: flex;
   flex-direction: column;
   padding: 2.5rem 0 0.7rem 0;
   gap: 1rem;
+  ${(props) =>
+    props.flatten &&
+    `
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: baseline;
+    padding-left: 5px;
+    padding-right: 5px;
+`};
   ${breakpoints.md} {
     justify-content: space-between;
     flex-direction: row-reverse;

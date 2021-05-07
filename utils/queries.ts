@@ -70,7 +70,7 @@ export const deleteCategories = async (ids: string[]) => {
   return res.data;
 };
 
-export const getCategoryItemsById = async (category: string): Promise<ItemData[]> => {
+export const getCategoryItems = async (category: string): Promise<ItemData[]> => {
   const res = await axios.get(`/api/categories/${category}`);
   return res.data;
 };
