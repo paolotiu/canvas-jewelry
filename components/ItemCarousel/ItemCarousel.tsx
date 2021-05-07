@@ -14,11 +14,12 @@ const Container = styled.div`
   flex-direction: column;
   padding: 2rem;
   padding-top: 5rem;
+
+  max-width: 100vw;
 `;
 const Embla = styled.div`
-  overflow: hidden;
-  max-width: 100vw;
   position: relative;
+  overflow: hidden;
   padding: 2rem 0;
   &.is-draggable {
     cursor: grab;

@@ -4,7 +4,7 @@ import ChevronLeft from '@assets/icons/chevron-left.svg';
 import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import { useQuery } from 'react-query';
-import { getCategoryItemsById, getItemById } from '@utils/queries';
+import { getCategoryItems, getItemById } from '@utils/queries';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
 import ItemCarousel from '@components/ItemCarousel/ItemCarousel';
@@ -112,7 +112,7 @@ const Product = ({ id }: Props) => {
   const { data: itemData } = useQuery(['item', id], () => getItemById(id), { enabled: false });
   const { data } = useQuery(['category', itemData?.item.categories[0]._id], () => {
     if (itemData) {
-      return getCategoryItemsById(itemData?.item.categories[0]._id);
+      return getCategoryItems(itemData?.item.categories[0]._id);
     }
   });
   return (
