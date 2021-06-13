@@ -1,7 +1,7 @@
 import { Title } from '@components/Title/Title';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { ItemData } from 'interfaces';
+import { ProductExpanded } from '@utils/queries/products';
 import { useEffect, useState } from 'react';
 import CardContainer from './CardContainer';
 import CardView, { ViewMode } from './CardView';
@@ -39,7 +39,7 @@ const CardMetaContainer = styled.div<{
 
 interface Props {
   title: string;
-  items: ItemData[];
+  items: ProductExpanded[];
   defaultView?: ViewMode;
   withViewControls?: boolean;
 }

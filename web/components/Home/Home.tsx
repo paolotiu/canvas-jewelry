@@ -4,10 +4,10 @@ import Layout from '@components/Layout';
 import NavGrid from '@components/NavGrid/NavGrid';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { getItems } from '@utils/queries';
+import { urlFor } from '@utils/queries/imageBuilder';
+import { ProductExpanded } from '@utils/queries/products';
 import { NavLink } from 'interfaces';
 import React from 'react';
-import { useQuery } from 'react-query';
 
 const links: NavLink[] = [
   {
@@ -56,19 +56,24 @@ const Block2 = styled.div`
   background-color: ${({ theme }) => theme.colors.gray};
 `;
 
-const Home = () => {
-  const { data } = useQuery('images', () => getItems());
+interface Props {
+  products: ProductExpanded[];
+}
+const Home = ({ products }: Props) => {
   return (
     <Layout title="The Canvas Jewelry">
       <Content>
         <BannerContainer>
           <Block1 />
-          <Carousel images={data?.map((item) => item.imageUrls[0]) || []} withAutoPlay />
+          <Carousel
+            images={products?.map((item) => urlFor(item.images[0]).url() || '')}
+            withAutoPlay
+          />
           <Block2 />
           <Block2 />
         </BannerContainer>
         <NavGrid links={links} />
-        <CardSection items={data || []} title="Best Sellers" />
+        <CardSection items={products || []} title="Best Sellers" />
       </Content>
     </Layout>
   );

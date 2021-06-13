@@ -13,6 +13,8 @@
   "dependencies": {
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
+    "@sanity/client": "^2.11.0",
+    "@sanity/image-url": "^0.140.22",
     "@types/lodash-es": "^4.17.4",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
@@ -21,6 +23,7 @@
     "eslint-config-prettier": "^8.2.0",
     "formidable": "^2.0.0-canary.20200504.1",
     "framer-motion": "^4.1.9",
+    "groq": "^2.2.6",
     "lodash": "^4.17.21",
     "lodash.differencewith": "^4.5.0",
     "lodash.intersectionwith": "^4.4.0",
@@ -38,6 +41,7 @@
     "react-query": "^3.15.2",
     "react-select": "^4.3.0",
     "react-table": "^7.6.3",
+    "sanity-codegen": "^0.9.3",
     "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
@@ -72,7 +76,6 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "jest": "^26.6.3",
     "jsdom": "^16.5.3",
-    "prettier": "^2.2.1",
     "ts-jest": "^26.5.5",
     "typescript": "^4.2.4"
   },

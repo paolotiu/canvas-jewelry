@@ -143,6 +143,6 @@ const Card = ({ src, name, className, itemId, withDescription = true }: Props) =
       </motion.div>
     </StyledCard>
   );
-};
+}
 
 export default Card;

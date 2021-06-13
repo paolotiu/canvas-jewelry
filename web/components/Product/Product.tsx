@@ -3,11 +3,11 @@ import Layout from '@components/Layout';
 import ChevronLeft from '@assets/icons/chevron-left.svg';
 import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
-import { useQuery } from 'react-query';
-import { getCategoryItems, getItemById } from '@utils/queries';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
-import ItemCarousel from '@components/ItemCarousel/ItemCarousel';
+// import ItemCarousel from '@components/ItemCarousel/ItemCarousel';
+import { urlFor } from '@utils/queries/imageBuilder';
+import { ProductExpanded } from '@utils/queries/products';
 
 const InfoBlock = styled.div`
   display: flex;
@@ -105,18 +105,12 @@ const ContentContainer = styled.div`
 `;
 
 interface Props {
-  id: string;
+  product: ProductExpanded;
 }
-const Product = ({ id }: Props) => {
+const Product = ({ product }: Props) => {
   const router = useRouter();
-  const { data: itemData } = useQuery(['item', id], () => getItemById(id), { enabled: false });
-  const { data } = useQuery(['category', itemData?.item.categories[0]._id], () => {
-    if (itemData) {
-      return getCategoryItems(itemData?.item.categories[0]._id);
-    }
-  });
   return (
-    <Layout title={itemData?.item.name}>
+    <Layout title={product.name}>
       <main>
         <InfoBlock>
           <button type="button" className="back" onClick={() => router.back()}>
@@ -127,12 +121,16 @@ const Product = ({ id }: Props) => {
         </InfoBlock>
         <ContentContainer>
           <div className="content">
-            <Carousel withButtons images={itemData?.item.imageUrls || []} unsetAspectRatio />
+            <Carousel
+              withButtons
+              images={product.images.map((img) => urlFor(img).url() || '')}
+              unsetAspectRatio
+            />
             <TextContainer>
               <div className="text">
-                <h3>{itemData?.item.name} </h3>
-                <p className="description">{itemData?.item.description}</p>
-                <p className="price">P{itemData?.item.price}</p>
+                <h3>{product.name} </h3>
+                <p className="description">{product.description}</p>
+                <p className="price">{product.price}</p>
               </div>
               <div className="button-container">
                 <a
@@ -154,7 +152,7 @@ const Product = ({ id }: Props) => {
             </TextContainer>
           </div>
 
-          {data && <ItemCarousel items={data} />}
+          {/* {data && <ItemCarousel items={data} />} */}
         </ContentContainer>
       </main>
     </Layout>

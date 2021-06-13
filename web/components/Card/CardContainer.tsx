@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { AnimateSharedLayout } from 'framer-motion';
 import { breakpoints } from '@styles/breakpoints';
-import { ItemData } from 'interfaces';
+import { ProductExpanded } from '@utils/queries/products';
+import { urlFor } from '@utils/queries/imageBuilder';
 import Card from './Card';
 import { ViewMode } from './CardView';
 
@@ -32,7 +33,7 @@ const StyledCardContainer = styled.div`
 `;
 
 interface Props {
-  items: ItemData[];
+  items: ProductExpanded[];
   viewMode: ViewMode;
 }
 
@@ -47,8 +48,8 @@ const CardContainer = ({ items, viewMode }: Props) => {
                 key={item._id}
                 itemId={item._id}
                 className={viewMode}
-                src={item.images[0].url}
-                name={item.name}
+                src={urlFor(item.images[0]).width(300).height(300).url() || ''}
+                name={item.name || ''}
               />
             );
           })}
