@@ -33,6 +33,7 @@
     "mongoose": "^5.12.7",
     "next": "^10.2.0",
     "next-auth": "^3.19.2",
+    "next-sanity": "^0.2.0",
     "react": "^17.0.1",
     "react-cropper": "^2.1.7",
     "react-dom": "^17.0.1",

@@ -1,8 +1,8 @@
-import client from '@sanity/client';
+import { ClientConfig } from 'next-sanity';
 
-export const sanityClient = client({
+export const config: ClientConfig = {
   projectId: '94xotc05',
   dataset: 'production',
   useCdn: true,
   apiVersion: '2021-06-13',
-});
+};
