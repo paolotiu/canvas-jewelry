@@ -17,9 +17,15 @@ export const ALL_PRODUCTS_QUERY = groq`
 }
 `;
 export const CATEGORY_BY_NAME_QUERY = groq`
-*[_type == 'category' && name == $name][0]{
+*[_type == 'category' && lower(name) == lower($name)][0]{
 	name,
 	'products': *[_type == 'product' && references(^._id)]{${productFields}}
+}
+`;
+
+export const ALL_CATEGORIES_QUERY = groq`
+*[_type == 'category']{
+	name
 }
 `;
 
