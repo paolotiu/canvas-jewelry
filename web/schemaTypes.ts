@@ -39,14 +39,14 @@ export interface Product extends SanityDocument {
    *
    *
    */
-  name?: string;
+  name: string;
 
   /**
    * Price — `number`
    *
    *
    */
-  price?: number;
+  price: number;
 
   /**
    * Description — `string`
@@ -60,7 +60,7 @@ export interface Product extends SanityDocument {
    *
    *
    */
-  images?: Array<
+  images: Array<
     SanityKeyed<{
       _type: "image";
       asset: SanityAsset;
