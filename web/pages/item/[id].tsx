@@ -1,11 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Product from '@components/Product/Product';
-import { getAllProducts, ProductExpanded } from '@utils/queries/products';
-import { sanityClient } from '@utils/sanityClient';
+import { getClient } from '@utils/sanity/sanity.server';
+import { ALL_PRODUCTS_QUERY, ProductReturn } from '@utils/sanity/queries';
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const products = await getAllProducts();
+  const products = await getClient(false).fetch<Pick<ProductReturn, '_id'>[]>(ALL_PRODUCTS_QUERY);
   const paths = products.map((product) => ({ params: { id: product._id } }));
+
   return {
     paths,
     fallback: false,
@@ -14,6 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<Record<string, unknown>, { id: string }> = async ({
   params,
+  preview = false,
 }) => {
   if (!params)
     return {
@@ -21,8 +23,7 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { id: strin
       redirect: '/',
     };
   const { id } = params;
-
-  const product = await sanityClient.getDocument(id);
+  const product = await getClient(preview).getDocument(id);
   return {
     props: {
       id,
@@ -32,7 +33,7 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { id: strin
 };
 
 interface Props {
-  product: ProductExpanded;
+  product: ProductReturn;
 }
 
 const ProductPage = ({ product }: Props) => {

@@ -3,11 +3,11 @@ import Carousel from '@components/Carousel/Carousel';
 import Layout from '@components/Layout';
 import NavGrid from '@components/NavGrid/NavGrid';
 import styled from '@emotion/styled';
-import { breakpoints } from '@styles/breakpoints';
-import { urlFor } from '@utils/queries/imageBuilder';
-import { ProductExpanded } from '@utils/queries/products';
+import { breakpoints, points } from '@styles/breakpoints';
+import { ProductReturn } from '@utils/sanity/queries';
+import { urlFor } from '@utils/sanity/sanity';
 import { NavLink } from 'interfaces';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const links: NavLink[] = [
   {
@@ -57,18 +57,33 @@ const Block2 = styled.div`
 `;
 
 interface Props {
-  products: ProductExpanded[];
+  products: ProductReturn[];
 }
 const Home = ({ products }: Props) => {
+  const [images, setImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (window) {
+      if (window.innerWidth < points.sm) {
+        setImages(
+          products.map(
+            (product) =>
+              urlFor(product.images[0]).width(window.innerWidth).height(window.innerWidth).url() ||
+              '',
+          ),
+        );
+      } else {
+        setImages(products.map((product) => urlFor(product.images[0]).url() || ''));
+      }
+    }
+  }, [products]);
+
   return (
     <Layout title="The Canvas Jewelry">
       <Content>
         <BannerContainer>
           <Block1 />
-          <Carousel
-            images={products?.map((item) => urlFor(item.images[0]).url() || '')}
-            withAutoPlay
-          />
+          <Carousel images={images} withAutoPlay />
           <Block2 />
           <Block2 />
         </BannerContainer>

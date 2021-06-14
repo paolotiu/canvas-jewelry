@@ -1,21 +1,19 @@
 import Home from '@components/Home/Home';
-import { getItemsFromDb } from '@utils/queries';
-import { getAllProducts } from '@utils/queries/products';
-import { connectDb } from '@utils/withMongoose';
-import { InferGetStaticPropsType } from 'next';
-import { QueryClient } from 'react-query';
-import { dehydrate } from 'react-query/hydration';
+import { CategoryWithProductsReturn, CATEGORY_BY_NAME_QUERY } from '@utils/sanity/queries';
+import { getClient } from '@utils/sanity/sanity.server';
+import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
-export const getStaticProps = async () => {
-  await connectDb();
-  const queryClient = new QueryClient();
-  const products = await getAllProducts();
+export const getStaticProps = async ({ preview = false }: GetStaticPropsContext) => {
+  const category = await getClient(preview).fetch<CategoryWithProductsReturn | undefined>(
+    CATEGORY_BY_NAME_QUERY,
+    {
+      name: 'Test',
+    },
+  );
 
-  await queryClient.prefetchQuery('images', getItemsFromDb);
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
-      products,
+      products: category?.products || [],
     },
   };
 };
