@@ -4,7 +4,6 @@ import { motion, Variants } from 'framer-motion';
 
 const StyledDotButton = styled(motion.button)<{ active?: boolean }>`
   --background-position: right;
-  background-color: transparent;
   border: 0;
   width: 28px;
   height: 4px;
@@ -23,6 +22,9 @@ const variants: Variants = {
       easings: 'easeIn',
     },
   },
+  idle: {
+    background: theme.colors.coolGray[400],
+  },
 };
 interface Props {
   active?: boolean;
@@ -33,7 +35,7 @@ const DotButton = ({ active, onClick }: Props) => (
     type="button"
     onClick={onClick}
     active={active}
-    animate={active && 'active'}
+    animate={active ? 'active' : 'idle'}
     variants={variants}
   />
 );

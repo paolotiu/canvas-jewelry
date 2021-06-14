@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useEmblaCarousel } from 'embla-carousel/react';
 import styled from '@emotion/styled';
-import { v4 as uuid } from 'uuid';
 import { OptionsType } from 'embla-carousel/vanilla/options';
 import { useRecursiveTimeout } from '@utils/hooks/useRecursiveTimeout';
 import { breakpoints } from '@styles/breakpoints';
@@ -146,7 +145,9 @@ const Carousel = ({
             <DotButtonContainer>
               {scrollSnaps.map((_, i) => (
                 <DotButton
-                  key={uuid()}
+                  // Bad practice in general but shouldn't matter in this case
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={i}
                   onClick={() => emblaApi?.scrollTo(i)}
                   active={i === activeIndex}
                 />
