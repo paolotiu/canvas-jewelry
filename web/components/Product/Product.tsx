@@ -5,9 +5,8 @@ import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
-// import ItemCarousel from '@components/ItemCarousel/ItemCarousel';
-import { urlFor } from '@utils/queries/imageBuilder';
-import { ProductExpanded } from '@utils/queries/products';
+import { urlFor } from '@utils/sanity/sanity';
+import { ProductReturn } from '@utils/sanity/queries';
 
 const InfoBlock = styled.div`
   display: flex;
@@ -105,7 +104,7 @@ const ContentContainer = styled.div`
 `;
 
 interface Props {
-  product: ProductExpanded;
+  product: ProductReturn;
 }
 const Product = ({ product }: Props) => {
   const router = useRouter();
@@ -151,8 +150,6 @@ const Product = ({ product }: Props) => {
               </div>
             </TextContainer>
           </div>
-
-          {/* {data && <ItemCarousel items={data} />} */}
         </ContentContainer>
       </main>
     </Layout>
