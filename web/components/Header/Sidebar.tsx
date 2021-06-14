@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
 
@@ -51,12 +52,6 @@ const Overlay = styled(motion.div)`
     display: none;
   }
 `;
-
-const NavLink = styled.div`
-  font-size: ${({ theme }) => theme.typography.fontSizes.sm};
-  color: ${({ theme }) => theme.colors.secondaryText};
-`;
-
 const variants: Variants = {
   hidden: {
     x: `-100%`,
@@ -93,6 +88,19 @@ export interface SidebarProps {
   isHidden?: boolean;
 }
 
+const StyledNavLink = styled.a`
+  font-size: ${({ theme }) => theme.typography.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.secondaryText};
+`;
+
+const NavLink = ({ href, label }: { label: string; href: string }) => {
+  return (
+    <Link href={href}>
+      <StyledNavLink>{label}</StyledNavLink>
+    </Link>
+  );
+};
+
 const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
   return (
     <>
@@ -104,17 +112,19 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
         <button type="button" id="close-sidebar" onClick={closeSidebar}>
           X
         </button>
-        <div className="image-container">
-          <img
-            src="/logo.png"
-            width="100%"
-            height="100%"
-            alt="logo"
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
+        <Link href="/">
+          <a className="image-container">
+            <img
+              src="/logo.png"
+              width="100%"
+              height="100%"
+              alt="logo"
+              style={{ objectFit: 'cover' }}
+            />
+          </a>
+        </Link>
         <div className="link-container">
-          <NavLink>Home</NavLink>
+          <NavLink href="/" label="Home" />
         </div>
       </StyledSidebar>
       <Overlay
