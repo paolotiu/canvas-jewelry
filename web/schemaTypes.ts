@@ -49,6 +49,13 @@ export interface Product extends SanityDocument {
   price: number;
 
   /**
+   * Slug — `slug`
+   *
+   *
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
    * Description — `string`
    *
    *
@@ -90,7 +97,14 @@ export interface Category extends SanityDocument {
    *
    *
    */
-  name?: string;
+  name: string;
+
+  /**
+   * Slug — `slug`
+   *
+   *
+   */
+  slug: { _type: "slug"; current: string };
 }
 
 export type Documents = Product | Category;
