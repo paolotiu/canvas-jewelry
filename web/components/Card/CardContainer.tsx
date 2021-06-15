@@ -46,10 +46,11 @@ const CardContainer = ({ items, viewMode }: Props) => {
             return (
               <Card
                 key={item._id}
-                itemId={item._id}
+                slug={item.slug}
                 className={viewMode}
+                description={item.description || ''}
                 src={urlFor(item.images[0]).width(300).height(300).url() || ''}
-                name={item.name || ''}
+                name={item.name}
               />
             );
           })}

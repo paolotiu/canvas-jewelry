@@ -110,8 +110,8 @@ interface Props {
   src: string;
   name: string;
   className?: string;
-  itemId: string;
-  withDescription?: boolean;
+  description?: string;
+  slug: string;
 }
 
 const ImageVariants: Variants = {
@@ -123,15 +123,16 @@ const ImageVariants: Variants = {
   },
 };
 
-const Card = ({ src, name, className, itemId, withDescription = true }: Props) => {
+const Card = ({ src, name, className, slug, description }: Props) => {
   const router = useRouter();
   return (
     <StyledCard
       className={className}
       layout
       onClick={() => {
-        router.push(`/item/${itemId}`);
+        router.push(`/item/${slug}`);
       }}
+      initial={false}
       whileHover={className === 'list' ? '' : 'hover'}
     >
       <motion.div className="image" layout>
@@ -139,10 +140,10 @@ const Card = ({ src, name, className, itemId, withDescription = true }: Props) =
       </motion.div>
       <motion.div className="text" layout>
         <h4>{name}</h4>
-        {withDescription && <p> A description here lmaooo</p>}
+        <p>{description}</p>
       </motion.div>
     </StyledCard>
   );
-}
+};
 
 export default Card;

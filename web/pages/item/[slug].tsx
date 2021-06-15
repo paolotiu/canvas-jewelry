@@ -1,11 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Product from '@components/Product/Product';
 import { getClient } from '@utils/sanity/sanity.server';
-import { ALL_PRODUCTS_QUERY, ProductReturn } from '@utils/sanity/queries';
+import { ALL_PRODUCTS_QUERY, ProductReturn, PRODUCT_BY_SLUG_QUERY } from '@utils/sanity/queries';
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const products = await getClient(false).fetch<Pick<ProductReturn, '_id'>[]>(ALL_PRODUCTS_QUERY);
-  const paths = products.map((product) => ({ params: { id: product._id } }));
+  const products = await getClient(false).fetch<Pick<ProductReturn, '_id' | 'slug'>[]>(
+    ALL_PRODUCTS_QUERY,
+  );
+  const paths = products.map((product) => ({ params: { slug: product.slug } }));
 
   return {
     paths,
@@ -13,7 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<Record<string, unknown>, { id: string }> = async ({
+export const getStaticProps: GetStaticProps<Record<string, unknown>, { slug: string }> = async ({
   params,
   preview = false,
 }) => {
@@ -22,11 +24,18 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { id: strin
       props: {},
       redirect: '/',
     };
-  const { id } = params;
-  const product = await getClient(preview).getDocument(id);
+  const { slug } = params;
+  const product = await getClient(preview).fetch<ProductReturn>(PRODUCT_BY_SLUG_QUERY, { slug });
+
+  if (!product) {
+    return {
+      props: {},
+      redirect: '/',
+    };
+  }
+
   return {
     props: {
-      id,
       product,
     },
   };
