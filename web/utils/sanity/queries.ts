@@ -7,15 +7,24 @@ const productFields = `
 	name,
 	price,
 	description,
-	images[]
+	images[],
+	'slug': slug.current
 `;
 
 export const ALL_PRODUCTS_QUERY = groq`
 
 *[_type == 'product']{
-	_id
+	'slug': slug.current
 }
 `;
+
+export const PRODUCT_BY_SLUG_QUERY = groq`
+
+*[_type == 'product' && slug.current == $slug][0]{
+	${productFields}
+}
+`;
+
 export const CATEGORY_BY_NAME_QUERY = groq`
 *[_type == 'category' && lower(name) == lower($name)][0]{
 	name,
@@ -31,6 +40,7 @@ export const ALL_CATEGORIES_QUERY = groq`
 
 export type ProductReturn = Pick<Product, '_id' | 'description' | 'price' | 'name'> & {
   images: SanityImageSource[];
+  slug: string;
 };
 
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
