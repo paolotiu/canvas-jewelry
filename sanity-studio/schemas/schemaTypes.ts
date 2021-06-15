@@ -39,8 +39,8 @@ type CommonFieldProps = {
   options?: {
     isHighlighted?: boolean; // is only available on fields within an image
   };
-  codgen: {
-    requried?: boolean;
+  codegen?: {
+    required?: boolean;
   };
   icon?: ReactComponentLike; // is only available for elements of which include a block
 };
@@ -49,6 +49,16 @@ export type StringField = CommonFieldProps & {
   options?: {
     list: { title: string; value: string }[];
     layout?: string;
+  };
+};
+
+export type SlugField = CommonFieldProps & {
+  type: 'slug';
+  options?: {
+    source?: string;
+    maxLength?: number;
+    slugify?: (input: string, type: any) => string;
+    isUnique?: (slug: string, options: any) => boolean;
   };
 };
 
@@ -111,10 +121,11 @@ export type Field =
   | StringField
   | TextField
   | ArrayField
+  | SlugField
   | ReferenceField
   | ImageField
-  | ObjectType
   | BlockField;
+// ObjectField
 
 type Preview = {
   select?: { [key: string]: string };

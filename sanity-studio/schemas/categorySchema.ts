@@ -9,6 +9,21 @@ export const categorySchema: Document = {
       type: 'string',
       name: 'name',
       title: 'Name',
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
+    },
+    {
+      type: 'slug',
+      name: 'slug',
+      title: 'Slug',
+      options: {
+        source: 'name',
+      },
+      codegen: {
+        required: true,
+      },
       validation: (Rules) => Rules.required(),
     },
   ],
