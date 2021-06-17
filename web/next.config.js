@@ -4,9 +4,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 module.exports = withBundleAnalyzer({
-  future: {
-    webpack5: true,
-  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -17,6 +14,6 @@ module.exports = withBundleAnalyzer({
   },
 
   images: {
-    domains: ['res.cloudinary.com'],
+    disableStaticImages: true,
   },
 });

@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
-    "lint": "tsc",
+    "lint": "next lint",
     "analyze": "ANALYZE=true yarn build",
     "test": "jest"
   },
@@ -21,10 +21,10 @@
     "lodash.differencewith": "^4.5.0",
     "lodash.intersectionwith": "^4.4.0",
     "lodash.pullallwith": "^4.7.0",
-    "next": "^10.2.0",
+    "next": "^11.0.0",
     "next-sanity": "^0.2.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-hot-toast": "^1.0.2",
     "react-query": "^3.15.2",
     "sanity-codegen": "^0.9.3"
@@ -48,6 +48,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.24.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-next": "^11.0.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.3",
@@ -55,7 +56,7 @@
     "jest": "^26.6.3",
     "jsdom": "^16.5.3",
     "ts-jest": "^26.5.5",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.3"
   },
   "license": "MIT"
 }

@@ -76,8 +76,8 @@ const ProductCarousel = ({ products }: Props) => {
             >
               <Card
                 src={urlFor(product.images[0]).url() || ''}
-                itemId={product._id}
                 name={product.name}
+                slug={product.slug}
               />
             </EmblaSlide>
           ))}
