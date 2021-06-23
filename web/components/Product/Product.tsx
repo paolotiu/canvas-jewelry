@@ -84,7 +84,8 @@ const ContentContainer = styled.div`
   .content {
     max-width: 1200px;
     padding: 1rem 0;
-    margin: 0 1rem;
+    padding-top: 0;
+    margin: 0 0rem;
     border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
 
     ${breakpoints.sm} {
@@ -95,7 +96,6 @@ const ContentContainer = styled.div`
 
     .carousel-wrapper {
       grid-column: unset;
-      max-height: 350px;
       ${breakpoints.sm} {
         max-height: unset;
       }
@@ -122,7 +122,7 @@ const Product = ({ product }: Props) => {
           <div className="content">
             <Carousel
               withButtons
-              images={product.images.map((img) => urlFor(img).width(500).height(500).url() || '')}
+              images={product.images.map((img) => urlFor(img).width(400).height(500).url() || '')}
               unsetAspectRatio
             />
             <TextContainer>
