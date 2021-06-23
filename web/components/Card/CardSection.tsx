@@ -45,7 +45,7 @@ interface Props {
 }
 
 const CardSection = ({ title, items, defaultView, withViewControls = true }: Props) => {
-  const [viewMode, setViewMode] = useState<ViewMode>(defaultView || 'square');
+  const [viewMode, setViewMode] = useState<ViewMode>(defaultView || 'block');
 
   useEffect(() => {
     const handleResize = () => {

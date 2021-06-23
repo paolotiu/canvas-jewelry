@@ -69,12 +69,15 @@ const Home = ({ products, banners }: Props) => {
         setImages(
           banners.images.map(
             (img) =>
-              urlFor(img).width(window.innerWidth).height(window.innerWidth).quality(80).url() ||
-              '',
+              urlFor(img)
+                .width(window.innerWidth * 2)
+                .height(window.innerWidth * 2)
+                .quality(100)
+                .url() || '',
           ),
         );
       } else {
-        setImages(banners.images.map((img) => urlFor(img).quality(80).url() || ''));
+        setImages(banners.images.map((img) => urlFor(img).quality(100).url() || ''));
       }
     }
   }, [banners]);

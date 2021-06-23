@@ -1,4 +1,4 @@
-import Square from '@assets/icons/square.svg';
+// import Square from '@assets/icons/square.svg';
 import Blocks from '@assets/icons/4square.svg';
 import Cubes from '@assets/icons/9square.svg';
 import List from '@assets/icons/listview.svg';
@@ -41,13 +41,13 @@ interface Props {
 const CardView = ({ viewMode, onClick }: Props) => {
   return (
     <StyledCardView>
-      <Square
+      {/* <Square
         id="square"
         className={viewMode === 'square' ? 'active' : ''}
         onClick={() => {
           onClick('square');
         }}
-      />
+      /> */}
 
       <Blocks
         className={viewMode === 'block' ? 'active' : ''}
