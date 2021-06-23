@@ -61,16 +61,18 @@ const Header = () => {
         <Burger id="burger" onClick={openSidebar} />
 
         <Link href="/">
-          <Image
-            src="/logo.png"
-            alt="logo"
-            width="113"
-            quality="100"
-            height="30"
-            layout="fixed"
-            className="logo"
-            objectFit="cover"
-          />
+          <a>
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width="113"
+              quality="100"
+              height="30"
+              layout="fixed"
+              className="logo"
+              objectFit="cover"
+            />
+          </a>
         </Link>
         <Search style={{ justifySelf: 'end' }} />
       </StyledHeader>

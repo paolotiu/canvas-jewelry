@@ -20,9 +20,6 @@ const StyledSidebar = styled(motion.aside)`
   background-color: white;
 
   button {
-    ${breakpoints.lg} {
-      display: none;
-    }
     border: none;
     background-color: unset;
   }
@@ -42,6 +39,10 @@ const StyledSidebar = styled(motion.aside)`
     position: absolute;
     top: 1rem;
     left: 1rem;
+
+    ${breakpoints.lg} {
+      display: none;
+    }
   }
 `;
 

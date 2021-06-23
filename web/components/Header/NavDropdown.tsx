@@ -21,6 +21,7 @@ const NavDropdownContent = styled(motion.div)`
 const NavDropdownHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 `;
 const variants: Variants = {
   hidden: {
@@ -54,7 +55,7 @@ const NavDropdown = ({ item }: Props) => {
   const [isShown, setIsShown] = useState(false);
   return (
     <div>
-      <NavDropdownHeader>
+      <NavDropdownHeader onClick={() => setIsShown((prev) => !prev)}>
         <StyledNavLink as="span">{item.label}</StyledNavLink>
 
         <button type="button" onClick={() => setIsShown((prev) => !prev)}>
