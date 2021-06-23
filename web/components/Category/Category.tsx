@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import { CategoryWithProductsReturn } from '@utils/sanity/queries';
 
 const Container = styled.div`
-  padding: 1rem;
   width: 100%;
 `;
 
