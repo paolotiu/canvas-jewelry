@@ -6084,6 +6084,13 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
+next-sanity-image@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/next-sanity-image/-/next-sanity-image-3.1.2.tgz#9fc0463f4938ca2dd5cefb6c51d5cfb7fcd89a1e"
+  integrity sha512-oyp1Y/JdFHy26zaVMV2DjwT3e+/XOjWeUQidWeGEa/gMPAjUsHowZpdSCpkPGfmAeYV7edY6UB8MpRZOzPmV7Q==
+  dependencies:
+    "@sanity/image-url" "^0.140.22"
+
 next-sanity@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/next-sanity/-/next-sanity-0.2.0.tgz#4e2d01ef6eabfc870f85d6e7b4915d2bcc9c479f"
@@ -6985,6 +6992,11 @@ react-hot-toast@^1.0.2:
   integrity sha512-wp89H0WA6EtiexAg5l3ys+WaZ3u0xM/FJWxl6YxR3hlquWhKvO9snBgTe4ATPEcgbS6pbc43RbuBINOkYOzA5A==
   dependencies:
     goober "^2.0.15"
+
+react-icons@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.2.0.tgz#6dda80c8a8f338ff96a1851424d63083282630d0"
+  integrity sha512-rmzEDFt+AVXRzD7zDE21gcxyBizD/3NqjbX6cmViAgdqfJ2UiLer8927/QhhrXQV7dEj/1EGuOTPp7JnLYVJKQ==
 
 react-is@17.0.2, react-is@^17.0.1:
   version "17.0.2"
