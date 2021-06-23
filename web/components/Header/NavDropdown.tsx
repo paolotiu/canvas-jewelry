@@ -58,7 +58,13 @@ const NavDropdown = ({ item }: Props) => {
       <NavDropdownHeader onClick={() => setIsShown((prev) => !prev)}>
         <StyledNavLink as="span">{item.label}</StyledNavLink>
 
-        <button type="button" onClick={() => setIsShown((prev) => !prev)}>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsShown((prev) => !prev);
+          }}
+        >
           <motion.div variants={ArrowVariants} animate={isShown ? 'up' : 'down'}>
             <FiChevronDown />
           </motion.div>
