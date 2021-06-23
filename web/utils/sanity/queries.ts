@@ -8,7 +8,8 @@ const productFields = `
 	price,
 	description,
 	images[],
-	'slug': slug.current
+	'slug': slug.current,
+	'mainImage': images[0].asset->
 `;
 
 export const ALL_PRODUCTS_QUERY = groq`
@@ -48,6 +49,16 @@ export const ALL_CATEGORIES_QUERY = groq`
 export type ProductReturn = Pick<Product, '_id' | 'description' | 'price' | 'name'> & {
   images: SanityImageSource[];
   slug: string;
+  mainImage: {
+    metadata: {
+      lqip: string;
+      dimensions: {
+        aspectRatio: number;
+      };
+    };
+    mimeType: string;
+    url: string;
+  };
 };
 
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {

@@ -1,9 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useEmblaCarousel } from 'embla-carousel/react';
 import styled from '@emotion/styled';
 import { OptionsType } from 'embla-carousel/vanilla/options';
 import { useRecursiveTimeout } from '@utils/hooks/useRecursiveTimeout';
 import { breakpoints } from '@styles/breakpoints';
+import SanityImage from '@components/SanityImage/SanityImage';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { UseNextSanityImageOptions } from 'next-sanity-image';
 import { NextButton, PrevButton } from './CarouselButtons';
 import DotButton from './DotButton/DotButton';
 import DotButtonContainer from './DotButton/DotButtonContainer';
@@ -26,11 +29,13 @@ const Embla = styled.div`
 `;
 const EmblaContainer = styled.div`
   display: flex;
+  height: 100%;
 `;
 const EmblaSlide = styled.div`
   position: relative;
   flex: 0 0 100%;
   display: flex;
+  justify-content: center;
 
   img {
     object-fit: contain;
@@ -70,10 +75,14 @@ const emblaConfig: Partial<OptionsType> = {
 
 interface Props {
   withButtons?: boolean;
-  images: string[];
+  images: SanityImageSource[];
   withAutoPlay?: boolean;
   autoPlayInterval?: number;
   unsetAspectRatio?: boolean;
+  options?: UseNextSanityImageOptions & {
+    enableBlurUp?: true;
+  };
+  cover?: boolean;
 }
 
 const Carousel = ({
@@ -82,6 +91,8 @@ const Carousel = ({
   withAutoPlay,
   autoPlayInterval = 4000,
   unsetAspectRatio,
+  options,
+  cover,
 }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaConfig);
 
@@ -135,8 +146,13 @@ const Carousel = ({
         <Embla ref={emblaRef}>
           <EmblaContainer>
             {images?.map((src, i) => (
-              <EmblaSlide key={src || i} style={{ aspectRatio: unsetAspectRatio ? 'unset' : '' }}>
-                <img src={src} alt="" height="100%" width="100%" />
+              <EmblaSlide
+                key={(src as any)._ref || i}
+                style={{
+                  aspectRatio: unsetAspectRatio ? 'unset' : '',
+                }}
+              >
+                <SanityImage src={src} options={options} cover={cover} />
               </EmblaSlide>
             ))}
           </EmblaContainer>

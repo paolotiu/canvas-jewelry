@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
-import { urlFor } from '@utils/sanity/sanity';
 import { ProductReturn } from '@utils/sanity/queries';
 
 const InfoBlock = styled.div`
@@ -122,8 +121,9 @@ const Product = ({ product }: Props) => {
           <div className="content">
             <Carousel
               withButtons
-              images={product.images.map((img) => urlFor(img).width(400 * 2).height(500 * 2).url() || '')}
+              images={product.images}
               unsetAspectRatio
+              options={{ imageBuilder: (builder) => builder.width(400).height(500) }}
             />
             <TextContainer>
               <div className="text">
