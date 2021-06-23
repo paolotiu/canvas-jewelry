@@ -68,11 +68,13 @@ const Home = ({ products, banners }: Props) => {
       if (window.innerWidth < points.sm) {
         setImages(
           banners.images.map(
-            (img) => urlFor(img).width(window.innerWidth).height(window.innerWidth).url() || '',
+            (img) =>
+              urlFor(img).width(window.innerWidth).height(window.innerWidth).quality(80).url() ||
+              '',
           ),
         );
       } else {
-        setImages(banners.images.map((img) => urlFor(img).url() || ''));
+        setImages(banners.images.map((img) => urlFor(img).quality(80).url() || ''));
       }
     }
   }, [banners]);
