@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
+import { NAV_ITEMS } from 'constants/NAV_ITEMS';
+import NavDropdown from './NavDropdown';
+import NavLink from './NavLink';
 
 const StyledSidebar = styled(motion.aside)`
   height: 100vh;
@@ -31,6 +34,8 @@ const StyledSidebar = styled(motion.aside)`
 
   .link-container {
     padding-top: 3rem;
+    display: grid;
+    gap: 1em;
   }
 
   #close-sidebar {
@@ -88,19 +93,6 @@ export interface SidebarProps {
   isHidden?: boolean;
 }
 
-const StyledNavLink = styled.a`
-  font-size: ${({ theme }) => theme.typography.fontSizes.sm};
-  color: ${({ theme }) => theme.colors.secondaryText};
-`;
-
-const NavLink = ({ href, label }: { label: string; href: string }) => {
-  return (
-    <Link href={href}>
-      <StyledNavLink>{label}</StyledNavLink>
-    </Link>
-  );
-};
-
 const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
   return (
     <>
@@ -124,7 +116,13 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
           </a>
         </Link>
         <div className="link-container">
-          <NavLink href="/" label="Home" />
+          {NAV_ITEMS.map((item) => {
+            if (item.kind === 'link') {
+              return <NavLink href={item.href} label={item.label} key={item.label} />;
+            }
+
+            return <NavDropdown key={item.label} item={item} />;
+          })}
         </div>
       </StyledSidebar>
       <Overlay

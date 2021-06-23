@@ -14,11 +14,12 @@ const Sidebar = dynamic(
 const StyledHeader = styled.header`
   padding: 0.7rem;
   display: grid;
-
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   background-color: white;
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+  position: sticky;
+  top: 0;
   ${breakpoints.lg} {
     display: none;
   }
