@@ -1,4 +1,6 @@
+import SanityImage from '@components/SanityImage/SanityImage';
 import styled from '@emotion/styled';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -107,7 +109,7 @@ const StyledCard = styled(motion.div)`
 `;
 
 interface Props {
-  src: string;
+  src: SanityImageSource;
   name: string;
   className?: string;
   description?: string;
@@ -136,7 +138,12 @@ const Card = ({ src, name, className, slug, description }: Props) => {
       whileHover={className === 'list' ? '' : 'hover'}
     >
       <motion.div className="image" layout>
-        <motion.img src={src} width="100%" height="100%" alt={name} variants={ImageVariants} />
+        <motion.div variants={ImageVariants}>
+          <SanityImage
+            src={src}
+            options={{ imageBuilder: (builder) => builder.width(500).height(500).quality(100) }}
+          />
+        </motion.div>
       </motion.div>
       <motion.div className="text" layout>
         <h4>{name}</h4>

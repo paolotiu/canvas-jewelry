@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { AnimateSharedLayout } from 'framer-motion';
 import { breakpoints } from '@styles/breakpoints';
-import { urlFor } from '@utils/sanity/sanity';
 import { ProductReturn } from '@utils/sanity/queries';
 import Card from './Card';
 import { ViewMode } from './CardView';
@@ -45,11 +44,11 @@ const CardContainer = ({ items, viewMode }: Props) => {
           {items.map((item) => {
             return (
               <Card
+                src={item.mainImage}
                 key={item._id}
                 slug={item.slug}
                 className={viewMode}
                 description={item.description || ''}
-                src={urlFor(item.images[0]).width(1000).height(1000).quality(100).url() || ''}
                 name={item.name}
               />
             );
