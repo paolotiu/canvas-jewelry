@@ -11,3 +11,15 @@ export interface NavLink {
   href: string;
   label: string;
 }
+
+export type NavItem =
+  | {
+      href: string;
+      label: string;
+      kind: 'link';
+    }
+  | {
+      label: string;
+      children: NavItem[];
+      kind: 'group';
+    };
