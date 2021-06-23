@@ -32,9 +32,16 @@ export const CATEGORY_BY_NAME_QUERY = groq`
 }
 `;
 
+export const CATEGORY_BY_SLUG_QUERY = groq`
+*[_type == 'category' && slug.current == $slug][0]{
+	name,
+	'products': *[_type == 'product' && references(^._id)]{${productFields}}
+}
+`;
+
 export const ALL_CATEGORIES_QUERY = groq`
 *[_type == 'category']{
-	name
+	slug
 }
 `;
 
