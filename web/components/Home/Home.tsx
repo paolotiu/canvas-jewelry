@@ -58,25 +58,24 @@ const Block2 = styled.div`
 
 interface Props {
   products: ProductReturn[];
+  banners: ProductReturn;
 }
-const Home = ({ products }: Props) => {
+const Home = ({ products, banners }: Props) => {
   const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
     if (window) {
       if (window.innerWidth < points.sm) {
         setImages(
-          products.map(
-            (product) =>
-              urlFor(product.images[0]).width(window.innerWidth).height(window.innerWidth).url() ||
-              '',
+          banners.images.map(
+            (img) => urlFor(img).width(window.innerWidth).height(window.innerWidth).url() || '',
           ),
         );
       } else {
-        setImages(products.map((product) => urlFor(product.images[0]).url() || ''));
+        setImages(banners.images.map((img) => urlFor(img).url() || ''));
       }
     }
-  }, [products]);
+  }, [banners]);
 
   return (
     <Layout title="The Canvas Jewelry">
