@@ -12,7 +12,7 @@ export const getStaticProps = async ({ preview = false }: GetStaticPropsContext)
   const category = await getClient(preview).fetch<CategoryWithProductsReturn | undefined>(
     CATEGORY_BY_NAME_QUERY,
     {
-      name: 'Test',
+      name: 'Best Sellers',
     },
   );
 
