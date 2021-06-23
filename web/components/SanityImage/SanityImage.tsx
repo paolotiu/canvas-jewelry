@@ -15,9 +15,7 @@ interface Props {
 const SanityImage = ({ src, options, cover = false }: Props) => {
   const imageProps = useNextSanityImage(sanityClient, src, options);
   if (cover) {
-    return (
-      <Image src={imageProps.src} loader={imageProps.loader} layout="fill" objectFit="cover" />
-    );
+    return <Image {...imageProps} layout="intrinsic" objectFit="cover" />;
   }
 
   return <Image {...imageProps} layout="intrinsic" />;

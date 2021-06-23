@@ -70,7 +70,7 @@ const Home = ({ products, banners }: Props) => {
             images={banners.images}
             withAutoPlay
             cover
-            options={{ imageBuilder: (builder) => builder.quality(100), enableBlurUp: true }}
+            options={{ imageBuilder: (builder) => builder.quality(80), enableBlurUp: true }}
           />
           <Block2 />
           <Block2 />
