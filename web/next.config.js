@@ -12,8 +12,9 @@ module.exports = withBundleAnalyzer({
 
     return config;
   },
-
   images: {
     disableStaticImages: true,
+
+    domains: ['cdn.sanity.io'],
   },
 });
