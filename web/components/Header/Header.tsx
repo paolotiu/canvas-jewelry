@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { breakpoints, points } from '@styles/breakpoints';
+import Link from 'next/link';
 
 const Sidebar = dynamic(
   () => (window.innerWidth > 500 ? import('./Sidebar') : import('./MobileSidebar')),
@@ -20,6 +21,7 @@ const StyledHeader = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   position: sticky;
   top: 0;
+  z-index: 100;
   ${breakpoints.lg} {
     display: none;
   }
@@ -57,16 +59,19 @@ const Header = () => {
       <Sidebar open={isSidebarOpen} closeSidebar={closeSidebar} />
       <StyledHeader>
         <Burger id="burger" onClick={openSidebar} />
-        <Image
-          src="/logo.png"
-          alt="logo"
-          width="113"
-          quality="100"
-          height="30"
-          layout="fixed"
-          className="logo"
-          objectFit="cover"
-        />
+
+        <Link href="/">
+          <Image
+            src="/logo.png"
+            alt="logo"
+            width="113"
+            quality="100"
+            height="30"
+            layout="fixed"
+            className="logo"
+            objectFit="cover"
+          />
+        </Link>
         <Search style={{ justifySelf: 'end' }} />
       </StyledHeader>
     </>
