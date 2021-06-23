@@ -122,7 +122,7 @@ const Product = ({ product }: Props) => {
           <div className="content">
             <Carousel
               withButtons
-              images={product.images.map((img) => urlFor(img).width(400).height(500).url() || '')}
+              images={product.images.map((img) => urlFor(img).width(400 * 2).height(500 * 2).url() || '')}
               unsetAspectRatio
             />
             <TextContainer>
