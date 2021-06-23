@@ -123,7 +123,7 @@ const Product = ({ product }: Props) => {
               withButtons
               images={product.images}
               unsetAspectRatio
-              options={{ imageBuilder: (builder) => builder.width(400).height(500) }}
+              options={{ imageBuilder: (builder) => builder.width(400 * 2).height(500 * 2) }}
             />
             <TextContainer>
               <div className="text">
