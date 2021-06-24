@@ -26,5 +26,18 @@ export const categorySchema: Document = {
       },
       validation: (Rules) => Rules.required(),
     },
+
+    {
+      title: 'Products Grid',
+      name: 'products',
+      type: 'array',
+      of: [
+        {
+          title: 'Product',
+          type: 'reference',
+          to: [{ type: 'product' }],
+        },
+      ],
+    },
   ],
 };

@@ -1,5 +1,4 @@
-import { Document } from './schemaTypes';
-import client from 'part:@sanity/base/client';
+import { Document } from '../schemaTypes';
 
 export const productSchema: Document = {
   type: 'document',
@@ -14,16 +13,6 @@ export const productSchema: Document = {
         required: true,
       },
       validation: (Rules) => Rules.required(),
-      // validation: (Rules) => [
-      //   Rules.required(),
-      //   Rules.custom((title) => {
-      //     return client
-      //       .fetch(`count(*[_type == 'product' && name == "${title}"])`)
-      //       .then((count: number) =>
-      //         count >= 1 ? 'Name needs to be unique' : true
-      //       );
-      //   }),
-      // ],
     },
     {
       type: 'number',
@@ -52,6 +41,22 @@ export const productSchema: Document = {
       title: 'Description',
     },
     {
+      title: 'Default Variant',
+      name: 'defaultVariant',
+      type: 'productVariant',
+    },
+    {
+      type: 'optionsSwitch',
+      name: 'optionsSwitch',
+    },
+    {
+      title: 'Variants',
+      name: 'variants',
+      type: 'array',
+      of: [{ type: 'productVariant' }],
+    },
+
+    {
       type: 'array',
       name: 'images',
       title: 'Images',
@@ -61,11 +66,24 @@ export const productSchema: Document = {
       of: [{ type: 'image', options: { hotspot: true } }],
       validation: (Rules) => Rules.min(1),
     },
-    {
-      type: 'array',
-      name: 'categories',
-      title: 'Categories',
-      of: [{ type: 'reference', to: [{ type: 'category' }] }],
-    },
+
+    // {
+    //   type: 'array',
+    //   name: 'categories',
+    //   title: 'Categories',
+    //   of: [{ type: 'reference', to: [{ type: 'category' }] }],
+    // },
   ],
+  preview: {
+    select: {
+      images: 'images',
+      name: 'name',
+    },
+    prepare({ name, images }) {
+      return {
+        title: name,
+        media: images[0],
+      };
+    },
+  },
 };

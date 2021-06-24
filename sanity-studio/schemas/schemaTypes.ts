@@ -1,7 +1,7 @@
 // from https://gist.github.com/barbogast/4bea3ad77272fafe0af3d4f70446d037
 // With some modifications
 
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { ReactComponentLike } from 'prop-types';
 
 type Meta = {
@@ -36,8 +36,13 @@ type CommonFieldProps = {
   description?: string;
   hidden?: boolean;
   readOnly?: boolean;
+  initialValue?: any;
+  inputComponent?: React.ReactNode;
   options?: {
+    [key: string]: any;
     isHighlighted?: boolean; // is only available on fields within an image
+    layout?: 'switch' | 'checkbox';
+    condition?: (document: any) => boolean;
   };
   codegen?: {
     required?: boolean;
@@ -139,7 +144,11 @@ type Preview = {
 type Fieldset = {
   name: string;
   title: string;
-  options?: { collapsible: boolean; collapsed?: boolean };
+  options?: {
+    collapsible: boolean;
+    collapsed?: boolean;
+    columns?: number;
+  };
 };
 
 export type ObjectType = {
@@ -151,7 +160,8 @@ export type ObjectType = {
   preview?: Preview;
   fieldsets?: Fieldset[];
   description?: string;
-  options?: { collapsible?: boolean; collapsed?: boolean };
+  inputComponent?: React.ReactNode;
+  options?: { collapsible?: boolean; collapsed?: boolean; [key: string]: any };
 };
 
 export type Document = {

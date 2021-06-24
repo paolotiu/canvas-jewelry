@@ -3,8 +3,10 @@ import createSchema from 'part:@sanity/base/schema-creator';
 
 // Then import schema types from any plugins that might expose them
 import schemaTypes from 'all:part:@sanity/base/schema-type';
-import { productSchema } from './productSchema';
 import { categorySchema } from './categorySchema';
+import { productSchema } from './product/productSchema';
+import { productVariant } from './product/productVariant';
+import { optionalFields } from './product/productOptionSchema';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -16,5 +18,7 @@ export default createSchema({
     /* Your types here! */
     productSchema,
     categorySchema,
+    productVariant,
+    optionalFields,
   ]),
 });
