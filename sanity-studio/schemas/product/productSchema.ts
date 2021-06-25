@@ -14,15 +14,7 @@ export const productSchema: Document = {
       },
       validation: (Rules) => Rules.required(),
     },
-    {
-      type: 'number',
-      name: 'price',
-      title: 'Price',
-      codegen: {
-        required: true,
-      },
-      validation: (Rules) => Rules.required(),
-    },
+
     {
       type: 'slug',
       name: 'slug',

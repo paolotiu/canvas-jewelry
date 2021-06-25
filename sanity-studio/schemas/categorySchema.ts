@@ -28,7 +28,7 @@ export const categorySchema: Document = {
     },
 
     {
-      title: 'Products Grid',
+      title: 'Products',
       name: 'products',
       type: 'array',
       of: [

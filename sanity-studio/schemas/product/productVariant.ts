@@ -18,6 +18,15 @@ export const productVariant: ObjectType = {
   ],
   fields: [
     {
+      type: 'number',
+      name: 'price',
+      title: 'Price',
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
+    },
+    {
       type: 'string',
       name: 'color',
       title: 'Color',
@@ -30,15 +39,7 @@ export const productVariant: ObjectType = {
 
       inputComponent: ConditionalField,
     },
-    {
-      type: 'number',
-      name: 'price',
-      title: 'Price',
-      codegen: {
-        required: true,
-      },
-      validation: (Rules) => Rules.required(),
-    },
+
     {
       type: 'number',
       name: 'minSize',
@@ -70,6 +71,20 @@ export const productVariant: ObjectType = {
       name: 'hasHalfSizes',
       title: 'Half Sizes',
       fieldset: 'size',
+      initialValue: false,
+      options: {
+        condition: (document) => {
+          return document.optionsSwitch?.withSize;
+        },
+      },
+      inputComponent: ConditionalField,
+    },
+    {
+      type: 'boolean',
+      name: 'isAllHalfSizes',
+      title: 'All Half Sizes',
+      fieldset: 'size',
+      initialValue: false,
       options: {
         condition: (document) => {
           return document.optionsSwitch?.withSize;
