@@ -1,7 +1,7 @@
 import Home from '@components/Home/Home';
 import {
   CategoryWithProductsReturn,
-  CATEGORY_BY_NAME_QUERY,
+  CATEGORY_BY_SLUG_QUERY,
   ProductReturn,
   PRODUCT_BY_SLUG_QUERY,
 } from '@utils/sanity/queries';
@@ -10,9 +10,9 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
 export const getStaticProps = async ({ preview = false }: GetStaticPropsContext) => {
   const category = await getClient(preview).fetch<CategoryWithProductsReturn | undefined>(
-    CATEGORY_BY_NAME_QUERY,
+    CATEGORY_BY_SLUG_QUERY,
     {
-      name: 'Best Sellers',
+      slug: 'best-sellers',
     },
   );
 
