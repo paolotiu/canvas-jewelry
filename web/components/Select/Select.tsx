@@ -16,8 +16,15 @@ const customStyles: Styles<
   menu: (provided) => ({ ...provided, borderRadius: 0 }),
 };
 
-const Select = (props: SelectProps) => {
-  return <ReactSelect styles={customStyles} {...props} />;
+const Select = ({ options, ...props }: SelectProps) => {
+  return (
+    <ReactSelect
+      styles={customStyles}
+      instanceId={options?.[0].label || 1}
+      options={options}
+      {...props}
+    />
+  );
 };
 
 export default Select;
