@@ -11,13 +11,14 @@
     "test": "jest"
   },
   "dependencies": {
-    "@emotion/react": "^11.1.5",
+    "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@sanity/client": "^2.11.0",
     "@sanity/image-url": "^0.140.22",
     "embla-carousel": "^4.5.0",
     "eslint-config-prettier": "^8.2.0",
     "framer-motion": "^4.1.9",
+    "lodash": "^4.17.21",
     "lodash.differencewith": "^4.5.0",
     "lodash.intersectionwith": "^4.4.0",
     "lodash.pullallwith": "^4.7.0",
@@ -28,7 +29,7 @@
     "react-dom": "^17.0.2",
     "react-hot-toast": "^1.0.2",
     "react-icons": "^4.2.0",
-    "react-query": "^3.15.2",
+    "react-select": "^4.3.1",
     "sanity-codegen": "^0.9.3"
   },
   "devDependencies": {
@@ -46,11 +47,13 @@
     "@types/node": "^14.14.41",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/react-select": "^4.0.16",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.24.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-next": "^11.0.0",
+    "eslint-config-tiu": "^1.0.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.3",

@@ -5,7 +5,11 @@ import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
-import { ProductReturn } from '@utils/sanity/queries';
+import { ProductReturnWithVariants, ProductVariant } from '@utils/sanity/queries';
+import React from 'react';
+import ProductOptions from './ProductOptions';
+import { ProductContextProvider } from './ProductContext';
+import ProductDetails from './ProductDetails';
 
 const InfoBlock = styled.div`
   display: flex;
@@ -29,40 +33,25 @@ const InfoBlock = styled.div`
   }
 `;
 
-const TextContainer = styled.div`
+const DetailsContainer = styled.div`
   padding-top: 1rem;
-
+  padding: 1rem;
   .text {
-    padding: 1rem 0.7rem;
-    line-height: 1.5em;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
-    h3 {
-      font-weight: ${({ theme }) => theme.typography.fontWeights.light};
-      font-size: ${({ theme }) => theme.typography.fontSizes.xl};
-      ${breakpoints.sm} {
-        font-size: ${({ theme }) => theme.typography.fontSizes['2xl']};
-      }
-    }
-    .description {
-      color: ${({ theme }) => theme.colors.secondaryText};
-      font-size: ${({ theme }) => theme.typography.fontSizes.sm};
-    }
+  }
 
-    .price {
-      font-size: ${({ theme }) => theme.typography.fontSizes.md};
-      font-weight: ${({ theme }) => theme.typography.fontWeights.semibold};
-    }
+  .options {
+    padding: 1rem 0;
+    display: grid;
+    gap: 1rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   }
 
   ${breakpoints.sm} {
     padding-top: 0;
-    .text {
-      padding-top: 0;
-    }
   }
 
   .button-container {
-    padding: 1rem 0.7rem;
+    padding: 1rem 0rem;
     line-height: 1.5em;
     button {
       width: 100%;
@@ -103,10 +92,13 @@ const ContentContainer = styled.div`
 `;
 
 interface Props {
-  product: ProductReturn;
+  product: ProductReturnWithVariants;
+  allVariants: ProductVariant[];
 }
-const Product = ({ product }: Props) => {
+
+const Product = ({ product, allVariants }: Props) => {
   const router = useRouter();
+
   return (
     <Layout title={product.name}>
       <main>
@@ -117,40 +109,48 @@ const Product = ({ product }: Props) => {
 
           <h4>Product Details</h4>
         </InfoBlock>
-        <ContentContainer>
-          <div className="content">
-            <Carousel
-              withButtons
-              images={product.images}
-              unsetAspectRatio
-              options={{ imageBuilder: (builder) => builder.width(400 * 2).height(500 * 2) }}
-            />
-            <TextContainer>
-              <div className="text">
-                <h3>{product.name} </h3>
-                <p className="description">{product.description}</p>
-                <p className="price">{product.price}</p>
-              </div>
-              <div className="button-container">
-                <a
-                  href="https://www.instagram.com/thecanvasjewelry/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button
-                    backgroundColor="black"
-                    isWhite
-                    fontWeight="bold"
-                    size="sm"
-                    style={{ padding: '1rem' }}
+        <ProductContextProvider>
+          <ContentContainer>
+            <div className="content">
+              <Carousel
+                withButtons
+                images={product.images}
+                unsetAspectRatio
+                options={{ imageBuilder: (builder) => builder.width(400 * 2).height(500 * 2) }}
+              />
+              <DetailsContainer>
+                <ProductDetails
+                  description={product.description}
+                  name={product.name}
+                  price={product.price}
+                />
+                {allVariants.length ? (
+                  <div className="options">
+                    <ProductOptions variants={allVariants} />
+                  </div>
+                ) : null}
+
+                <div className="button-container">
+                  <a
+                    href="https://www.instagram.com/thecanvasjewelry/"
+                    target="_blank"
+                    rel="noreferrer"
                   >
-                    Shop Now
-                  </Button>
-                </a>
-              </div>
-            </TextContainer>
-          </div>
-        </ContentContainer>
+                    <Button
+                      backgroundColor="black"
+                      isWhite
+                      fontWeight="bold"
+                      size="sm"
+                      style={{ padding: '1rem' }}
+                    >
+                      Shop Now
+                    </Button>
+                  </a>
+                </div>
+              </DetailsContainer>
+            </div>
+          </ContentContainer>
+        </ProductContextProvider>
       </main>
     </Layout>
   );

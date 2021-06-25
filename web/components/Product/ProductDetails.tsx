@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import React from 'react';
+import { useProductContext } from './ProductContext';
 
 interface Props {
   name: string;
@@ -30,6 +31,10 @@ const StyledProductDetails = styled.div`
     font-size: ${({ theme }) => theme.typography.fontSizes.md};
     font-weight: ${({ theme }) => theme.typography.fontWeights.semibold};
   }
+  .warning {
+    color: ${({ theme }) => theme.colors.danger};
+    font-size: 0.8rem;
+  }
 
   ${breakpoints.sm} {
     padding-top: 0;
@@ -37,11 +42,16 @@ const StyledProductDetails = styled.div`
 `;
 
 const ProductDetails = ({ name, description, price }: Props) => {
+  const { variant } = useProductContext();
+
   return (
     <StyledProductDetails>
       <h3>{name} </h3>
       {description && <p className="description">{description}</p>}
-      <p className="price">{price}</p>
+      <div>
+        <p className="price">{variant?.price || price}</p>
+        {!variant?.price && <span className="warning">Not a valid configuration</span>}
+      </div>
     </StyledProductDetails>
   );
 };

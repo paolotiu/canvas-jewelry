@@ -1,7 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Product from '@components/Product/Product';
 import { getClient } from '@utils/sanity/sanity.server';
-import { ALL_PRODUCTS_QUERY, ProductReturn, PRODUCT_BY_SLUG_QUERY } from '@utils/sanity/queries';
+import {
+  ALL_PRODUCTS_QUERY,
+  ProductReturn,
+  ProductReturnWithVariants,
+  ProductVariant,
+  PRODUCT_BY_SLUG_QUERY,
+} from '@utils/sanity/queries';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const products = await getClient(false).fetch<Pick<ProductReturn, '_id' | 'slug'>[]>(
@@ -25,7 +31,14 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { slug: str
       redirect: '/',
     };
   const { slug } = params;
-  const product = await getClient(preview).fetch<ProductReturn>(PRODUCT_BY_SLUG_QUERY, { slug });
+  const product = await getClient(preview).fetch<ProductReturnWithVariants>(PRODUCT_BY_SLUG_QUERY, {
+    slug,
+  });
+
+  let allVariants: ProductVariant[] = [];
+  if (product.variants) {
+    allVariants = [product.defaultVariant, ...product.variants];
+  }
 
   if (!product) {
     return {
@@ -37,16 +50,18 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { slug: str
   return {
     props: {
       product,
+      allVariants,
     },
   };
 };
 
 interface Props {
-  product: ProductReturn;
+  product: ProductReturnWithVariants;
+  allVariants: ProductVariant[];
 }
 
-const ProductPage = ({ product }: Props) => {
-  return <Product product={product} />;
+const ProductPage = ({ product, allVariants }: Props) => {
+  return <Product product={product} allVariants={allVariants} />;
 };
 
 export default ProductPage;

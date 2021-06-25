@@ -9,7 +9,9 @@ const productFields = `
 	description,
 	images[],
 	'slug': slug.current,
-	'mainImage': images[0].asset->
+	'mainImage': images[0].asset->,
+  optionsSwitch
+
 `;
 
 export const ALL_PRODUCTS_QUERY = groq`
@@ -22,6 +24,8 @@ export const ALL_PRODUCTS_QUERY = groq`
 export const PRODUCT_BY_SLUG_QUERY = groq`
 
 *[_type == 'product' && slug.current == $slug][0]{
+	defaultVariant,
+	variants[],
 	${productFields}
 }
 `;
@@ -36,7 +40,11 @@ export const CATEGORY_BY_NAME_QUERY = groq`
 export const CATEGORY_BY_SLUG_QUERY = groq`
 *[_type == 'category' && slug.current == $slug][0]{
 	name,
-	'products': *[_type == 'product' && references(^._id)]{${productFields}}
+	products[]->{
+    ${productFields}
+    
+  }
+
 }
 `;
 
@@ -59,6 +67,28 @@ export type ProductReturn = Pick<Product, '_id' | 'description' | 'price' | 'nam
     mimeType: string;
     url: string;
   };
+};
+
+export type ProductVariant = {
+  price: number;
+  color?: string;
+  minSize?: number;
+  maxSize?: number;
+  hasHalfSizes?: boolean;
+  isAllHalfSizes?: boolean;
+};
+
+export type ProductReturnWithVariants = ProductReturn & {
+  defaultVariant: ProductVariant;
+  variants: ProductVariant[];
+  optionsSwitch?: OptionsSwitch;
+};
+
+export type OptionsSwitch = {
+  withAdditional: boolean;
+  withColor: boolean;
+  withLetters: boolean;
+  withSize: boolean;
 };
 
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
