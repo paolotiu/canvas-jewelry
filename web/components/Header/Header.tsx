@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Burger from '@assets/icons/burger.svg';
-import Search from '@assets/icons/search.svg';
+// import Search from '@assets/icons/search.svg';
 import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
 import Image from 'next/image';
@@ -74,7 +74,7 @@ const Header = () => {
             />
           </a>
         </Link>
-        <Search style={{ justifySelf: 'end' }} />
+        {/* <Search style={{ justifySelf: 'end' }} /> */}
       </StyledHeader>
     </>
   );
