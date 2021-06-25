@@ -112,7 +112,6 @@ interface Props {
   src: SanityImageSource;
   name: string;
   className?: string;
-  description?: string;
   slug: string;
 }
 
@@ -125,7 +124,7 @@ const ImageVariants: Variants = {
   },
 };
 
-const Card = ({ src, name, className, slug, description }: Props) => {
+const Card = ({ src, name, className, slug }: Props) => {
   const router = useRouter();
   return (
     <StyledCard
@@ -149,7 +148,6 @@ const Card = ({ src, name, className, slug, description }: Props) => {
       </motion.div>
       <motion.div className="text" layout>
         <h4>{name}</h4>
-        <p>{description}</p>
       </motion.div>
     </StyledCard>
   );

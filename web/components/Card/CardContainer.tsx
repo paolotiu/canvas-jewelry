@@ -48,7 +48,6 @@ const CardContainer = ({ items, viewMode }: Props) => {
                 key={item._id}
                 slug={item.slug}
                 className={viewMode}
-                description={item.description || ''}
                 name={item.name}
               />
             );
