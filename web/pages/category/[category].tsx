@@ -5,7 +5,7 @@ import {
   CATEGORY_BY_SLUG_QUERY,
 } from '@utils/sanity/queries';
 import { getClient } from '@utils/sanity/sanity.server';
-import { GetStaticPaths, GetStaticPropsContext } from 'next';
+import { GetStaticPaths, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import React from 'react';
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -24,11 +24,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async ({ preview = false, params }: GetStaticPropsContext) => {
+export const getStaticProps = async ({
+  preview = false,
+  params,
+}: GetStaticPropsContext): Promise<
+  GetStaticPropsResult<{ category: CategoryWithProductsReturn }>
+> => {
   if (!params)
     return {
-      props: {},
-      redirect: '/',
+      notFound: true,
     };
 
   const { category: slug } = params;
@@ -39,16 +43,17 @@ export const getStaticProps = async ({ preview = false, params }: GetStaticProps
     },
   );
 
-  if (!category) {
+  if (!category || !category.products) {
     return {
-      props: {},
-      redirect: '/',
+      notFound: true,
     };
   }
 
+  const filteredProducts = category.products.filter((cat) => !!cat);
+
   return {
     props: {
-      category: category.products.filter((cat) => !!cat),
+      category: { ...category, products: filteredProducts },
     },
   };
 };
