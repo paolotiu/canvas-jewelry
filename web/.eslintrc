@@ -1,36 +1,3 @@
 {
-  "parser": "@typescript-eslint/parser", // Specifies the ESLint parser
-  "parserOptions": {
-    "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
-    "sourceType": "module", // Allows for the use of imports
-    "project": "./tsconfig.json"
-  },
-  "extends": [
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "airbnb-typescript",
-    "prettier"
-  ],
-  "rules": {
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/require-default-props": "off",
-    "jsx-a11y/anchor-is-valid": "off",
-    "import/prefer-default-export": "off",
-    "react/jsx-props-no-spreading": "off",
-    "jsx-a11y/label-has-associated-control": "off",
-    "consistent-return": "off",
-    "no-underscore-dangle": "off",
-    "no-case-declarations": "off",
-    "react/prop-types": "off",
-    "arrow-body-style": "off",
-    "no-nested-ternary": "off",
-    "react/jsx-no-undef": "off"
-  },
-
-  "ignorePatterns": ["types.ts", "*.js"]
+  "extends": "eslint-config-tiu"
 }
