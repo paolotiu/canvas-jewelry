@@ -32,7 +32,6 @@ export const productVariant: ObjectType = {
       title: 'Color',
       options: {
         condition: (document) => {
-          console.log(document);
           return document.optionsSwitch?.withColor;
         },
       },
@@ -71,6 +70,7 @@ export const productVariant: ObjectType = {
       name: 'hasHalfSizes',
       title: 'Half Sizes',
       fieldset: 'size',
+
       initialValue: false,
       options: {
         condition: (document) => {

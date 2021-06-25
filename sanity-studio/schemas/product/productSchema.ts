@@ -28,9 +28,10 @@ export const productSchema: Document = {
       validation: (Rules) => Rules.required(),
     },
     {
-      type: 'string',
+      type: 'array',
       name: 'description',
       title: 'Description',
+      of: [{ type: 'block' }],
     },
     {
       title: 'Default Variant',
@@ -66,16 +67,16 @@ export const productSchema: Document = {
     //   of: [{ type: 'reference', to: [{ type: 'category' }] }],
     // },
   ],
+  initialValue: {
+    withSize: true,
+    withColor: true,
+    withLetters: false,
+    withAdditional: false,
+  },
   preview: {
     select: {
-      images: 'images',
-      name: 'name',
-    },
-    prepare({ name, images }) {
-      return {
-        title: name,
-        media: images[0],
-      };
+      title: 'name',
+      media: 'images.0',
     },
   },
 };
