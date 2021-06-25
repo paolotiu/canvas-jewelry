@@ -10,7 +10,7 @@ import type {
   SanityImageCrop,
   SanityImageHotspot,
   SanityKeyed,
-} from "sanity-codegen";
+} from 'sanity-codegen';
 
 export type {
   SanityReference,
@@ -32,7 +32,7 @@ export type {
  *
  */
 export interface Product extends SanityDocument {
-  _type: "product";
+  _type: 'product';
 
   /**
    * Name — `string`
@@ -53,14 +53,14 @@ export interface Product extends SanityDocument {
    *
    *
    */
-  slug: { _type: "slug"; current: string };
+  slug: { _type: 'slug'; current: string };
 
   /**
    * Description — `string`
    *
    *
    */
-  description?: string;
+  description?: SanityBlock;
 
   /**
    * Images — `array`
@@ -69,7 +69,7 @@ export interface Product extends SanityDocument {
    */
   images: Array<
     SanityKeyed<{
-      _type: "image";
+      _type: 'image';
       asset: SanityAsset;
       crop?: SanityImageCrop;
       hotspot?: SanityImageHotspot;
@@ -90,7 +90,7 @@ export interface Product extends SanityDocument {
  *
  */
 export interface Category extends SanityDocument {
-  _type: "category";
+  _type: 'category';
 
   /**
    * Name — `string`
@@ -104,7 +104,7 @@ export interface Category extends SanityDocument {
    *
    *
    */
-  slug: { _type: "slug"; current: string };
+  slug: { _type: 'slug'; current: string };
 }
 
 export type Documents = Product | Category;
