@@ -1,18 +1,20 @@
+import Divider from '@components/Divider/Divider';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import React from 'react';
+import { SanityBlock } from 'sanity-codegen';
 import { useProductContext } from './ProductContext';
+import ProductDescription from './ProductDescription';
 
 interface Props {
   name: string;
-  description?: string;
+  description?: SanityBlock;
   price: number;
 }
 
 const StyledProductDetails = styled.div`
-  padding: 1rem 0rem;
+  padding-top: 1rem;
   line-height: 1.5em;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   display: grid;
   gap: 0.3rem;
   h3 {
@@ -22,13 +24,19 @@ const StyledProductDetails = styled.div`
       font-size: ${({ theme }) => theme.typography.fontSizes['2xl']};
     }
   }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.4rem;
+    align-items: center;
+  }
   .description {
     color: ${({ theme }) => theme.colors.secondaryText};
     font-size: ${({ theme }) => theme.typography.fontSizes.sm};
   }
 
   .price {
-    font-size: ${({ theme }) => theme.typography.fontSizes.md};
+    font-size: ${({ theme }) => theme.typography.fontSizes.lg};
     font-weight: ${({ theme }) => theme.typography.fontWeights.semibold};
   }
   .warning {
@@ -43,15 +51,20 @@ const StyledProductDetails = styled.div`
 
 const ProductDetails = ({ name, description, price }: Props) => {
   const { variant } = useProductContext();
-
   return (
     <StyledProductDetails>
-      <h3>{name} </h3>
-      {description && <p className="description">{description}</p>}
-      <div>
+      <div className="header">
+        <h3>{name} </h3>
+
         <p className="price">{variant?.price || price}</p>
-        {!variant?.price && <span className="warning">Not a valid configuration</span>}
       </div>
+      <Divider />
+
+      <ProductDescription blocks={description} />
+
+      <Divider />
+      {/* {description && <p className="description">{description}</p>} */}
+      <div>{!variant?.price && <span className="warning">Not a valid configuration</span>}</div>
     </StyledProductDetails>
   );
 };
