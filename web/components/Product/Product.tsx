@@ -126,7 +126,10 @@ const Product = ({ product, allVariants }: Props) => {
                 />
                 {allVariants.length ? (
                   <div className="options">
-                    <ProductOptions variants={allVariants} />
+                    <ProductOptions
+                      variants={allVariants}
+                      withSize={product.optionsSwitch?.withSize || false}
+                    />
                   </div>
                 ) : null}
 

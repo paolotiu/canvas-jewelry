@@ -1,11 +1,12 @@
 import { generateRange } from '@utils/generateRange';
 import { ProductVariant } from '@utils/sanity/queries';
-import React from 'react';
+import React, { useMemo } from 'react';
 import SelectBlock from '@components/Select/SelectBlock';
 import { useWhichProduct } from './useWhichProduct';
 
 interface Props {
   variants: ProductVariant[];
+  withSize: boolean;
 }
 
 const getValues = (variants: ProductVariant[], keys: string[]) => {
@@ -40,9 +41,12 @@ const getPossibleSizes = (variants: ProductVariant[]) => {
   return generateRange(min, max, hasHalfSizes ? 0.5 : 0);
 };
 
-const ProductOptions = ({ variants }: Props) => {
-  const options = getValues(variants, ['color', 'additional']);
-  const sizes = getPossibleSizes(variants);
+const ProductOptions = ({ variants, withSize }: Props) => {
+  const options = useMemo(
+    () => getValues(variants, ['color', 'additional', 'letters']),
+    [variants],
+  );
+  const sizes = withSize ? getPossibleSizes(variants) : null;
   const { handleSelectChange } = useWhichProduct(options[0], variants);
 
   return (
