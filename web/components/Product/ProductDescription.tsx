@@ -15,6 +15,10 @@ const BlockWrapper = styled.div`
 `;
 
 const ProductDescription = ({ blocks }: Props) => {
+  if (!blocks || !Array.isArray(blocks)) {
+    return null;
+  }
+
   return (
     <BlockWrapper>
       <BlockContent blocks={blocks} />
