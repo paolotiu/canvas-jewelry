@@ -38,7 +38,7 @@ const getPossibleSizes = (variants: ProductVariant[]) => {
     min = Math.min(v.minSize || 0);
     max = Math.max(v.maxSize || 0);
   });
-  return generateRange(min, max, hasHalfSizes ? 0.5 : 0);
+  return generateRange(min, max, hasHalfSizes ? 0.5 : 1);
 };
 
 const ProductOptions = ({ variants, withSize }: Props) => {
