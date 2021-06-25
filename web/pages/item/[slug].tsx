@@ -36,6 +36,7 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { slug: str
   });
 
   let allVariants: ProductVariant[] = [];
+
   if (product.variants) {
     allVariants = [product.defaultVariant, ...product.variants];
   }

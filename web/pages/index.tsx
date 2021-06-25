@@ -27,7 +27,6 @@ export const getStaticProps = async ({ preview = false }: GetStaticPropsContext)
     },
   };
 };
-
 const IndexPage = ({ products, banners }: InferGetStaticPropsType<typeof getStaticProps>) => (
   <Home products={products} banners={banners as ProductReturn} />
 );
