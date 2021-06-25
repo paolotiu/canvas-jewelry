@@ -18,11 +18,12 @@ const StyledProductDetails = styled.div`
   display: grid;
   gap: 0.3rem;
   h3 {
-    font-weight: ${({ theme }) => theme.typography.fontWeights.light};
     font-size: ${({ theme }) => theme.typography.fontSizes.xl};
     ${breakpoints.sm} {
       font-size: ${({ theme }) => theme.typography.fontSizes['2xl']};
     }
+
+    font-weight: ${({ theme }) => theme.typography.fontWeights.medium};
   }
   .header {
     display: flex;
@@ -30,14 +31,15 @@ const StyledProductDetails = styled.div`
     padding-bottom: 0.4rem;
     align-items: center;
   }
+
   .description {
     color: ${({ theme }) => theme.colors.secondaryText};
     font-size: ${({ theme }) => theme.typography.fontSizes.sm};
   }
 
   .price {
+    font-weight: ${({ theme }) => theme.typography.fontWeights.light};
     font-size: ${({ theme }) => theme.typography.fontSizes.lg};
-    font-weight: ${({ theme }) => theme.typography.fontWeights.semibold};
   }
   .warning {
     color: ${({ theme }) => theme.colors.danger};
