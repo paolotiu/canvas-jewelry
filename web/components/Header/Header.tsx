@@ -21,7 +21,7 @@ const StyledHeader = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 5;
   ${breakpoints.lg} {
     display: none;
   }

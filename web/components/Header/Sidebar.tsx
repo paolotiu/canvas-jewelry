@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { FiX } from 'react-icons/fi';
 import Link from 'next/link';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
@@ -53,7 +54,7 @@ const Overlay = styled(motion.div)`
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 1;
+  z-index: 6;
   ${breakpoints.lg} {
     display: none;
   }
@@ -103,7 +104,7 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
         initial={isHidden ? 'hidden' : 'shown'}
       >
         <button type="button" id="close-sidebar" onClick={closeSidebar}>
-          X
+          <FiX size={20} />
         </button>
         <Link href="/" passHref>
           <a className="image-container" href="home">
