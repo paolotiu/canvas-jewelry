@@ -15,17 +15,17 @@ const links: NavLink[] = [
   },
 
   {
-    href: '/',
+    href: '/category/best-sellers',
     label: 'Best Sellers',
   },
 
   {
-    href: '/',
+    href: '/category/necklaces',
     label: 'Necklaces',
   },
 
   {
-    href: '/',
+    href: '/category/classics',
     label: 'Classics',
   },
 ];
