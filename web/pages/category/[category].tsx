@@ -48,7 +48,7 @@ export const getStaticProps = async ({ preview = false, params }: GetStaticProps
 
   return {
     props: {
-      category,
+      category: category.products.filter((cat) => !!cat),
     },
   };
 };
