@@ -32,7 +32,6 @@ const SelectBlock = ({ label, initialValue, onChange, ...props }: Props & Select
           if (val) {
             setSelectValue(val);
           }
-          console.log(val);
 
           if (onChange) {
             onChange(val, action);

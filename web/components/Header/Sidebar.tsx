@@ -105,8 +105,8 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
         <button type="button" id="close-sidebar" onClick={closeSidebar}>
           X
         </button>
-        <Link href="/">
-          <a className="image-container">
+        <Link href="/" passHref>
+          <a className="image-container" href="home">
             <img
               src="/logo.png"
               width="100%"

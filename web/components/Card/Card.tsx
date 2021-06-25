@@ -139,10 +139,12 @@ const Card = ({ src, name, className, slug, description }: Props) => {
     >
       <motion.div className="image" layout>
         <motion.div variants={ImageVariants}>
-          <SanityImage
-            src={src}
-            options={{ imageBuilder: (builder) => builder.width(500).height(500).quality(100) }}
-          />
+          {src && (
+            <SanityImage
+              src={src}
+              options={{ imageBuilder: (builder) => builder.width(500).height(500).quality(100) }}
+            />
+          )}
         </motion.div>
       </motion.div>
       <motion.div className="text" layout>

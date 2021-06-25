@@ -32,10 +32,10 @@ const Footer = () => {
   return (
     <StyledFooter>
       <div className="logos">
-        <a href="">
+        <a href="https://www.instagram.com/thecanvasjewelry/">
           <Instagram />
         </a>
-        <a href="">
+        <a href="https://www.facebook.com/thecanvasjewelry/">
           <Facebook />
         </a>
         <p>

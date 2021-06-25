@@ -60,8 +60,8 @@ const Header = () => {
       <StyledHeader>
         <Burger id="burger" onClick={openSidebar} />
 
-        <Link href="/">
-          <a>
+        <Link href="/" passHref>
+          <a href="home">
             <Image
               src="/logo.png"
               alt="logo"

@@ -16,14 +16,22 @@ const Button = styled.button<ButtonProps>`
   cursor: pointer;
   border-radius: ${({ theme, borderRadius }) =>
     borderRadius ? theme.borderRadius[borderRadius] : 0};
-  border: ${({ theme, withBorder, backgroundColor }) =>
-    withBorder === true
-      ? backgroundColor
-        ? `1px solid ${theme.colors[backgroundColor]}`
-        : `1px solid ${theme.colors.black}`
-      : withBorder
-      ? `1px solid ${theme.colors[withBorder]}`
-      : 'none'};
+
+  border: ${({ theme, withBorder, backgroundColor }) => {
+    if (withBorder === true) {
+      if (backgroundColor) {
+        return `1px solid ${theme.colors[backgroundColor]}`;
+      }
+      return `1px solid ${theme.colors.black}`;
+    }
+
+    if (withBorder) {
+      return `1px solid ${theme.colors[withBorder]}`;
+    }
+
+    return `none`;
+  }};
+
   font-size: ${({
     theme: {
       typography: { fontSizes },
@@ -33,14 +41,20 @@ const Button = styled.button<ButtonProps>`
 
   background-color: ${({ theme, backgroundColor }) =>
     backgroundColor ? theme.colors[backgroundColor] : 'white'};
-  color: ${({ theme, isWhite, color }) =>
-    color === 'coolGray'
-      ? theme.colors.coolGray[600]
-      : color
-      ? theme.colors[color]
-      : isWhite
-      ? theme.colors.white
-      : theme.colors.black};
+  color: ${({ theme, isWhite, color }) => {
+    if (color === 'coolGray') {
+      return theme.colors.coolGray[600];
+    }
+
+    if (color) {
+      return theme.colors[color];
+    }
+
+    if (isWhite) {
+      return theme.colors.white;
+    }
+    return theme.colors.black;
+  }};
 
   padding: ${({ size }) => (size === 'sm' ? '0.35em 1em' : `0.4em 0.8em`)};
   font-weight: ${({ theme, fontWeight }) =>

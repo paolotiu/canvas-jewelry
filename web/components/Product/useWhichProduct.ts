@@ -18,7 +18,6 @@ const getWhichProductWithSize = (
   const products = getMatchedProducts(variants, optionsWithoutSize);
 
   return products.find((product) => {
-    console.log(product, options);
     if (!product.maxSize || !product.minSize) {
       return false;
     }
