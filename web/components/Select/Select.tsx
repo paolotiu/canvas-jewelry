@@ -22,6 +22,7 @@ const Select = ({ options, ...props }: SelectProps) => {
       styles={customStyles}
       instanceId={options?.[0].label || 1}
       options={options}
+      isSearchable={false}
       {...props}
     />
   );
