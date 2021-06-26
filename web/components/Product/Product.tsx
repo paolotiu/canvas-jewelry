@@ -5,8 +5,11 @@ import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
-import { ProductReturnWithVariants, ProductVariant } from '@utils/sanity/queries';
-import React from 'react';
+import { ProductReturnWithVariants, PRODUCT_BY_SLUG_QUERY } from '@utils/sanity/queries';
+import { usePreviewSubscription } from '@utils/sanity/sanity';
+import { useAtom } from 'jotai';
+import { previewAtom } from '@utils/jotai';
+import { useMemo } from 'react';
 import ProductOptions from './ProductOptions';
 import { ProductContextProvider } from './ProductContext';
 import ProductDetails from './ProductDetails';
@@ -93,14 +96,27 @@ const ContentContainer = styled.div`
 
 interface Props {
   product: ProductReturnWithVariants;
-  allVariants: ProductVariant[];
 }
 
-const Product = ({ product, allVariants }: Props) => {
+const Product = ({ product }: Props) => {
   const router = useRouter();
+  const [isPreview] = useAtom(previewAtom);
+
+  const { data } = usePreviewSubscription(PRODUCT_BY_SLUG_QUERY, {
+    params: { slug: product.slug },
+    initialData: product,
+    enabled: isPreview,
+  });
+
+  const allVariants = useMemo(() => {
+    if (data.variants) {
+      return [data.defaultVariant, ...data.variants];
+    }
+    return [];
+  }, [data]);
 
   return (
-    <Layout title={product.name}>
+    <Layout title={data.name}>
       <main>
         <InfoBlock>
           <button type="button" className="back" onClick={() => router.back()}>
@@ -114,21 +130,21 @@ const Product = ({ product, allVariants }: Props) => {
             <div className="content">
               <Carousel
                 withButtons
-                images={product.images}
+                images={data.images}
                 unsetAspectRatio
                 options={{ imageBuilder: (builder) => builder.width(400 * 2).height(500 * 2) }}
               />
               <DetailsContainer>
                 <ProductDetails
-                  description={product.description}
-                  name={product.name}
-                  price={product.price}
+                  description={data.description}
+                  name={data.name}
+                  price={data.price}
                 />
                 {allVariants.length ? (
                   <div className="options">
                     <ProductOptions
                       variants={allVariants}
-                      withSize={product.optionsSwitch?.withSize || false}
+                      withSize={data.optionsSwitch?.withSize || false}
                     />
                   </div>
                 ) : null}
