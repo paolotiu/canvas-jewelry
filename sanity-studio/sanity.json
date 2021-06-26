@@ -14,13 +14,12 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "media",
-    "conditional-field"
+    "conditional-field",
+    "@sanity/production-preview"
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
@@ -31,6 +30,10 @@
     {
       "implements": "part:@sanity/form-builder/input/image/asset-sources",
       "path": "./parts/assetSources.ts"
+    },
+    {
+      "implements": "part:@sanity/production-preview/resolve-production-url",
+      "path": "./resolveProductionUrl.ts"
     }
   ]
 }
