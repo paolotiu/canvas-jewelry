@@ -7,6 +7,8 @@ import { categorySchema } from './categorySchema';
 import { productSchema } from './product/productSchema';
 import { productVariant } from './product/productVariant';
 import { optionalFields } from './product/productOptionSchema';
+import { homepageSchema } from './homepage/homepageSchema';
+import { homepageBlock } from './homepage/homepageBlock';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -20,5 +22,7 @@ export default createSchema({
     categorySchema,
     productVariant,
     optionalFields,
+    homepageSchema,
+    homepageBlock,
   ]),
 });

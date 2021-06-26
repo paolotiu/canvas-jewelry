@@ -144,6 +144,7 @@ type Preview = {
 type Fieldset = {
   name: string;
   title: string;
+  description?: string;
   options?: {
     collapsible: boolean;
     collapsed?: boolean;
@@ -172,6 +173,7 @@ export type Document = {
   validation?: Validation;
   preview?: Preview;
   fieldsets?: Fieldset[];
+  __experimental_actions?: string[];
   initialValue?: { [key: string]: any }; // eslint-disable-line @typescript-eslint/no-explicit-any
   orderings?: {
     name: string;
