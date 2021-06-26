@@ -19,6 +19,7 @@
     "embla-carousel": "^4.5.0",
     "eslint-config-prettier": "^8.2.0",
     "framer-motion": "^4.1.9",
+    "jotai": "^1.1.0",
     "lodash": "^4.17.21",
     "lodash.differencewith": "^4.5.0",
     "lodash.intersectionwith": "^4.4.0",
