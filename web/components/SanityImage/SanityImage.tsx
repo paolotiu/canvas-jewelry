@@ -4,7 +4,7 @@ import { useNextSanityImage, UseNextSanityImageOptions } from 'next-sanity-image
 import Image from 'next/image';
 import React from 'react';
 
-interface Props {
+export interface SanityImageProps {
   src: SanityImageSource;
   options?: UseNextSanityImageOptions & {
     enableBlurUp?: true;
@@ -12,10 +12,12 @@ interface Props {
   cover?: boolean;
 }
 
-const SanityImage = ({ src, options, cover = false }: Props) => {
+const SanityImage = ({ src, options, cover = false }: SanityImageProps) => {
   const imageProps = useNextSanityImage(sanityClient, src, options);
   if (cover) {
-    return <Image {...imageProps} layout="intrinsic" objectFit="cover" />;
+    return (
+      <Image src={imageProps.src} loader={imageProps.loader} layout="fill" objectFit="cover" />
+    );
   }
 
   return <Image {...imageProps} layout="intrinsic" />;
