@@ -31,14 +31,13 @@ const EmblaContainer = styled.div`
   display: flex;
   height: 100%;
 `;
-const EmblaSlide = styled.div`
+const EmblaSlide = styled.div<{ objectFit?: 'contain' | 'cover' }>`
   position: relative;
   flex: 0 0 100%;
   display: flex;
   justify-content: center;
-
   img {
-    object-fit: contain;
+    object-fit: ${({ objectFit }) => objectFit || 'contain'};
   }
 
   ${breakpoints.sm} {
@@ -83,6 +82,7 @@ interface Props {
     enableBlurUp?: true;
   };
   cover?: boolean;
+  objectFit?: 'contain' | 'cover';
 }
 
 const Carousel = ({
@@ -92,6 +92,7 @@ const Carousel = ({
   autoPlayInterval = 4000,
   unsetAspectRatio,
   options,
+  objectFit,
   cover,
 }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaConfig);
@@ -147,6 +148,7 @@ const Carousel = ({
           <EmblaContainer>
             {images?.map((src, i) => (
               <EmblaSlide
+                objectFit={objectFit}
                 key={(src as any)._ref || i}
                 style={{
                   aspectRatio: unsetAspectRatio ? 'unset' : '',

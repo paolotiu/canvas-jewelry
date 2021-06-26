@@ -4,9 +4,11 @@ import Layout from '@components/Layout';
 import NavGrid from '@components/NavGrid/NavGrid';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { ProductReturn } from '@utils/sanity/queries';
+import { HomepageSettings, ProductReturn } from '@utils/sanity/queries';
 import { NavLink } from 'interfaces';
 import React from 'react';
+import { getHrefFromRef } from './getHrefFromRef';
+import HomeBlock from './HomeBlock';
 
 const links: NavLink[] = [
   {
@@ -33,10 +35,11 @@ const links: NavLink[] = [
 const BannerContainer = styled.div`
   ${breakpoints.sm} {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
     gap: 0.2rem;
-    min-height: 400px;
+    height: 400px;
+    max-width: 100%;
   }
 `;
 
@@ -46,34 +49,41 @@ const Content = styled.div`
     padding: 4rem 1rem 1rem 1rem;
   }
 `;
-
-const Block1 = styled.div`
-  grid-column: 3 / -1;
-  background-color: ${({ theme }) => theme.colors.gray};
-`;
-
-const Block2 = styled.div`
-  background-color: ${({ theme }) => theme.colors.gray};
-`;
-
 interface Props {
   products: ProductReturn[];
-  banners: ProductReturn;
+  homepageSettings: HomepageSettings;
 }
-const Home = ({ products, banners }: Props) => {
+const Home = ({ products, homepageSettings }: Props) => {
   return (
     <Layout title="The Canvas Jewelry">
       <Content>
         <BannerContainer>
-          <Block1 />
-          <Carousel
-            images={banners.images}
-            withAutoPlay
-            cover
-            options={{ imageBuilder: (builder) => builder.quality(80), enableBlurUp: true }}
+          <HomeBlock
+            src={homepageSettings.homepageBlock1.blockImage.asset}
+            label={homepageSettings.homepageBlock1.blockTitle}
+            href={getHrefFromRef(homepageSettings.homepageBlock1.blockReference)}
           />
-          <Block2 />
-          <Block2 />
+          <Carousel
+            images={homepageSettings.homepageBanners}
+            withAutoPlay
+            options={{
+              imageBuilder: (builder) => builder.height(400).quality(80),
+              enableBlurUp: true,
+            }}
+            objectFit="cover"
+          />
+          <HomeBlock
+            src={homepageSettings.homepageBlock2.blockImage.asset}
+            label={homepageSettings.homepageBlock2.blockTitle}
+            href={getHrefFromRef(homepageSettings.homepageBlock2.blockReference)}
+            unsetGrid
+          />
+          <HomeBlock
+            src={homepageSettings.homepageBlock3.blockImage.asset}
+            label={homepageSettings.homepageBlock3.blockTitle}
+            href={getHrefFromRef(homepageSettings.homepageBlock3.blockReference)}
+            unsetGrid
+          />
         </BannerContainer>
         <NavGrid links={links} />
         <CardSection items={products || []} title="Best Sellers" />

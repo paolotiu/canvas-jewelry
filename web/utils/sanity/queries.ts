@@ -33,7 +33,6 @@ export const PRODUCT_BY_SLUG_QUERY = groq`
 export const CATEGORY_BY_NAME_QUERY = groq`
 *[_type == 'category' && lower(name) == lower($name)][0]{
 	name,
-	'products': *[_type == 'product' && references(^._id)]{${productFields}}
 }
 `;
 
@@ -45,6 +44,33 @@ export const CATEGORY_BY_SLUG_QUERY = groq`
     
   }
 
+}
+`;
+
+export const HOMEPAGE_SETTINGS_QUERY = groq`
+*[_type == 'homepageSettings'][0]{
+	...,
+    homepageBlock1 {
+	      ...,
+        blockReference -> {
+        _type,
+        'slug': slug.current
+	      }
+    },
+ homepageBlock2 {
+	      ...,
+        blockReference -> {
+        _type,
+        'slug': slug.current
+	      }
+    },
+ homepageBlock3 {
+	      ...,
+        blockReference -> {
+        _type,
+        'slug': slug.current
+	      }
+    }
 }
 `;
 
@@ -94,3 +120,20 @@ export type OptionsSwitch = {
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
   products: ProductReturn[];
 };
+
+export interface HomepageBlock {
+  blockImage: {
+    asset: SanityImageSource;
+  };
+  blockReference: {
+    _type: 'category' | 'product';
+    slug: string;
+  };
+  blockTitle: string;
+}
+export interface HomepageSettings {
+  homepageBanners: { asset: SanityImageSource }[];
+  homepageBlock1: HomepageBlock;
+  homepageBlock2: HomepageBlock;
+  homepageBlock3: HomepageBlock;
+}
