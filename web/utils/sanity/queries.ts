@@ -23,7 +23,7 @@ export const ALL_PRODUCTS_QUERY = groq`
 
 export const PRODUCT_BY_SLUG_QUERY = groq`
 
-*[_type == 'product' && slug.current == $slug][0]{
+*[_type == 'product' && slug.current == $slug] | order(_updatedAt desc) [0]{
 	defaultVariant,
 	variants[],
 	${productFields}
