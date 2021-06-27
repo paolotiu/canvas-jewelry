@@ -14,6 +14,7 @@ const Sidebar = dynamic(
 
 const StyledHeader = styled.header`
   padding: 0.7rem;
+  padding-top: 1rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
