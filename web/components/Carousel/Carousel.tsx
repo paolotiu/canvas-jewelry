@@ -38,7 +38,7 @@ const EmblaSlide = styled.div<{ objectFit?: 'contain' | 'cover' }>`
   flex: 0 0 100%;
   display: flex;
   justify-content: center;
-  cursor: grab;
+  /* cursor: grab; */
 
   img {
     object-fit: ${({ objectFit }) => objectFit || 'contain'};
@@ -129,6 +129,11 @@ const Carousel = ({
   }, [emblaApi]);
 
   useEffect(() => {
+    if (images.length !== emblaApi?.slideNodes.length) {
+      emblaApi?.reInit();
+    }
+  }, [emblaApi, images]);
+  useEffect(() => {
     if (!emblaApi) return;
 
     setScrollSnaps(emblaApi.scrollSnapList());
@@ -145,48 +150,45 @@ const Carousel = ({
       emblaApi.on('pointerDown', stop);
     }
   }, [emblaApi, onSelect, images, withAutoPlay, play, stop]);
-
   return (
-    <>
-      <Wrapper className="carousel-wrapper">
-        <Embla ref={emblaRef}>
-          <EmblaContainer>
-            {images?.map((src, i) => (
-              <EmblaSlide
-                objectFit={objectFit}
-                key={(src as any)._ref || i}
-                style={{
-                  aspectRatio: unsetAspectRatio ? 'unset' : '',
-                }}
-              >
-                <SanityImage src={src} options={options} cover={cover} />
-              </EmblaSlide>
+    <Wrapper className="carousel-wrapper">
+      <Embla ref={emblaRef}>
+        <EmblaContainer>
+          {images?.map((src, i) => (
+            <EmblaSlide
+              objectFit={objectFit}
+              key={(src as any)._ref || i}
+              style={{
+                aspectRatio: unsetAspectRatio ? 'unset' : '',
+              }}
+            >
+              <SanityImage src={src} options={options} cover={cover} />
+            </EmblaSlide>
+          ))}
+        </EmblaContainer>
+
+        {scrollSnaps.length > 1 && (
+          <DotButtonContainer>
+            {scrollSnaps.map((_, i) => (
+              <DotButton
+                // Bad practice in general but shouldn't matter in this case
+                // eslint-disable-next-line react/no-array-index-key
+                key={i}
+                onClick={() => emblaApi?.scrollTo(i)}
+                active={i === activeIndex}
+              />
             ))}
-          </EmblaContainer>
+          </DotButtonContainer>
+        )}
 
-          {scrollSnaps.length > 1 && (
-            <DotButtonContainer>
-              {scrollSnaps.map((_, i) => (
-                <DotButton
-                  // Bad practice in general but shouldn't matter in this case
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={i}
-                  onClick={() => emblaApi?.scrollTo(i)}
-                  active={i === activeIndex}
-                />
-              ))}
-            </DotButtonContainer>
-          )}
-
-          {withButtons && images && images.length > 1 && (
-            <>
-              <PrevButton onClick={() => emblaApi?.scrollPrev()} />
-              <NextButton onClick={() => emblaApi?.scrollNext()} />
-            </>
-          )}
-        </Embla>
-      </Wrapper>
-    </>
+        {withButtons && images && images.length > 1 && (
+          <>
+            <PrevButton onClick={() => emblaApi?.scrollPrev()} />
+            <NextButton onClick={() => emblaApi?.scrollNext()} />
+          </>
+        )}
+      </Embla>
+    </Wrapper>
   );
 };
 export default Carousel;
