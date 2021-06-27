@@ -28,7 +28,7 @@ export const getStaticProps = async ({
   preview = false,
   params,
 }: GetStaticPropsContext): Promise<
-  GetStaticPropsResult<{ category: CategoryWithProductsReturn }>
+  GetStaticPropsResult<{ category: CategoryWithProductsReturn; preview: boolean }>
 > => {
   if (!params)
     return {
@@ -49,11 +49,13 @@ export const getStaticProps = async ({
     };
   }
 
+  // Filter out null products
   const filteredProducts = category.products.filter((cat) => !!cat);
 
   return {
     props: {
       category: { ...category, products: filteredProducts },
+      preview,
     },
   };
 };

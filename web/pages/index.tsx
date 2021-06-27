@@ -12,7 +12,11 @@ import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } 
 export const getStaticProps = async ({
   preview = false,
 }: GetStaticPropsContext): Promise<
-  GetStaticPropsResult<{ products: ProductReturn[]; homepageSettings: HomepageSettings }>
+  GetStaticPropsResult<{
+    products: ProductReturn[];
+    homepageSettings: HomepageSettings;
+    preview: boolean;
+  }>
 > => {
   const category = await getClient(preview).fetch<CategoryWithProductsReturn | undefined>(
     CATEGORY_BY_SLUG_QUERY,
@@ -35,6 +39,7 @@ export const getStaticProps = async ({
     props: {
       products: category.products,
       homepageSettings,
+      preview,
     },
   };
 };
