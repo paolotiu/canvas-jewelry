@@ -38,11 +38,16 @@ const getWhichProductWithSize = (
   });
 };
 
-export const useWhichProduct = (initial: any, variants: ProductVariant[]) => {
-  const [currentConfig, setCurrentConfig] = useState<Record<string, boolean | string | number>>(
-    initial || {},
-  );
+export const useWhichProduct = (initial: any = {}, variants: ProductVariant[]) => {
+  const [currentConfig, setCurrentConfig] =
+    useState<Record<string, boolean | string | number>>(initial);
+
   const [, setVariant] = useAtom(productVariantAtom);
+
+  useEffect(() => {
+    // Reset whenever item changes
+    setCurrentConfig(initial);
+  }, [initial]);
 
   useEffect(() => {
     if (typeof currentConfig.size === 'number') {

@@ -145,13 +145,16 @@ const Product = ({ product }: Props) => {
               withButtons
               images={data.images}
               unsetAspectRatio
-              options={{ imageBuilder: (builder) => builder.width(400 * 2).height(500 * 2) }}
+              options={{
+                imageBuilder: (builder) => builder.width(400).height(500).quality(100),
+              }}
             />
             <DetailsContainer>
               <ProductDetails description={data.description} name={data.name} price={data.price} />
               {allVariants.length ? (
                 <div className="options">
                   <ProductOptions
+                    defaultVariant={data.defaultVariant}
                     variants={allVariants}
                     withSize={data.optionsSwitch?.withSize || false}
                   />

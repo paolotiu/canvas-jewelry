@@ -7,6 +7,7 @@ import { useWhichProduct } from './useWhichProduct';
 interface Props {
   variants: ProductVariant[];
   withSize: boolean;
+  defaultVariant: ProductVariant;
 }
 
 const getValues = (variants: ProductVariant[], keys: string[]) => {
@@ -27,6 +28,20 @@ const getValues = (variants: ProductVariant[], keys: string[]) => {
   return map;
 };
 
+const getDefaultOption = (variant: ProductVariant, keys: string[], size?: number) => {
+  const map: Record<string, any> = {};
+  Object.entries(variant).forEach(([key, val]) => {
+    if (keys.includes(key)) {
+      map[key] = val;
+    }
+  });
+
+  if (size) {
+    map.size = size;
+  }
+
+  return map;
+};
 const getPossibleSizes = (variants: ProductVariant[]) => {
   let min = 100;
   let max = 0;
@@ -41,14 +56,19 @@ const getPossibleSizes = (variants: ProductVariant[]) => {
   return generateRange(min, max, hasHalfSizes ? 0.5 : 1);
 };
 
-const ProductOptions = ({ variants, withSize }: Props) => {
-  const options = useMemo(
-    () => getValues(variants, ['color', 'additional', 'letters']),
-    [variants],
+const ProductOptions = ({ variants, withSize, defaultVariant }: Props) => {
+  const options = useMemo(() => {
+    return getValues(variants, ['color', 'additional', 'letters']);
+  }, [variants]);
+
+  const defaultOption = useMemo(
+    () =>
+      getDefaultOption(defaultVariant, ['color', 'additional', 'letters'], defaultVariant.minSize),
+    [defaultVariant],
   );
 
   const sizes = useMemo(() => (withSize ? getPossibleSizes(variants) : null), [variants, withSize]);
-  const { handleSelectChange } = useWhichProduct(options[0], variants);
+  const { handleSelectChange } = useWhichProduct(defaultOption, variants);
 
   return (
     <>
