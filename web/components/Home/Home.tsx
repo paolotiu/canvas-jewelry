@@ -67,7 +67,7 @@ const Home = ({ products, homepageSettings }: Props) => {
             images={homepageSettings.homepageBanners}
             withAutoPlay
             options={{
-              imageBuilder: (builder) => builder.height(400).quality(80),
+              imageBuilder: (builder) => builder.height(1200).quality(100),
               enableBlurUp: true,
             }}
             objectFit="cover"

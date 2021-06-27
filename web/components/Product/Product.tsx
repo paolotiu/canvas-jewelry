@@ -173,7 +173,11 @@ const Product = ({ product }: Props) => {
               unsetAspectRatio
               objectFit="cover"
               options={{
-                imageBuilder: (builder) => builder.width(400).height(500).quality(100),
+                imageBuilder: (builder) =>
+                  builder
+                    .width(400 * 2.5)
+                    .height(500 * 2.5)
+                    .quality(100),
               }}
             />
             <DetailsContainer>
