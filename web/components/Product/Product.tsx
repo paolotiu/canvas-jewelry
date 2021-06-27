@@ -106,11 +106,6 @@ const ContentContainer = styled.div`
       grid-template-columns: 1fr 1fr;
     }
 
-    ${breakpoints.md} {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
     .carousel-wrapper {
       grid-column: unset;
       ${breakpoints.sm} {
