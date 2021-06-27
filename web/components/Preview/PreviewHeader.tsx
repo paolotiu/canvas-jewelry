@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
+import { previewAtom } from '@utils/jotai';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import React from 'react';
 
 interface Props {
   children: React.ReactNode;
-  preview?: boolean;
 }
 
 const StyledPreviewMessage = styled.div`
@@ -31,8 +32,9 @@ const StyledExitPreview = styled.a`
   }
 `;
 
-const PreviewHeader = ({ preview = false, children }: Props) => {
-  if (!preview) {
+const PreviewHeader = ({ children }: Props) => {
+  const [isPreview] = useAtom(previewAtom);
+  if (!isPreview) {
     return <>{children}</>;
   }
 
