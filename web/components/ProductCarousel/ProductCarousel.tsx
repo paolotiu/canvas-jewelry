@@ -8,9 +8,9 @@ import { ProductReturn } from '@utils/sanity/queries';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2rem;
   padding-top: 3rem;
-  max-width: 100vw;
+  max-width: 1200px;
+  width: 100%;
   h2 {
     font-size: ${({ theme }) => theme.typography.fontSizes.lg};
   }

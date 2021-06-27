@@ -46,6 +46,8 @@ const InfoBlock = styled.div`
 const DetailsContainer = styled.div`
   padding-top: 1rem;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
   .text {
   }
 
@@ -58,6 +60,11 @@ const DetailsContainer = styled.div`
 
   ${breakpoints.sm} {
     padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  ${breakpoints.lg} {
+    padding: 0 3rem;
   }
 
   .button-container {
@@ -65,6 +72,10 @@ const DetailsContainer = styled.div`
     line-height: 1.5em;
     button {
       width: 100%;
+    }
+    ${breakpoints.sm} {
+      padding-bottom: 0;
+      margin-top: auto;
     }
   }
 `;
@@ -81,24 +92,39 @@ const ContentContainer = styled.div`
   }
   .content {
     max-width: 1200px;
+    width: 100%;
     padding: 1rem 0;
     padding-top: 0;
     margin: 0 0rem;
     border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
 
     ${breakpoints.sm} {
+      padding-left: 1rem;
+      padding-right: 1rem;
       padding-top: 4rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
 
+    ${breakpoints.md} {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     .carousel-wrapper {
       grid-column: unset;
       ${breakpoints.sm} {
+        max-width: 500px;
         max-height: unset;
       }
     }
   }
+`;
+
+const ProductCarouselWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
 `;
 
 interface Props {
@@ -145,6 +171,7 @@ const Product = ({ product }: Props) => {
               withButtons
               images={data.images}
               unsetAspectRatio
+              objectFit="cover"
               options={{
                 imageBuilder: (builder) => builder.width(400).height(500).quality(100),
               }}
@@ -181,7 +208,9 @@ const Product = ({ product }: Props) => {
             </DetailsContainer>
           </div>
         </ContentContainer>
-        <ProductCarousel products={relatedProducts} />
+        <ProductCarouselWrapper>
+          <ProductCarousel products={relatedProducts} />
+        </ProductCarouselWrapper>
       </main>
     </Layout>
   );

@@ -12,14 +12,15 @@ interface Props {
 const StyledPreviewMessage = styled.div`
   background-color: ${({ theme }) => theme.colors.coolGray['500']};
   z-index: 100;
-  padding: 1rem;
+  padding: 1rem 2rem;
   color: white;
   font-weight: bold;
   position: relative;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 
   ${breakpoints.lg} {
-    display: flex;
-    justify-content: center;
     margin-left: 250px;
   }
 `;
