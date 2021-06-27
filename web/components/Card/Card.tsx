@@ -126,7 +126,7 @@ const ImageVariants: Variants = {
 
 const Card = ({ src, name, className, slug }: Props) => {
   return (
-    <Link href={`/item/${slug}`}>
+    <Link href={`/item/${slug}`} passHref>
       <a href="product" style={{ textDecoration: 'unset' }}>
         <StyledCard
           className={className}
