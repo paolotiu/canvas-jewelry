@@ -11,7 +11,6 @@ const productFields = `
 	'slug': slug.current,
 	'mainImage': images[0].asset->,
   optionsSwitch
-
 `;
 
 export const ALL_PRODUCTS_QUERY = groq`
@@ -26,19 +25,22 @@ export const PRODUCT_BY_SLUG_QUERY = groq`
 *[_type == 'product' && slug.current == $slug] | order(_updatedAt desc) [0]{
 	defaultVariant,
 	variants[],
-	${productFields}
+	${productFields},
+  'categories': *[_type == "category" && references(^._id)]{slug}
+
 }
 `;
 
 export const CATEGORY_BY_NAME_QUERY = groq`
-*[_type == 'category' && lower(name) == lower($name)][0]{
+*[_type == 'category' && lower(name) == lower($name)]| order(_updatedAt desc) [0]{
 	name,
 }
 `;
 
 export const CATEGORY_BY_SLUG_QUERY = groq`
-*[_type == 'category' && slug.current == $slug][0]{
+*[_type == 'category' && slug.current == $slug] | order(_updatedAt desc) [0]{
 	name,
+  'slug': slug.current,
 	products[]->{
     ${productFields}
     
@@ -119,6 +121,7 @@ export type OptionsSwitch = {
 
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
   products: ProductReturn[];
+  slug: string;
 };
 
 export interface HomepageBlock {
