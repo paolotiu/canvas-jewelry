@@ -27,15 +27,19 @@ const Embla = styled.div`
   width: 100%;
   position: relative;
 `;
+
 const EmblaContainer = styled.div`
   display: flex;
   height: 100%;
 `;
+
 const EmblaSlide = styled.div<{ objectFit?: 'contain' | 'cover' }>`
   position: relative;
   flex: 0 0 100%;
   display: flex;
   justify-content: center;
+  cursor: grab;
+
   img {
     object-fit: ${({ objectFit }) => objectFit || 'contain'};
   }
@@ -46,6 +50,7 @@ const EmblaSlide = styled.div<{ objectFit?: 'contain' | 'cover' }>`
   }
   aspect-ratio: 1/1;
 
+  // flex gap polyfill
   @supports not (aspect-ratio: 1 / 1) {
     ::before {
       float: left;
