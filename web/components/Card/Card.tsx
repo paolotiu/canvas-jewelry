@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React from 'react';
 
 const StyledCard = styled(motion.div)`
@@ -125,31 +125,33 @@ const ImageVariants: Variants = {
 };
 
 const Card = ({ src, name, className, slug }: Props) => {
-  const router = useRouter();
   return (
-    <StyledCard
-      className={className}
-      layout
-      onClick={() => {
-        router.push(`/item/${slug}`);
-      }}
-      initial={false}
-      whileHover={className === 'list' ? '' : 'hover'}
-    >
-      <motion.div className="image" layout>
-        <motion.div variants={ImageVariants}>
-          {src && (
-            <SanityImage
-              src={src}
-              options={{ imageBuilder: (builder) => builder.width(500).height(500).quality(100) }}
-            />
-          )}
-        </motion.div>
-      </motion.div>
-      <motion.div className="text" layout>
-        <h4>{name}</h4>
-      </motion.div>
-    </StyledCard>
+    <Link href={`/item/${slug}`}>
+      <a href="product">
+        <StyledCard
+          className={className}
+          layout
+          initial={false}
+          whileHover={className === 'list' ? '' : 'hover'}
+        >
+          <motion.div className="image" layout>
+            <motion.div variants={ImageVariants}>
+              {src && (
+                <SanityImage
+                  src={src}
+                  options={{
+                    imageBuilder: (builder) => builder.width(500).height(500).quality(100),
+                  }}
+                />
+              )}
+            </motion.div>
+          </motion.div>
+          <motion.div className="text" layout>
+            <h4>{name}</h4>
+          </motion.div>
+        </StyledCard>
+      </a>
+    </Link>
   );
 };
 
