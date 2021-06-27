@@ -1,9 +1,10 @@
 import Divider from '@components/Divider/Divider';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
+import { productVariantAtom } from '@utils/jotai';
+import { useAtom } from 'jotai';
 import React from 'react';
 import { SanityBlock } from 'sanity-codegen';
-import { useProductContext } from './ProductContext';
 import ProductDescription from './ProductDescription';
 
 interface Props {
@@ -52,7 +53,7 @@ const StyledProductDetails = styled.div`
 `;
 
 const ProductDetails = ({ name, description, price }: Props) => {
-  const { variant } = useProductContext();
+  const [variant] = useAtom(productVariantAtom);
   return (
     <StyledProductDetails>
       <div className="header">

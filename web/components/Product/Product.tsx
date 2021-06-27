@@ -5,14 +5,21 @@ import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
-import { ProductReturnWithVariants, PRODUCT_BY_SLUG_QUERY } from '@utils/sanity/queries';
+import {
+  CategoryWithProductsReturn,
+  CATEGORY_BY_SLUG_QUERY,
+  ProductReturn,
+  ProductReturnWithVariants,
+  PRODUCT_BY_SLUG_QUERY,
+} from '@utils/sanity/queries';
 import { usePreviewSubscription } from '@utils/sanity/sanity';
 import { useAtom } from 'jotai';
 import { previewAtom } from '@utils/jotai';
-import { useMemo } from 'react';
-import ProductOptions from './ProductOptions';
-import { ProductContextProvider } from './ProductContext';
+import React, { useMemo, useEffect, useState } from 'react';
+import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
+import { sanityClient } from '@utils/sanity/sanity.server';
 import ProductDetails from './ProductDetails';
+import ProductOptions from './ProductOptions';
 
 const InfoBlock = styled.div`
   display: flex;
@@ -101,6 +108,13 @@ interface Props {
 const Product = ({ product }: Props) => {
   const router = useRouter();
   const [isPreview] = useAtom(previewAtom);
+  const [relatedProducts, setRelatedProducts] = useState<ProductReturn[]>([]);
+
+  useEffect(() => {
+    sanityClient
+      .fetch<CategoryWithProductsReturn>(CATEGORY_BY_SLUG_QUERY, { slug: 'best-sellers' })
+      .then((res) => setRelatedProducts(res.products));
+  }, []);
 
   const { data } = usePreviewSubscription(PRODUCT_BY_SLUG_QUERY, {
     params: { slug: product.slug },
@@ -116,7 +130,7 @@ const Product = ({ product }: Props) => {
   }, [data]);
 
   return (
-    <Layout title={data.name}>
+    <Layout title={`Canvas | ${data.name}`}>
       <main>
         <InfoBlock>
           <button type="button" className="back" onClick={() => router.back()}>
@@ -125,51 +139,46 @@ const Product = ({ product }: Props) => {
 
           <h4>Product Details</h4>
         </InfoBlock>
-        <ProductContextProvider>
-          <ContentContainer>
-            <div className="content">
-              <Carousel
-                withButtons
-                images={data.images}
-                unsetAspectRatio
-                options={{ imageBuilder: (builder) => builder.width(400 * 2).height(500 * 2) }}
-              />
-              <DetailsContainer>
-                <ProductDetails
-                  description={data.description}
-                  name={data.name}
-                  price={data.price}
-                />
-                {allVariants.length ? (
-                  <div className="options">
-                    <ProductOptions
-                      variants={allVariants}
-                      withSize={data.optionsSwitch?.withSize || false}
-                    />
-                  </div>
-                ) : null}
-
-                <div className="button-container">
-                  <a
-                    href="https://www.instagram.com/thecanvasjewelry/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Button
-                      backgroundColor="black"
-                      isWhite
-                      fontWeight="bold"
-                      size="sm"
-                      style={{ padding: '1rem' }}
-                    >
-                      Shop Now
-                    </Button>
-                  </a>
+        <ContentContainer>
+          <div className="content">
+            <Carousel
+              withButtons
+              images={data.images}
+              unsetAspectRatio
+              options={{ imageBuilder: (builder) => builder.width(400 * 2).height(500 * 2) }}
+            />
+            <DetailsContainer>
+              <ProductDetails description={data.description} name={data.name} price={data.price} />
+              {allVariants.length ? (
+                <div className="options">
+                  <ProductOptions
+                    variants={allVariants}
+                    withSize={data.optionsSwitch?.withSize || false}
+                  />
                 </div>
-              </DetailsContainer>
-            </div>
-          </ContentContainer>
-        </ProductContextProvider>
+              ) : null}
+
+              <div className="button-container">
+                <a
+                  href="https://www.instagram.com/thecanvasjewelry/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button
+                    backgroundColor="black"
+                    isWhite
+                    fontWeight="bold"
+                    size="sm"
+                    style={{ padding: '1rem' }}
+                  >
+                    Shop Now
+                  </Button>
+                </a>
+              </div>
+            </DetailsContainer>
+          </div>
+        </ContentContainer>
+        <ProductCarousel products={relatedProducts} />
       </main>
     </Layout>
   );

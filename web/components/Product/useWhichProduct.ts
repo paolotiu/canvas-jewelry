@@ -1,7 +1,8 @@
 import { ProductVariant } from '@utils/sanity/queries';
 import { useEffect, useState } from 'react';
 import { matches } from 'lodash';
-import { useProductContext } from './ProductContext';
+import { useAtom } from 'jotai';
+import { productVariantAtom } from '@utils/jotai';
 
 const getMatchedProducts = (variants: ProductVariant[], options: Record<string, any>) => {
   const matcher = matches(options);
@@ -41,7 +42,7 @@ export const useWhichProduct = (initial: any, variants: ProductVariant[]) => {
   const [currentConfig, setCurrentConfig] = useState<Record<string, boolean | string | number>>(
     initial || {},
   );
-  const { setVariant } = useProductContext();
+  const [, setVariant] = useAtom(productVariantAtom);
 
   useEffect(() => {
     if (typeof currentConfig.size === 'number') {
