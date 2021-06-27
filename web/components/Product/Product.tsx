@@ -126,7 +126,7 @@ const Product = ({ product }: Props) => {
     if (data.variants) {
       return [data.defaultVariant, ...data.variants];
     }
-    return [];
+    return [data.defaultVariant];
   }, [data]);
 
   return (
