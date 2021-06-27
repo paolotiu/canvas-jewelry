@@ -79,7 +79,7 @@ const emblaConfig: Partial<OptionsType> = {
 
 interface Props {
   withButtons?: boolean;
-  images: SanityImageSource[];
+  images: SanityImageSource[] | null;
   withAutoPlay?: boolean;
   autoPlayInterval?: number;
   unsetAspectRatio?: boolean;
@@ -129,9 +129,13 @@ const Carousel = ({
   }, [emblaApi]);
 
   useEffect(() => {
-    if (images.length !== emblaApi?.slideNodes.length) {
+    if (images?.length !== emblaApi?.slideNodes.length) {
       emblaApi?.reInit();
     }
+
+    return () => {
+      emblaApi?.destroy();
+    };
   }, [emblaApi, images]);
   useEffect(() => {
     if (!emblaApi) return;
@@ -191,4 +195,5 @@ const Carousel = ({
     </Wrapper>
   );
 };
+Carousel.whyDidYouRender = true;
 export default Carousel;
