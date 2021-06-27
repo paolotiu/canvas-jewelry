@@ -8,7 +8,7 @@ import { breakpoints, points } from '@styles/breakpoints';
 import Link from 'next/link';
 
 const Sidebar = dynamic(
-  () => (window.innerWidth > 500 ? import('./Sidebar') : import('./MobileSidebar')),
+  () => (window.innerWidth > points.lg ? import('./Sidebar') : import('./MobileSidebar')),
   { ssr: false },
 );
 
@@ -17,6 +17,7 @@ const StyledHeader = styled.header`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
+  justify-content: center;
   background-color: white;
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   position: sticky;
@@ -32,6 +33,11 @@ const StyledHeader = styled.header`
   #burger {
     shape-rendering: crispEdges;
   }
+`;
+
+const LogoLink = styled.a`
+  display: flex;
+  justify-content: center;
 `;
 
 const Header = () => {
@@ -61,7 +67,7 @@ const Header = () => {
         <Burger id="burger" onClick={openSidebar} />
 
         <Link href="/" passHref>
-          <a href="home">
+          <LogoLink href="home">
             <Image
               src="/logo.png"
               alt="logo"
@@ -72,7 +78,7 @@ const Header = () => {
               className="logo"
               objectFit="cover"
             />
-          </a>
+          </LogoLink>
         </Link>
         {/* <Search style={{ justifySelf: 'end' }} /> */}
       </StyledHeader>
