@@ -27,9 +27,9 @@ const handler: NextApiHandler = async (req, res) => {
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
   if (type === 'product') {
     res.writeHead(307, { Location: `/item/${slug}` });
+  } else {
+    res.writeHead(307, { Location: `/${type}/${slug}` });
   }
-
-  res.writeHead(307, { Location: `/${type}/${slug}` });
 
   res.end();
 };
