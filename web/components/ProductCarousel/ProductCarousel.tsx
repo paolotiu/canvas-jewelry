@@ -4,6 +4,7 @@ import Card from '@components/Card/Card';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { ProductReturn } from '@utils/sanity/queries';
+import { useEffect } from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -59,6 +60,13 @@ const ProductCarousel = ({ products }: Props) => {
     align: 'center',
     containScroll: 'trimSnaps',
   });
+
+  useEffect(() => {
+    // reinit to make dragging work
+    if (products.length !== emblaApi?.containerNode.length) {
+      emblaApi?.reInit();
+    }
+  }, [emblaApi, products.length]);
 
   return (
     <Container>
