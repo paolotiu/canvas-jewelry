@@ -28,15 +28,15 @@ const getValues = (variants: ProductVariant[], keys: string[]) => {
 };
 
 const getPossibleSizes = (variants: ProductVariant[]) => {
-  let min = 0;
-  let max = 100;
+  let min = 100;
+  let max = 0;
   let hasHalfSizes = false;
   variants.forEach((v) => {
     if (v.hasHalfSizes) {
       hasHalfSizes = true;
     }
-    min = Math.min(v.minSize || 0);
-    max = Math.max(v.maxSize || 0);
+    min = Math.min(v.minSize || 100, min);
+    max = Math.max(v.maxSize || 0, max);
   });
   return generateRange(min, max, hasHalfSizes ? 0.5 : 1);
 };
@@ -46,7 +46,8 @@ const ProductOptions = ({ variants, withSize }: Props) => {
     () => getValues(variants, ['color', 'additional', 'letters']),
     [variants],
   );
-  const sizes = withSize ? getPossibleSizes(variants) : null;
+
+  const sizes = useMemo(() => (withSize ? getPossibleSizes(variants) : null), [variants, withSize]);
   const { handleSelectChange } = useWhichProduct(options[0], variants);
 
   return (
