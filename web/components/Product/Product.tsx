@@ -75,7 +75,7 @@ const DetailsContainer = styled.div`
     }
     ${breakpoints.sm} {
       padding-bottom: 0;
-      margin-top: auto;
+      /* margin-top: auto; */
     }
   }
 `;
