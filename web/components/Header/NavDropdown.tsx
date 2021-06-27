@@ -22,7 +22,11 @@ const NavDropdownHeader = styled.div`
   display: flex;
   justify-content: space-between;
   cursor: pointer;
+  button {
+    cursor: pointer;
+  }
 `;
+
 const variants: Variants = {
   hidden: {
     height: 0,
