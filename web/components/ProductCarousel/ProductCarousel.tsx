@@ -3,16 +3,17 @@ import 'embla-carousel';
 import Card from '@components/Card/Card';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { urlFor } from '@utils/sanity/sanity';
 import { ProductReturn } from '@utils/sanity/queries';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  padding-top: 5rem;
-
+  padding-top: 3rem;
   max-width: 100vw;
+  h2 {
+    font-size: ${({ theme }) => theme.typography.fontSizes.lg};
+  }
 `;
 const Embla = styled.div`
   position: relative;
@@ -74,11 +75,7 @@ const ProductCarousel = ({ products }: Props) => {
                 }
               }}
             >
-              <Card
-                src={urlFor(product.images[0]).url() || ''}
-                name={product.name}
-                slug={product.slug}
-              />
+              <Card src={product.images[0]} name={product.name} slug={product.slug} />
             </EmblaSlide>
           ))}
         </EmblaContainer>
