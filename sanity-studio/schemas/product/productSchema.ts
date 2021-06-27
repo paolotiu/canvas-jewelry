@@ -59,20 +59,8 @@ export const productSchema: Document = {
       of: [{ type: 'image', options: { hotspot: true } }],
       validation: (Rules) => Rules.min(1),
     },
-
-    // {
-    //   type: 'array',
-    //   name: 'categories',
-    //   title: 'Categories',
-    //   of: [{ type: 'reference', to: [{ type: 'category' }] }],
-    // },
   ],
-  initialValue: {
-    withSize: true,
-    withColor: true,
-    withLetters: false,
-    withAdditional: false,
-  },
+
   preview: {
     select: {
       title: 'name',
