@@ -7,7 +7,6 @@ import {
   ProductReturnWithVariants,
   PRODUCT_BY_SLUG_QUERY,
 } from '@utils/sanity/queries';
-import PreviewHeader from '@components/Preview/PreviewHeader';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const products = await getClient(false).fetch<Pick<ProductReturn, '_id' | 'slug'>[]>(
@@ -52,15 +51,10 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { slug: str
 
 interface Props {
   product: ProductReturnWithVariants;
-  preview: boolean;
 }
 
-const ProductPage = ({ product, preview }: Props) => {
-  return (
-    <PreviewHeader preview={preview}>
-      <Product product={product} />
-    </PreviewHeader>
-  );
+const ProductPage = ({ product }: Props) => {
+  return <Product product={product} />;
 };
 
 export default ProductPage;
