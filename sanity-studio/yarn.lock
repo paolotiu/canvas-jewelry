@@ -1489,6 +1489,15 @@
     postcss-value-parser "^3.3.0"
     source-list-map "^2.0.0"
 
+"@sanity/dashboard@^2.10.5":
+  version "2.10.5"
+  resolved "https://registry.npmjs.org/@sanity/dashboard/-/dashboard-2.10.5.tgz#1cf377b0afd46b25da166c3e68911d7aa76a8aea"
+  integrity sha512-8CCFja4zSoBi+vkYscoUW0uzT1bUHQ/j8EDwB3myehMa5GiJqtQlBt/77W8dD2ttdR8YiCVs/ZHvA6esNBcoRA==
+  dependencies:
+    "@sanity/image-url" "^0.140.19"
+    lodash "^4.17.15"
+    rxjs "^6.5.3"
+
 "@sanity/data-aspects@2.2.6":
   version "2.2.6"
   resolved "https://registry.npmjs.org/@sanity/data-aspects/-/data-aspects-2.2.6.tgz#bb0ca6647a1536fec14d30a911cd2abfb6ee33f8"
@@ -2627,6 +2636,13 @@ aws4@^1.8.0:
   version "1.11.0"
   resolved "https://registry.npmjs.org/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
+
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.npmjs.org/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -4215,6 +4231,11 @@ depd@^1.1.2, depd@~1.1.2:
   resolved "https://registry.npmjs.org/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
 
+dequal@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
+  integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
+
 des.js@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/des.js/-/des.js-1.0.1.tgz#5382142e1bdc53f85d86d53e5f4aa7deb91e0843"
@@ -5056,7 +5077,7 @@ focus-lock@^0.9.1:
   dependencies:
     tslib "^2.0.3"
 
-follow-redirects@^1.2.4:
+follow-redirects@^1.10.0, follow-redirects@^1.2.4:
   version "1.14.1"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
   integrity sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==
@@ -6958,7 +6979,7 @@ nanoid@3.1.20:
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.20.tgz#badc263c6b1dcf14b71efaa85f6ab4c1d6cfc788"
   integrity sha512-a1cQNyczgKbLX9jwbS/+d7W8fX/RfgYR7lVWwWOGIPNgK2m0MWvrGF6/m4kk6U3QcFMnZf3RIhL0v2Jgh/0Uxw==
 
-nanoid@^3.1.12, nanoid@^3.1.9:
+nanoid@^3.1.12, nanoid@^3.1.20, nanoid@^3.1.9:
   version "3.1.23"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
   integrity sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==
@@ -9389,6 +9410,18 @@ sanity-plugin-media@^1.3.1:
     theme-ui "0.3.5"
     yup "0.32.8"
 
+sanity-plugin-vercel-deploy@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/sanity-plugin-vercel-deploy/-/sanity-plugin-vercel-deploy-2.0.1.tgz#40272e99b9ba83e9ca1ec23262115227664194ff"
+  integrity sha512-yl8GW/Wy3UOW7ohYftNFG5KJYsqIUpj7VDbeN2/pEEOvuxDOm+ebNbLcwRm+QzvSATXivmZyVYGUagmhXyrzxw==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    axios "^0.21.1"
+    nanoid "^3.1.20"
+    prop-types "^15.7.2"
+    spacetime "^6.16.0"
+    swr "^0.5.6"
+
 sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.npmjs.org/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
@@ -9723,6 +9756,11 @@ space-separated-tokens@^1.0.0:
   version "1.1.5"
   resolved "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-1.1.5.tgz#85f32c3d10d9682007e917414ddc5c26d1aa6899"
   integrity sha512-q/JSVd1Lptzhf5bkYm4ob4iWPjx0KiRe3sRFBNrVqbJkFaBm5vbbowy1mymoPNLRa52+oadOhJ+K49wsSeSjTA==
+
+spacetime@^6.16.0:
+  version "6.16.2"
+  resolved "https://registry.npmjs.org/spacetime/-/spacetime-6.16.2.tgz#f2e268a6f7b3f35ba822f513d34934a2569d791a"
+  integrity sha512-Oko/pwiYvkdoLSVjS1LcxkQ3FYIck5TbKttEpfulwdK4SzBB8m9z/S0kKu4HN+W2pHXZRFsiBXzwTtvB1IgfDA==
 
 spdx-correct@^3.0.0:
   version "3.1.1"
@@ -10110,6 +10148,13 @@ svgo@^1.0.0:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+swr@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/swr/-/swr-0.5.6.tgz#70bfe9bc9d7ac49a064be4a0f4acf57982e55a31"
+  integrity sha512-Bmx3L4geMZjYT5S2Z6EE6/5Cx6v1Ka0LhqZKq8d6WL2eu9y6gHWz3dUzfIK/ymZVHVfwT/EweFXiYGgfifei3w==
+  dependencies:
+    dequal "2.0.2"
 
 symbol-observable@^1.2.0:
   version "1.2.0"

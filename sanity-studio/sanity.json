@@ -15,11 +15,15 @@
     "@sanity/desk-tool",
     "media",
     "conditional-field",
-    "@sanity/production-preview"
+    "@sanity/production-preview",
+    "vercel-deploy",
+    "@sanity/dashboard"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "parts": [
