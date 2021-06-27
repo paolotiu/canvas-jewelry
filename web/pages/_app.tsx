@@ -1,3 +1,4 @@
+import '../scripts/wydr';
 import PreviewHeader from '@components/Preview/PreviewHeader';
 import { Global, ThemeProvider } from '@emotion/react';
 import { globalStyles } from '@styles/globalStyles';
