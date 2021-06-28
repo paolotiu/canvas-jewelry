@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "downlevelIteration": true
   },
   // Note: This config is only used to help editors like VS Code understand/resolve
   // parts, the actual transpilation is done by babel. Any compiler configuration in
