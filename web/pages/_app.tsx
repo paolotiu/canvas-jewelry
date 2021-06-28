@@ -41,10 +41,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               locale: 'en_PH',
               title: 'Canvas Jewelry',
               description: 'Everyday elegance crafted for you',
-              // TODO: CHANGE LATER
-              url: 'canvas-jewelry.vercel.app',
+              url: 'https://thecanvasjewelry.com',
               site_name: 'Canvas Jewelry',
-              images: [{ url: 'logo.png' }],
+              images: [
+                {
+                  url: 'https://cdn.sanity.io/images/94xotc05/production/2ed76ff2fed3e104230b9b4a0d1aeebc9081e76f-5298x3532.jpg?rect=0,375,5298,2781&w=1200&h=630',
+                },
+              ],
             }}
             facebook={{ appId: '2595973077370619' }}
           />
