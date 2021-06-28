@@ -118,9 +118,12 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
           </a>
         </Link>
         <div className="link-container">
+          <NavLink href="/" label="Home" />
           {NAV_ITEMS.map((item) => {
             if (item.kind === 'link') {
-              return <NavLink href={item.href} label={item.label} key={item.label} />;
+              return (
+                <NavLink href={`/category/${item.href}`} label={item.label} key={item.label} />
+              );
             }
 
             return <NavDropdown key={item.label} item={item} />;

@@ -3,6 +3,7 @@ import { motion, Variants } from 'framer-motion';
 import { NavItem } from 'interfaces';
 import { FiChevronDown } from 'react-icons/fi';
 import React, { useState } from 'react';
+import { theme } from '@styles/theme';
 import NavLink, { StyledNavLink } from './NavLink';
 
 interface Props {
@@ -70,14 +71,14 @@ const NavDropdown = ({ item }: Props) => {
           }}
         >
           <motion.div variants={ArrowVariants} animate={isShown ? 'up' : 'down'}>
-            <FiChevronDown />
+            <FiChevronDown color={theme.colors.secondaryText} />
           </motion.div>
         </button>
       </NavDropdownHeader>
       <NavDropdownContent variants={variants} animate={isShown ? 'shown' : 'hidden'}>
         {item.children.map((i) => {
           if (i.kind === 'link') {
-            return <NavLink key={i.label} href={i.href} label={i.label} />;
+            return <NavLink key={i.label} href={`/category/${i.href}`} label={i.label} />;
           }
           return null;
         })}

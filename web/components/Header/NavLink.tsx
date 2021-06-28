@@ -9,7 +9,7 @@ export const StyledNavLink = styled.a`
 
 const NavLink = ({ href, label }: { label: string; href: string }) => {
   return (
-    <Link href={`/category/${href}`}>
+    <Link href={href}>
       <StyledNavLink>{label}</StyledNavLink>
     </Link>
   );
