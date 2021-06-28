@@ -10,20 +10,20 @@ export const homepageBlock: ObjectType = {
     {
       type: 'string',
       title: 'Title',
-      name: 'blockTitle',
+      name: 'title',
       validation: (Rule) => Rule.required().max(50),
     },
     {
       type: 'image',
       title: 'Image',
-      name: 'blockImage',
+      name: 'image',
       options: {
         hotspot: true,
       },
     },
     {
       type: 'reference',
-      name: 'blockReference',
+      name: 'reference',
       to: [{ type: 'category' }, { type: 'product' }],
     },
   ],

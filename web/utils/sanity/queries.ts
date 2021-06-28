@@ -139,14 +139,14 @@ export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
 };
 
 export interface HomepageBlock {
-  blockImage: {
+  image: {
     asset: SanityImageSource;
   };
-  blockReference: {
+  reference: {
     _type: 'category' | 'product';
     slug: string;
   };
-  blockTitle: string;
+  title: string;
 }
 export interface HomepageSettings {
   homepageBanners: { asset: SanityImageSource }[];

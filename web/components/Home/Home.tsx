@@ -59,9 +59,9 @@ const Home = ({ products, homepageSettings }: Props) => {
       <Content>
         <BannerContainer>
           <HomeBlock
-            src={homepageSettings.homepageBlock1.blockImage.asset}
-            label={homepageSettings.homepageBlock1.blockTitle}
-            href={getHrefFromRef(homepageSettings.homepageBlock1.blockReference)}
+            src={homepageSettings.homepageBlock1.image.asset}
+            label={homepageSettings.homepageBlock1.title}
+            href={getHrefFromRef(homepageSettings.homepageBlock1.reference)}
           />
           <Carousel
             images={homepageSettings.homepageBanners}
@@ -73,15 +73,15 @@ const Home = ({ products, homepageSettings }: Props) => {
             objectFit="cover"
           />
           <HomeBlock
-            src={homepageSettings.homepageBlock2.blockImage.asset}
-            label={homepageSettings.homepageBlock2.blockTitle}
-            href={getHrefFromRef(homepageSettings.homepageBlock2.blockReference)}
+            src={homepageSettings.homepageBlock2.image.asset}
+            label={homepageSettings.homepageBlock2.title}
+            href={getHrefFromRef(homepageSettings.homepageBlock2.reference)}
             unsetGrid
           />
           <HomeBlock
-            src={homepageSettings.homepageBlock3.blockImage.asset}
-            label={homepageSettings.homepageBlock3.blockTitle}
-            href={getHrefFromRef(homepageSettings.homepageBlock3.blockReference)}
+            src={homepageSettings.homepageBlock3.image.asset}
+            label={homepageSettings.homepageBlock3.title}
+            href={getHrefFromRef(homepageSettings.homepageBlock3.reference)}
             unsetGrid
           />
         </BannerContainer>
