@@ -36,6 +36,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <meta name="theme-color" content="#ffffff"></meta>
           </Head>
           <DefaultSeo
+            defaultTitle="Canvas Jewelry"
+            canonical="https://thecanvasjewelry.com"
+            description="Everyday elegance crafted for you"
             openGraph={{
               type: 'website',
               locale: 'en_PH',

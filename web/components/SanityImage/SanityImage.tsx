@@ -16,11 +16,17 @@ const SanityImage = ({ src, options, cover = false }: SanityImageProps) => {
   const imageProps = useNextSanityImage(sanityClient, src, options);
   if (cover) {
     return (
-      <Image src={imageProps.src} loader={imageProps.loader} layout="fill" objectFit="cover" />
+      <Image
+        src={imageProps.src}
+        loader={imageProps.loader}
+        alt="Jewelry"
+        layout="fill"
+        objectFit="cover"
+      />
     );
   }
 
-  return <Image {...imageProps} layout="intrinsic" />;
+  return <Image {...imageProps} layout="intrinsic" alt="Jewelry" />;
 };
 
 export default SanityImage;
