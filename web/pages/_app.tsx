@@ -8,6 +8,7 @@ import { Provider } from 'jotai';
 import { AppProps } from 'next/app';
 import React from 'react';
 import Head from 'next/head';
+import { DefaultSeo } from 'next-seo';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -34,6 +35,19 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
             <meta name="theme-color" content="#ffffff"></meta>
           </Head>
+          <DefaultSeo
+            openGraph={{
+              type: 'website',
+              locale: 'en_PH',
+              title: 'Canvas Jewelry',
+              description: 'Everyday elegance crafted for you',
+              // TODO: CHANGE LATER
+              url: 'canvas-jewelry.vercel.app',
+              site_name: 'Canvas Jewelry',
+              images: [{ url: 'logo.png' }],
+            }}
+            facebook={{ appId: '2595973077370619' }}
+          />
           <PreviewHeader>
             <Component {...pageProps} />
           </PreviewHeader>
