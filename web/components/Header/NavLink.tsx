@@ -7,11 +7,39 @@ export const StyledNavLink = styled.a`
   color: ${({ theme }) => theme.colors.secondaryText};
 `;
 
-const NavLink = ({ href, label }: { label: string; href: string }) => {
+interface CommonProps {
+  label: string;
+  href: string;
+}
+
+interface AsLinkProps extends CommonProps {
+  asButton?: false;
+}
+interface AsButtonProps extends CommonProps {
+  asButton: true;
+  onClick: () => void;
+}
+
+function NavLink(props: AsLinkProps): JSX.Element;
+function NavLink(props: AsButtonProps): JSX.Element;
+
+function NavLink({
+  href,
+  label,
+  asButton,
+  onClick,
+}: CommonProps & { asButton?: boolean; onClick?: () => void }) {
+  if (asButton) {
+    return (
+      <StyledNavLink as="button" type="button" onClick={onClick}>
+        {label}
+      </StyledNavLink>
+    );
+  }
   return (
     <Link href={href}>
       <StyledNavLink>{label}</StyledNavLink>
     </Link>
   );
-};
+}
 export default NavLink;

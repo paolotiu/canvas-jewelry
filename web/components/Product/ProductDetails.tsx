@@ -1,7 +1,7 @@
 import Divider from '@components/Divider/Divider';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { productVariantAtom } from '@utils/jotai';
+import { priceRevealAtom, productVariantAtom } from '@utils/jotai';
 import { useAtom } from 'jotai';
 import React from 'react';
 import { SanityBlock } from 'sanity-codegen';
@@ -54,12 +54,12 @@ const StyledProductDetails = styled.div`
 
 const ProductDetails = ({ name, description, price }: Props) => {
   const [variant] = useAtom(productVariantAtom);
+  const [isPriceRevealed] = useAtom(priceRevealAtom);
   return (
     <StyledProductDetails>
       <div className="header">
         <h3>{name} </h3>
-
-        <p className="price">{variant?.price || price}</p>
+        <p className="price">{isPriceRevealed ? variant?.price || price : null}</p>
       </div>
       <Divider />
 

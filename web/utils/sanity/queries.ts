@@ -92,6 +92,12 @@ export const ALL_CATEGORIES_QUERY = groq`
 }
 `;
 
+export const PRICE_PASSWORD_QUERY = groq`
+*[_type == 'homepageSettings'][0]{
+  password
+}
+`;
+
 export type ProductReturn = Pick<Product, '_id' | 'description' | 'price' | 'name'> & {
   images: SanityImageSource[];
   slug: string;
@@ -166,4 +172,8 @@ export interface HomepageSettings {
       slug: string;
     };
   }[];
+}
+
+export interface PricePassword {
+  password: string;
 }

@@ -312,4 +312,25 @@ Add the correct display in Chrome and Safari.
       text-decoration: underline;
     }
   }
+
+  .ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 300ms ease-in-out;
+  }
+
+  .ReactModal__Overlay--after-open {
+    background-color: rgba(0, 0, 0, 0.16);
+  }
+
+  .react-modal {
+    opacity: 0.5;
+    transition: all 200ms ease-in-out;
+  }
+  .react-modal-after-open {
+    opacity: 1;
+  }
+
+  .ReactModal__Overlay--before-close {
+    opacity: 0;
+  }
 `;

@@ -4,8 +4,12 @@ import Link from 'next/link';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
 import { NAV_ITEMS } from 'constants/NAV_ITEMS';
+import dynamic from 'next/dynamic';
+import { useModal } from '@components/Modal/useModal';
 import NavDropdown from './NavDropdown';
 import NavLink from './NavLink';
+
+const PricePasswordModal = dynamic(() => import('@components/Header/PricePasswordModal'));
 
 const StyledSidebar = styled(motion.aside)`
   height: 100vh;
@@ -17,6 +21,7 @@ const StyledSidebar = styled(motion.aside)`
   display: flex;
   padding: 2rem 3rem;
   flex-direction: column;
+  justify-content: space-between;
   z-index: 10;
   background-color: white;
 
@@ -40,10 +45,15 @@ const StyledSidebar = styled(motion.aside)`
     position: absolute;
     top: 1rem;
     left: 1rem;
+    cursor: pointer;
 
     ${breakpoints.lg} {
       display: none;
     }
+  }
+
+  .bottom-nav {
+    padding-bottom: 4rem;
   }
 `;
 
@@ -55,6 +65,10 @@ const Overlay = styled(motion.div)`
   height: 100vh;
   width: 100vw;
   z-index: 6;
+
+  body {
+    overflow: hidden;
+  }
   ${breakpoints.lg} {
     display: none;
   }
@@ -96,6 +110,8 @@ export interface SidebarProps {
 }
 
 const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
+  const { isModalOpen, closeModal, openModal } = useModal();
+
   return (
     <>
       <StyledSidebar
@@ -106,28 +122,33 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
         <button type="button" id="close-sidebar" onClick={closeSidebar}>
           <FiX size={20} />
         </button>
-        <Link href="/" passHref>
-          <a className="image-container" href="home">
-            <img
-              src="/logo.png"
-              width="100%"
-              height="100%"
-              alt="logo"
-              style={{ objectFit: 'cover' }}
-            />
-          </a>
-        </Link>
-        <div className="link-container">
-          <NavLink href="/" label="Home" />
-          {NAV_ITEMS.map((item) => {
-            if (item.kind === 'link') {
-              return (
-                <NavLink href={`/category/${item.href}`} label={item.label} key={item.label} />
-              );
-            }
+        <div>
+          <Link href="/" passHref>
+            <a className="image-container" href="home">
+              <img
+                src="/logo.png"
+                width="100%"
+                height="100px"
+                alt="logo"
+                style={{ objectFit: 'cover' }}
+              />
+            </a>
+          </Link>
+          <div className="link-container">
+            <NavLink href="/" label="Home" />
+            {NAV_ITEMS.map((item) => {
+              if (item.kind === 'link') {
+                return (
+                  <NavLink href={`/category/${item.href}`} label={item.label} key={item.label} />
+                );
+              }
 
-            return <NavDropdown key={item.label} item={item} />;
-          })}
+              return <NavDropdown key={item.label} item={item} />;
+            })}
+          </div>
+        </div>
+        <div className="bottom-nav">
+          <NavLink asButton label="Show Prices" href="#" onClick={openModal} />
         </div>
       </StyledSidebar>
       <Overlay
@@ -136,6 +157,7 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
         variants={overlayVariants}
         animate={open ? 'shown' : 'hidden'}
       />
+      <PricePasswordModal isOpen={isModalOpen} onRequestClose={closeModal} />
     </>
   );
 };
