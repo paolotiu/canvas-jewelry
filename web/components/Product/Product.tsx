@@ -163,10 +163,15 @@ const Product = ({ product }: Props) => {
               width: 614,
               height: 937,
             },
+
+            {
+              url: urlFor(product.mainImage).width(1200).height(630).url() || product.mainImage.url,
+              width: 1200,
+              height: 630,
+            },
           ],
           type: 'Product',
-          // TODO: Change this later
-          url: `https://canvas-jewelry.vercel.app`,
+          url: `https://thecanvasjewelry.com`,
         }}
         facebook={{ appId: '2595973077370619' }}
       />
@@ -184,7 +189,7 @@ const Product = ({ product }: Props) => {
               withButtons
               images={data.images}
               unsetAspectRatio
-              objectFit="cover"
+              // objectFit="cover"
               options={{
                 imageBuilder: (builder) =>
                   builder
