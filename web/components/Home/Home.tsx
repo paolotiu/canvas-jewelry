@@ -12,8 +12,8 @@ import HomeBlock from './HomeBlock';
 
 const links: NavLink[] = [
   {
-    href: '/',
-    label: 'home',
+    href: '/category/essentials',
+    label: 'Essentials',
   },
 
   {
@@ -27,8 +27,8 @@ const links: NavLink[] = [
   },
 
   {
-    href: '/category/classics',
-    label: 'Classics',
+    href: '/category/personalized',
+    label: 'Personalized',
   },
 ];
 
