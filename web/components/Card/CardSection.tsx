@@ -1,6 +1,6 @@
 import { Title } from '@components/Title/Title';
 import styled from '@emotion/styled';
-import { breakpoints } from '@styles/breakpoints';
+import { breakpoints, points } from '@styles/breakpoints';
 import { ProductReturn } from '@utils/sanity/queries';
 import { useEffect, useState } from 'react';
 import CardContainer from './CardContainer';
@@ -50,8 +50,8 @@ const CardSection = ({ title, items, defaultView, withViewControls = true }: Pro
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width > 500) {
-        setViewMode('block');
+      if (width > points.sm) {
+        setViewMode('cube');
       }
     };
     window.addEventListener('resize', handleResize);
@@ -61,6 +61,7 @@ const CardSection = ({ title, items, defaultView, withViewControls = true }: Pro
       handleResize();
     }
 
+    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, [defaultView]);
 

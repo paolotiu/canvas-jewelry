@@ -17,7 +17,6 @@ interface Props {
 }
 const Category = ({ category }: Props) => {
   const [isPreview] = useAtom(previewAtom);
-
   const { data } = usePreviewSubscription(CATEGORY_BY_SLUG_QUERY, {
     enabled: isPreview,
     initialData: category,
@@ -47,7 +46,7 @@ const Category = ({ category }: Props) => {
         }}
       />
       <Container>
-        <CardSection items={data.products} title={data.name || ''} defaultView="cube" />
+        <CardSection items={data.products} title={data.name || ''} defaultView="block" />
       </Container>
     </Layout>
   );

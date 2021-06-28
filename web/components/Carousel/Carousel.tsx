@@ -132,11 +132,8 @@ const Carousel = ({
     if (images?.length !== emblaApi?.slideNodes.length) {
       emblaApi?.reInit();
     }
-
-    return () => {
-      emblaApi?.destroy();
-    };
   }, [emblaApi, images]);
+
   useEffect(() => {
     if (!emblaApi) return;
 
@@ -195,5 +192,4 @@ const Carousel = ({
     </Wrapper>
   );
 };
-Carousel.whyDidYouRender = true;
 export default Carousel;
