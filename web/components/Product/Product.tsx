@@ -12,12 +12,13 @@ import {
   ProductReturnWithVariants,
   PRODUCT_BY_SLUG_QUERY,
 } from '@utils/sanity/queries';
-import { usePreviewSubscription } from '@utils/sanity/sanity';
+import { urlFor, usePreviewSubscription } from '@utils/sanity/sanity';
 import { useAtom } from 'jotai';
 import { previewAtom } from '@utils/jotai';
 import React, { useMemo, useEffect, useState } from 'react';
 import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
 import { sanityClient } from '@utils/sanity/sanity.server';
+import { NextSeo } from 'next-seo';
 import ProductDetails from './ProductDetails';
 import ProductOptions from './ProductOptions';
 
@@ -151,7 +152,25 @@ const Product = ({ product }: Props) => {
   }, [data]);
 
   return (
-    <Layout title={`Canvas | ${data.name}`}>
+    <Layout>
+      <NextSeo
+        titleTemplate="Canvas | %s"
+        title={data.name}
+        description="The Canvas Jewelry"
+        openGraph={{
+          images: [
+            {
+              url: urlFor(product.mainImage).width(1200).height(627).url() || product.mainImage.url,
+              width: 1200,
+              height: 627,
+            },
+          ],
+          type: 'Product',
+          // TODO: Change this later
+          url: `https://canvas-jewelry.vercel.app`,
+        }}
+        facebook={{ appId: '2595973077370619' }}
+      />
       <main>
         <InfoBlock>
           <button type="button" className="back" onClick={() => router.back()}>

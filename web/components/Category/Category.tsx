@@ -3,8 +3,9 @@ import Layout from '@components/Layout';
 import styled from '@emotion/styled';
 import { previewAtom } from '@utils/jotai';
 import { CategoryWithProductsReturn, CATEGORY_BY_SLUG_QUERY } from '@utils/sanity/queries';
-import { usePreviewSubscription } from '@utils/sanity/sanity';
+import { urlFor, usePreviewSubscription } from '@utils/sanity/sanity';
 import { useAtom } from 'jotai';
+import { NextSeo } from 'next-seo';
 
 const Container = styled.div`
   width: 100%;
@@ -24,10 +25,29 @@ const Category = ({ category }: Props) => {
       slug: category.slug,
     },
   });
+
   return (
-    <Layout title={`Canvas | ${data.name}`}>
+    <Layout>
+      <NextSeo
+        title={`Canvas | ${data.name}`}
+        openGraph={{
+          images: [
+            {
+              url:
+                urlFor(category.image || '')
+                  .width(1200)
+                  .height(630)
+                  .url() ||
+                category.image?.url ||
+                '',
+              height: 630,
+              width: 1200,
+            },
+          ],
+        }}
+      />
       <Container>
-        <CardSection items={data.products} title={data.name || ''} defaultView="block" />
+        <CardSection items={data.products} title={data.name || ''} defaultView="cube" />
       </Container>
     </Layout>
   );
