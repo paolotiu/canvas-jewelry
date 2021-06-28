@@ -160,9 +160,10 @@ const Product = ({ product }: Props) => {
         openGraph={{
           images: [
             {
-              url: urlFor(product.mainImage).width(1200).height(627).url() || product.mainImage.url,
-              width: 1200,
-              height: 627,
+              url:
+                urlFor(product.mainImage).width(614).height(937).url() || product.mainImage.url,
+              width: 614,
+              height: 937,
             },
           ],
           type: 'Product',
