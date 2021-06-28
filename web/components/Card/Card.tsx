@@ -98,7 +98,7 @@ const StyledCard = styled(motion.div)`
 
     ${breakpoints.sm} {
       h4 {
-        font-size: ${({ theme }) => theme.typography.fontSizes.xl};
+        font-size: ${({ theme }) => theme.typography.fontSizes.lg};
       }
 
       p {

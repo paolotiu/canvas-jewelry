@@ -119,7 +119,6 @@ const ContentContainer = styled.div`
 
 const ProductCarouselWrapper = styled.div`
   display: flex;
-  justify-content: center;
   padding: 1rem;
 `;
 
@@ -160,8 +159,7 @@ const Product = ({ product }: Props) => {
         openGraph={{
           images: [
             {
-              url:
-                urlFor(product.mainImage).width(614).height(937).url() || product.mainImage.url,
+              url: urlFor(product.mainImage).width(614).height(937).url() || product.mainImage.url,
               width: 614,
               height: 937,
             },
@@ -172,7 +170,7 @@ const Product = ({ product }: Props) => {
         }}
         facebook={{ appId: '2595973077370619' }}
       />
-      <main>
+      <section>
         <InfoBlock>
           <button type="button" className="back" onClick={() => router.back()}>
             <ChevronLeft />
@@ -230,7 +228,7 @@ const Product = ({ product }: Props) => {
         <ProductCarouselWrapper>
           <ProductCarousel products={relatedProducts} />
         </ProductCarouselWrapper>
-      </main>
+      </section>
     </Layout>
   );
 };

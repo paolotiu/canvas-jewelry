@@ -14,12 +14,13 @@ const Container = styled.div`
   width: 100%;
   h2 {
     font-size: ${({ theme }) => theme.typography.fontSizes.lg};
+    padding-bottom: 0.2rem;
   }
 `;
 const Embla = styled.div`
   position: relative;
   overflow: hidden;
-  padding: 2rem 0;
+  /* padding: 2rem 0; */
   &.is-draggable {
     cursor: grab;
   }
@@ -33,6 +34,7 @@ const EmblaContainer = styled.div`
 `;
 const EmblaSlide = styled.div`
   display: flex;
+  justify-content: center;
   flex: 0 0 40%;
   ${breakpoints.sm} {
     flex: 0 0 30%;
@@ -43,9 +45,9 @@ const EmblaSlide = styled.div`
   }
 
   :not(:last-child) {
-    margin-right: 1rem;
+    margin-left: 1rem;
     ${breakpoints.md} {
-      margin-right: 2rem;
+      margin-left: 1.2rem;
     }
   }
 `;
@@ -73,18 +75,23 @@ const ProductCarousel = ({ products }: Props) => {
       <h2>Related Items</h2>
       <Embla ref={emblaRef}>
         <EmblaContainer>
-          {products.map((product) => (
-            <EmblaSlide
-              key={product._id}
-              onClickCapture={(e) => {
-                // Prevent card from getting clicked while dragging
-                if (!emblaApi?.clickAllowed()) {
-                  e.stopPropagation();
-                }
-              }}
-            >
-              <Card src={product.images[0]} name={product.name} slug={product.slug} />
-            </EmblaSlide>
+          {products.map((product, i) => (
+            <>
+              {i > 11 ? null : (
+                <EmblaSlide
+                  key={product._id}
+                  onClickCapture={(e) => {
+                    // Prevent card from getting clicked while dragging
+                    if (!emblaApi?.clickAllowed()) {
+                      e.stopPropagation();
+                    }
+                  }}
+                >
+                  {/* <div style={{ width: '100px', height: '100px', background: 'blue' }}></div> */}
+                  <Card src={product.images[0]} name={product.name} slug={product.slug} />
+                </EmblaSlide>
+              )}
+            </>
           ))}
         </EmblaContainer>
       </Embla>
