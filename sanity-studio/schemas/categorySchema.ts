@@ -52,6 +52,9 @@ export const categorySchema: Document = {
       title: 'Cover Image',
       name: 'image',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     },
   ],
 };
