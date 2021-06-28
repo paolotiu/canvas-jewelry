@@ -5,32 +5,9 @@ import NavGrid from '@components/NavGrid/NavGrid';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { HomepageSettings, ProductReturn } from '@utils/sanity/queries';
-import { NavLink } from 'interfaces';
 import React from 'react';
 import { getHrefFromRef } from './getHrefFromRef';
 import HomeBlock from './HomeBlock';
-
-const links: NavLink[] = [
-  {
-    href: '/category/essentials',
-    label: 'Essentials',
-  },
-
-  {
-    href: '/category/best-sellers',
-    label: 'Best Sellers',
-  },
-
-  {
-    href: '/category/necklaces',
-    label: 'Necklaces',
-  },
-
-  {
-    href: '/category/personalized',
-    label: 'Personalized',
-  },
-];
 
 const BannerContainer = styled.div`
   ${breakpoints.sm} {
@@ -85,7 +62,12 @@ const Home = ({ products, homepageSettings }: Props) => {
             unsetGrid
           />
         </BannerContainer>
-        <NavGrid links={links} />
+        <NavGrid
+          links={homepageSettings.nav.map((navLink) => ({
+            href: getHrefFromRef(navLink.reference),
+            label: navLink.title,
+          }))}
+        />
         <CardSection items={products || []} title="Best Sellers" />
       </Content>
     </Layout>

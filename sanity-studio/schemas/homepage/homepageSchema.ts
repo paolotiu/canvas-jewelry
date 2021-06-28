@@ -34,6 +34,12 @@ export const homepageSchema: Document = {
       type: 'homepageBlock',
       name: 'homepageBlock3',
     },
+    {
+      type: 'array',
+      name: 'nav',
+      of: [{ type: 'nav' }],
+      validation: (Rule) => Rule.length(4),
+    },
   ],
   preview: {
     prepare() {

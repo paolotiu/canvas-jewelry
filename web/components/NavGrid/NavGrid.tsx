@@ -19,9 +19,10 @@ const StyledNavGrid = styled.nav`
 const StyledNavLink = styled.span`
   display: inline-flex;
   justify-content: center;
+  text-align: center;
   align-items: center;
   padding: 0.6rem;
-  white-space: nowrap;
+
   font-size: ${({ theme }) => theme.typography.fontSizes.xs};
   font-weight: ${({ theme }) => theme.typography.fontWeights.light};
   text-transform: uppercase;

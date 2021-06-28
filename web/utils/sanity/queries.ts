@@ -76,7 +76,13 @@ export const HOMEPAGE_SETTINGS_QUERY = groq`
         _type,
         'slug': slug.current
 	      }
-    }
+    },
+    nav[]{
+  title,
+  reference->
+}
+    
+
 }
 `;
 
@@ -153,4 +159,11 @@ export interface HomepageSettings {
   homepageBlock1: HomepageBlock;
   homepageBlock2: HomepageBlock;
   homepageBlock3: HomepageBlock;
+  nav: {
+    title: string;
+    reference: {
+      _type: 'category' | 'product';
+      slug: string;
+    };
+  }[];
 }
