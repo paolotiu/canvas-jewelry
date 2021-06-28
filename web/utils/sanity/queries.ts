@@ -43,10 +43,14 @@ export const CATEGORY_BY_SLUG_QUERY = groq`
   'slug': slug.current,
 	products[]->{
     ${productFields}
-    
-  }
+  },
+  'image': image.asset->
 
 }
+`;
+
+export const RELATED_CATEGORIES_QUERY = groq`
+
 `;
 
 export const HOMEPAGE_SETTINGS_QUERY = groq`
@@ -122,6 +126,16 @@ export type OptionsSwitch = {
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
   products: ProductReturn[];
   slug: string;
+  image?: {
+    metadata: {
+      lqip: string;
+      dimensions: {
+        aspectRatio: number;
+      };
+    };
+    mimeType: string;
+    url: string;
+  };
 };
 
 export interface HomepageBlock {

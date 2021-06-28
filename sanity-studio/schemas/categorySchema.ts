@@ -43,11 +43,15 @@ export const categorySchema: Document = {
           const refs = Object.values(field).map((f: any) => f._ref);
           const set = [...new Set(refs)];
           if (refs.length > set.length) {
-            console.log(refs, set);
             return 'Products must be unique';
           }
           return true;
         }),
+    },
+    {
+      title: 'Cover Image',
+      name: 'image',
+      type: 'image',
     },
   ],
 };
