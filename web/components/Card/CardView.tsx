@@ -6,7 +6,8 @@ import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 
 const StyledCardView = styled.div`
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   justify-content: center;
   gap: 1rem;
   color: ${({ theme }) => theme.colors.inactive};

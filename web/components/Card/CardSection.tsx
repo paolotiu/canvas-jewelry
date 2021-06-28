@@ -61,7 +61,6 @@ const CardSection = ({ title, items, defaultView, withViewControls = true }: Pro
       handleResize();
     }
 
-    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, [defaultView]);
 
