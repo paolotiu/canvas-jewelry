@@ -4,8 +4,9 @@ import styled from '@emotion/styled';
 import { priceRevealAtom } from '@utils/jotai';
 import { PricePassword, PRICE_PASSWORD_QUERY } from '@utils/sanity/queries';
 import { sanityClient } from '@utils/sanity/sanity.server';
+import { animate, useMotionValue } from 'framer-motion';
 import { useAtom } from 'jotai';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiLoader, FiCheck } from 'react-icons/fi';
 
 const Container = styled.div`
@@ -95,6 +96,7 @@ const PricePasswordModal = (props: Omit<ModalProps, 'children'>) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [, setIsPriceRevealed] = useAtom(priceRevealAtom);
+  const strokeOffset = useMotionValue(-23);
 
   const onSubmit = async () => {
     setIsSubmitting(true);
@@ -114,11 +116,33 @@ const PricePasswordModal = (props: Omit<ModalProps, 'children'>) => {
     setIsSuccess(true);
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      const check = document.querySelector<SVGSVGElement>('#password-modal-check');
+      animate(strokeOffset, 0, {
+        type: 'tween',
+        onUpdate: (v) => {
+          if (check) {
+            check.style.strokeDashoffset = v.toString();
+          }
+        },
+      });
+    }
+  }, [isSuccess, strokeOffset]);
+
   if (isSuccess) {
     return (
       <Modal {...props}>
         <Container>
-          <FiCheck size="7rem" />
+          <FiCheck
+            size="7rem"
+            id="password-modal-check"
+            strokeWidth={1}
+            style={{ animationFillMode: 'forwards' }}
+            strokeLinecap="square"
+            strokeDasharray={23}
+          />
+
           <h3 className="success-text">Successfully Revealed Prices </h3>
         </Container>
       </Modal>
