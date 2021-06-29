@@ -85,7 +85,10 @@ export const HOMEPAGE_SETTINGS_QUERY = groq`
     },
     nav[]{
   title,
-  reference->
+  reference-> {
+    _type,
+    'slug': slug.current
+  }
 }
     
 
