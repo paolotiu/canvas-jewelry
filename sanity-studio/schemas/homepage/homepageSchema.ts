@@ -40,6 +40,7 @@ export const homepageSchema: Document = {
       of: [{ type: 'nav' }],
       validation: (Rule) => Rule.length(4),
     },
+    { type: 'string', name: 'password', title: 'Password' },
   ],
   preview: {
     prepare() {
