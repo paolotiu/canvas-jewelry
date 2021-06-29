@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export const useModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const useModal = (initial = false) => {
+  const [isModalOpen, setIsModalOpen] = useState(initial);
 
+  useEffect(() => {
+    setIsModalOpen(initial);
+  }, [initial]);
   const createOpenHandler = (cb: () => void) => {
     cb();
     setIsModalOpen(true);
