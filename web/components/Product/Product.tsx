@@ -8,7 +8,7 @@ import { breakpoints } from '@styles/breakpoints';
 import {
   CategoryWithProductsReturn,
   CATEGORY_BY_SLUG_QUERY,
-  ProductReturn,
+  ProductReturnWithPriceVariants,
   ProductReturnWithVariants,
   PRODUCT_BY_SLUG_QUERY,
 } from '@utils/sanity/queries';
@@ -22,6 +22,13 @@ import { NextSeo } from 'next-seo';
 import ProductDetails from './ProductDetails';
 import ProductOptions from './ProductOptions';
 
+const ProductSection = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const InfoBlock = styled.div`
   display: flex;
   justify-content: center;
@@ -30,6 +37,8 @@ const InfoBlock = styled.div`
   padding: 1rem;
   position: relative;
   color: ${({ theme }) => theme.colors.headerText};
+  width: 100%;
+
   ${breakpoints.sm} {
     font-size: ${({ theme }) => theme.typography.fontSizes.lg};
   }
@@ -85,6 +94,7 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 
   .card-section {
     grid-column: 1 /-1;
@@ -118,8 +128,10 @@ const ContentContainer = styled.div`
 `;
 
 const ProductCarouselWrapper = styled.div`
-  display: flex;
   padding: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 interface Props {
@@ -129,7 +141,7 @@ interface Props {
 const Product = ({ product }: Props) => {
   const router = useRouter();
   const [isPreview] = useAtom(previewAtom);
-  const [relatedProducts, setRelatedProducts] = useState<ProductReturn[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<ProductReturnWithPriceVariants[]>([]);
 
   useEffect(() => {
     sanityClient
@@ -155,7 +167,6 @@ const Product = ({ product }: Props) => {
       <NextSeo
         titleTemplate="Canvas | %s"
         title={data.name}
-        description="The Canvas Jewelry"
         openGraph={{
           images: [
             {
@@ -171,11 +182,9 @@ const Product = ({ product }: Props) => {
             },
           ],
           type: 'Product',
-          url: `https://thecanvasjewelry.com`,
         }}
-        facebook={{ appId: '2595973077370619' }}
       />
-      <section>
+      <ProductSection>
         <InfoBlock>
           <button type="button" className="back" onClick={() => router.back()}>
             <ChevronLeft />
@@ -199,13 +208,17 @@ const Product = ({ product }: Props) => {
               }}
             />
             <DetailsContainer>
-              <ProductDetails description={data.description} name={data.name} price={data.price} />
+              <ProductDetails
+                description={data.description}
+                name={data.name}
+                price={data.defaultVariant.price}
+              />
               {allVariants.length ? (
                 <div className="options">
                   <ProductOptions
                     defaultVariant={data.defaultVariant}
                     variants={allVariants}
-                    withSize={data.optionsSwitch?.withSize || false}
+                    optionsSwitch={data.optionsSwitch}
                   />
                 </div>
               ) : null}
@@ -233,7 +246,7 @@ const Product = ({ product }: Props) => {
         <ProductCarouselWrapper>
           <ProductCarousel products={relatedProducts} />
         </ProductCarouselWrapper>
-      </section>
+      </ProductSection>
     </Layout>
   );
 };

@@ -1,7 +1,8 @@
+import ClientSideOnly from '@components/ClientSideOnly/ClientSideOnly';
 import Divider from '@components/Divider/Divider';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { productVariantAtom } from '@utils/jotai';
+import { priceRevealAtom, productVariantAtom } from '@utils/jotai';
 import { useAtom } from 'jotai';
 import React from 'react';
 import { SanityBlock } from 'sanity-codegen';
@@ -39,7 +40,7 @@ const StyledProductDetails = styled.div`
   }
 
   .price {
-    font-weight: ${({ theme }) => theme.typography.fontWeights.light};
+    font-weight: ${({ theme }) => theme.typography.fontWeights.bold};
     font-size: ${({ theme }) => theme.typography.fontSizes.lg};
   }
   .warning {
@@ -54,12 +55,14 @@ const StyledProductDetails = styled.div`
 
 const ProductDetails = ({ name, description, price }: Props) => {
   const [variant] = useAtom(productVariantAtom);
+  const [isPriceRevealed] = useAtom(priceRevealAtom);
   return (
     <StyledProductDetails>
       <div className="header">
         <h3>{name} </h3>
-
-        <p className="price">{variant?.price || price}</p>
+        <ClientSideOnly>
+          {isPriceRevealed ? <p className="price">{variant?.price || price}</p> : null}
+        </ClientSideOnly>
       </div>
       <Divider />
 
@@ -67,7 +70,9 @@ const ProductDetails = ({ name, description, price }: Props) => {
 
       <Divider />
       {/* {description && <p className="description">{description}</p>} */}
-      <div>{!variant?.price && <span className="warning">Not a valid configuration</span>}</div>
+      <div>
+        {!variant?.price ? <span className="warning">Not a valid configuration</span> : null}
+      </div>
     </StyledProductDetails>
   );
 };

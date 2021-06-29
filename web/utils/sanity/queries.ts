@@ -5,11 +5,11 @@ import { Category, Product } from 'schemaTypes';
 const productFields = `
 	_id,
 	name,
-	price,
 	description,
 	images[],
 	'slug': slug.current,
 	'mainImage': images[0].asset->,
+ 
   optionsSwitch
 `;
 
@@ -42,7 +42,13 @@ export const CATEGORY_BY_SLUG_QUERY = groq`
 	name,
   'slug': slug.current,
 	products[]->{
-    ${productFields}
+    ${productFields},
+     variants[]{
+      price
+    },
+    defaultVariant{
+      price
+    },
   },
   'image': image.asset->
 
@@ -79,7 +85,10 @@ export const HOMEPAGE_SETTINGS_QUERY = groq`
     },
     nav[]{
   title,
-  reference->
+  reference-> {
+    _type,
+    'slug': slug.current
+  }
 }
     
 
@@ -92,7 +101,13 @@ export const ALL_CATEGORIES_QUERY = groq`
 }
 `;
 
-export type ProductReturn = Pick<Product, '_id' | 'description' | 'price' | 'name'> & {
+export const PRICE_PASSWORD_QUERY = groq`
+*[_type == 'homepageSettings'][0]{
+  password
+}
+`;
+
+export type ProductReturn = Pick<Product, '_id' | 'description' | 'name'> & {
   images: SanityImageSource[];
   slug: string;
   mainImage: {
@@ -119,7 +134,7 @@ export type ProductVariant = {
 export type ProductReturnWithVariants = ProductReturn & {
   defaultVariant: ProductVariant;
   variants: ProductVariant[];
-  optionsSwitch?: OptionsSwitch;
+  optionsSwitch: OptionsSwitch;
 };
 
 export type OptionsSwitch = {
@@ -127,10 +142,16 @@ export type OptionsSwitch = {
   withColor: boolean;
   withLetters: boolean;
   withSize: boolean;
+  additionalName?: string;
+};
+
+export type ProductReturnWithPriceVariants = ProductReturn & {
+  variants: { price: number }[];
+  defaultVariant: { price: number };
 };
 
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
-  products: ProductReturn[];
+  products: ProductReturnWithPriceVariants[];
   slug: string;
   image?: {
     metadata: {
@@ -166,4 +187,8 @@ export interface HomepageSettings {
       slug: string;
     };
   }[];
+}
+
+export interface PricePassword {
+  password: string;
 }

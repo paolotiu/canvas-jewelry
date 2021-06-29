@@ -1,12 +1,12 @@
 import { generateRange } from '@utils/generateRange';
-import { ProductVariant } from '@utils/sanity/queries';
+import { OptionsSwitch, ProductVariant } from '@utils/sanity/queries';
 import React, { useMemo } from 'react';
 import SelectBlock from '@components/Select/SelectBlock';
 import { useWhichProduct } from './useWhichProduct';
 
 interface Props {
   variants: ProductVariant[];
-  withSize: boolean;
+  optionsSwitch: OptionsSwitch;
   defaultVariant: ProductVariant;
 }
 
@@ -56,7 +56,7 @@ const getPossibleSizes = (variants: ProductVariant[]) => {
   return generateRange(min, max, hasHalfSizes ? 0.5 : 1);
 };
 
-const ProductOptions = ({ variants, withSize, defaultVariant }: Props) => {
+const ProductOptions = ({ variants, optionsSwitch, defaultVariant }: Props) => {
   const options = useMemo(() => {
     return getValues(variants, ['color', 'additional', 'letters']);
   }, [variants]);
@@ -67,7 +67,10 @@ const ProductOptions = ({ variants, withSize, defaultVariant }: Props) => {
     [defaultVariant],
   );
 
-  const sizes = useMemo(() => (withSize ? getPossibleSizes(variants) : null), [variants, withSize]);
+  const sizes = useMemo(
+    () => (optionsSwitch.withSize ? getPossibleSizes(variants) : null),
+    [variants, optionsSwitch.withSize],
+  );
   const { handleSelectChange } = useWhichProduct(defaultOption, variants);
 
   return (
@@ -79,7 +82,7 @@ const ProductOptions = ({ variants, withSize, defaultVariant }: Props) => {
         }
         return (
           <SelectBlock
-            label={key}
+            label={key === 'color' ? 'Color/Material' : key}
             options={values.map((v) => ({ label: v, value: v }))}
             key={key}
             onChange={(val) => handleSelectChange(val, key)}
@@ -97,7 +100,7 @@ const ProductOptions = ({ variants, withSize, defaultVariant }: Props) => {
       ) : null}
       {options.additional && (
         <SelectBlock
-          label="Additional"
+          label={optionsSwitch.additionalName || 'Addtional'}
           options={options.additional.map((val) => ({ label: val, value: val }))}
           initialValue={{ label: options.additional[0], value: options.additional[0] }}
           onChange={(val) => handleSelectChange(val, 'additional')}
