@@ -54,6 +54,7 @@ const CardContainer = ({ items, viewMode, sortMode }: Props) => {
                 slug={item.slug}
                 name={item.name}
                 price={item.defaultVariant.price}
+                hasFrom={!!item.variants?.length}
                 viewMode={viewMode}
               />
             );

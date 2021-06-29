@@ -104,6 +104,7 @@ interface Props {
   slug: string;
   price: number;
   viewMode?: ViewMode;
+  hasFrom?: boolean;
 }
 
 const ImageVariants: Variants = {
@@ -115,7 +116,7 @@ const ImageVariants: Variants = {
   },
 };
 
-const Card = ({ src, name, slug, price, viewMode }: Props) => {
+const Card = ({ src, name, slug, price, viewMode, hasFrom }: Props) => {
   const [isPriceRevealed] = useAtom(priceRevealAtom);
   const isSSR = useIsSSR();
 
@@ -143,7 +144,11 @@ const Card = ({ src, name, slug, price, viewMode }: Props) => {
           <ClientSideOnly>
             <StyledText className="text" isCenter={!isPriceRevealed} layout={!isSSR}>
               <h4>{name}</h4>
-              {isPriceRevealed ? <p>{price}</p> : null}
+              {isPriceRevealed ? (
+                <p>
+                  {hasFrom ? 'From' : null} ₱{price}
+                </p>
+              ) : null}
             </StyledText>
           </ClientSideOnly>
         </StyledCard>
