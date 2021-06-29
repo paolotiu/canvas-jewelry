@@ -299,6 +299,9 @@ Add the correct display in Chrome and Safari.
     font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  body {
+    height: fit-content;
+  }
 
   * {
     margin: 0;

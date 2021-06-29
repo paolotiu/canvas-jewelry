@@ -10,17 +10,24 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 3rem;
-  max-width: 1200px;
   width: 100%;
+  max-width: 1200px;
+
+  ${breakpoints.lg} {
+    width: calc(100vw - 300px);
+  }
+
   h2 {
     font-size: ${({ theme }) => theme.typography.fontSizes.lg};
-    padding-bottom: 0.2rem;
   }
 `;
 const Embla = styled.div`
   position: relative;
   overflow: hidden;
-  /* padding: 2rem 0; */
+  padding: 2rem 0;
+
+  overflow: hidden;
+
   &.is-draggable {
     cursor: grab;
   }
@@ -33,9 +40,8 @@ const EmblaContainer = styled.div`
   display: flex;
 `;
 const EmblaSlide = styled.div`
-  display: flex;
-  justify-content: center;
   flex: 0 0 40%;
+  position: relative;
   ${breakpoints.sm} {
     flex: 0 0 30%;
   }
@@ -45,9 +51,9 @@ const EmblaSlide = styled.div`
   }
 
   :not(:last-child) {
-    margin-left: 1rem;
+    margin-right: 1rem;
     ${breakpoints.md} {
-      margin-left: 1.2rem;
+      margin-right: 2rem;
     }
   }
 `;
@@ -58,14 +64,15 @@ interface Props {
 
 const ProductCarousel = ({ products }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
+    dragFree: true,
     draggable: true,
-    align: 'center',
+    align: 'start',
     containScroll: 'trimSnaps',
   });
 
   useEffect(() => {
     // reinit to make dragging work
-    if (products.length !== emblaApi?.containerNode.length) {
+    if (products.length !== emblaApi?.slideNodes().length) {
       emblaApi?.reInit();
     }
   }, [emblaApi, products.length]);
@@ -75,24 +82,21 @@ const ProductCarousel = ({ products }: Props) => {
       <h2>Related Items</h2>
       <Embla ref={emblaRef}>
         <EmblaContainer>
-          {products.map((product, i) => (
-            <>
-              {i > 11 ? null : (
-                <EmblaSlide
-                  key={product._id}
-                  onClickCapture={(e) => {
-                    // Prevent card from getting clicked while dragging
-                    if (!emblaApi?.clickAllowed()) {
-                      e.stopPropagation();
-                    }
-                  }}
-                >
-                  {/* <div style={{ width: '100px', height: '100px', background: 'blue' }}></div> */}
-                  <Card src={product.images[0]} name={product.name} slug={product.slug} />
-                </EmblaSlide>
-              )}
-            </>
-          ))}
+          {products.map((product) => {
+            return (
+              <EmblaSlide
+                key={product._id}
+                onClickCapture={(e) => {
+                  // Prevent card from getting clicked while dragging
+                  if (!emblaApi?.clickAllowed()) {
+                    e.stopPropagation();
+                  }
+                }}
+              >
+                <Card src={product.images[0]} name={product.name} slug={product.slug} />
+              </EmblaSlide>
+            );
+          })}
         </EmblaContainer>
       </Embla>
     </Container>

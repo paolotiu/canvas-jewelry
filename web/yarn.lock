@@ -3534,10 +3534,10 @@ elliptic@^6.5.3:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
-embla-carousel@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/embla-carousel/-/embla-carousel-4.5.0.tgz#ac8a4cbf34f97a8ad5f7ae9caf58400fe92f1d7f"
-  integrity sha512-Y154DYESgzau+eIUH1hu4FNYRQmSFdzIr0dVE6Dhqv3IILCTLVcMmDosz5D0GpAd1jJDI1r0WbOBGBonA6wirw==
+embla-carousel@^4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/embla-carousel/-/embla-carousel-4.5.3.tgz#3e1b471fd9765b910c5dd9acddf129b07626782d"
+  integrity sha512-S7fPpoV9AsPRII8ytsDQavW4JbU3xWBAO+i158eVahVZYVb04vC+913QfO3FGzsVK/4sb58NJ42LBDh143+YhA==
 
 emittery@^0.7.1:
   version "0.7.2"
@@ -6867,6 +6867,11 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
+
+prettier@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.3.2.tgz#ef280a05ec253712e486233db5c6f23441e7342d"
+  integrity sha512-lnJzDfJ66zkMy58OL5/NY5zp70S7Nz6KqcKkXYzn2tMVrNxvbqaBpg7H3qHaLxCJ5lNMsGuM8+ohS7cZrthdLQ==
 
 pretty-format@^26.0.0, pretty-format@^26.6.2:
   version "26.6.2"
