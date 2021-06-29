@@ -146,7 +146,7 @@ const Card = ({ src, name, slug, price, viewMode, hasFrom }: Props) => {
               <h4>{name}</h4>
               {isPriceRevealed ? (
                 <p>
-                  {hasFrom ? 'From' : null} ₱{price}
+                  {hasFrom ? 'from' : null} ₱{price}
                 </p>
               ) : null}
             </StyledText>

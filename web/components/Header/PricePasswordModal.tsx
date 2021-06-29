@@ -30,7 +30,6 @@ const Container = styled.div`
 
   .subtext {
     font-style: italic;
-
     font-size: ${({ theme }) => theme.typography.fontSizes.sm};
     font-weight: ${({ theme }) => theme.typography.fontWeights.light};
   }
@@ -152,7 +151,7 @@ const PricePasswordModal = (props: Omit<ModalProps, 'children'>) => {
     <Modal {...props}>
       <Container>
         <h4>Enter Password </h4>
-        <p className="subtext">Enter the correct password to reveal the prices</p>
+        <p className="subtext">Enter the password to reveal the prices</p>
         <InputContainer>
           <StyledInput
             type="text"
