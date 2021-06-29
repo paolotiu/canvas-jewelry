@@ -103,7 +103,7 @@ const PricePasswordModal = (props: Omit<ModalProps, 'children'>) => {
 
     const res = await fetchPassword();
 
-    if (res.password !== value) {
+    if (res.password !== value.trimEnd()) {
       setIsError(true);
       setIsSubmitting(false);
       return;
