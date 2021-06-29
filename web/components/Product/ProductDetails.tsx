@@ -40,7 +40,7 @@ const StyledProductDetails = styled.div`
   }
 
   .price {
-    font-weight: ${({ theme }) => theme.typography.fontWeights.light};
+    font-weight: ${({ theme }) => theme.typography.fontWeights.bold};
     font-size: ${({ theme }) => theme.typography.fontSizes.lg};
   }
   .warning {
@@ -70,7 +70,9 @@ const ProductDetails = ({ name, description, price }: Props) => {
 
       <Divider />
       {/* {description && <p className="description">{description}</p>} */}
-      <div>{!variant?.price && <span className="warning">Not a valid configuration</span>}</div>
+      <div>
+        {!variant?.price ? <span className="warning">Not a valid configuration</span> : null}
+      </div>
     </StyledProductDetails>
   );
 };
