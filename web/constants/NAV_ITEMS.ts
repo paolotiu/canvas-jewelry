@@ -38,7 +38,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: 'Necklaces', href: 'necklaces', kind: 'link' },
       { label: 'Earrings', href: 'earrings', kind: 'link' },
       { label: 'Anklets', href: 'anklets', kind: 'link' },
-      { label: 'EarCuffs', href: 'earcuffs', kind: 'link' },
+      { label: 'Ear Cuffs', href: 'ear-cuffs', kind: 'link' },
     ],
   },
   {
