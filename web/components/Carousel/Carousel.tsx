@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useEmblaCarousel } from 'embla-carousel/react';
+import { useEmblaCarousel,   } from 'embla-carousel/react';
 import styled from '@emotion/styled';
-import { OptionsType } from 'embla-carousel/vanilla/options';
 import { useRecursiveTimeout } from '@utils/hooks/useRecursiveTimeout';
 import { breakpoints } from '@styles/breakpoints';
 import SanityImage from '@components/SanityImage/SanityImage';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { UseNextSanityImageOptions } from 'next-sanity-image';
+import { EmblaOptionsType } from 'embla-carousel';
 import { NextButton, PrevButton } from './CarouselButtons';
 import DotButton from './DotButton/DotButton';
 import DotButtonContainer from './DotButton/DotButtonContainer';
@@ -66,7 +66,7 @@ const EmblaSlide = styled.div<{ objectFit?: 'contain' | 'cover' }>`
   }
 `;
 
-const emblaConfig: Partial<OptionsType> = {
+const emblaConfig: Partial<EmblaOptionsType> = {
   // Allow carousel to loop photos
   loop: true,
 
