@@ -52,7 +52,9 @@ const CardSection = ({ title, items, defaultView, withViewControls = true }: Pro
       const width = window.innerWidth;
       if (width > points.sm) {
         setViewMode('cube');
+        return;
       }
+      setViewMode('block');
     };
     window.addEventListener('resize', handleResize);
 
