@@ -151,7 +151,7 @@ const PricePasswordModal = (props: Omit<ModalProps, 'children'>) => {
     <Modal {...props}>
       <Container>
         <h4>Enter Password </h4>
-        <p className="subtext">Enter the password to reveal the prices</p>
+        <p className="subtext">Input password to reveal the prices</p>
         <InputContainer>
           <StyledInput
             type="text"
