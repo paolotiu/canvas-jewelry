@@ -1,10 +1,15 @@
+import ClientSideOnly from '@components/ClientSideOnly/ClientSideOnly';
 import SanityImage from '@components/SanityImage/SanityImage';
 import styled from '@emotion/styled';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { breakpoints } from '@styles/breakpoints';
+import { useIsSSR } from '@utils/hooks/useIsSSR';
+import { priceRevealAtom } from '@utils/jotai';
 import { motion, Variants } from 'framer-motion';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import React from 'react';
+import { ViewMode } from './CardView';
 
 const StyledCard = styled(motion.div)`
   // To prevent css animation artifacts
@@ -60,50 +65,35 @@ const StyledCard = styled(motion.div)`
       border-top: 1px solid ${({ theme }) => theme.colors.gray};
     }
   }
+`;
 
-  .text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 0.4rem 0;
-    font-size: ${({ theme }) => theme.typography.fontSizes.md};
-    font-weight: ${({ theme }) => theme.typography.fontWeights.light};
+const StyledText = styled(motion.div)<{ isCenter?: boolean }>`
+  align-self: ${({ isCenter }) => (isCenter ? 'center' : 'flex-start')};
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem 0;
+  font-size: ${({ theme }) => theme.typography.fontSizes.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeights.light};
 
-    h4,
-    p {
-      display: inline;
-      width: fit-content;
-      padding: 0.1rem;
-      position: relative;
-    }
+  h4,
+  p {
+    display: inline;
+    width: fit-content;
+    padding: 0.1rem;
+    position: relative;
+  }
+  h4 {
+    color: ${({ theme }) => theme.colors.mainText};
+    font-weight: inherit;
+  }
+  p {
+    color: ${({ theme }) => theme.colors.secondaryText};
+    font-size: ${({ theme }) => theme.typography.fontSizes.xs};
+  }
+
+  ${breakpoints.xs} {
     h4 {
-      color: ${({ theme }) => theme.colors.mainText};
-      font-weight: inherit;
-    }
-    p {
-      color: ${({ theme }) => theme.colors.secondaryText};
-      font-size: ${({ theme }) => theme.typography.fontSizes.sm};
-    }
-
-    ${breakpoints.xs} {
-      h4 {
-        font-size: ${({ theme }) => theme.typography.fontSizes.lg};
-      }
-
-      p {
-        font-family: ${({ theme }) => theme.typography.fontSizes.md};
-      }
-    }
-
-    ${breakpoints.sm} {
-      h4 {
-        font-size: ${({ theme }) => theme.typography.fontSizes.lg};
-      }
-
-      p {
-        font-family: ${({ theme }) => theme.typography.fontSizes.lg};
-      }
+      font-size: ${({ theme }) => theme.typography.fontSizes.md};
     }
   }
 `;
@@ -111,8 +101,9 @@ const StyledCard = styled(motion.div)`
 interface Props {
   src: SanityImageSource;
   name: string;
-  className?: string;
   slug: string;
+  price: number;
+  viewMode?: ViewMode;
 }
 
 const ImageVariants: Variants = {
@@ -124,17 +115,19 @@ const ImageVariants: Variants = {
   },
 };
 
-const Card = ({ src, name, className, slug }: Props) => {
+const Card = ({ src, name, slug, price, viewMode }: Props) => {
+  const [isPriceRevealed] = useAtom(priceRevealAtom);
+  const isSSR = useIsSSR();
+
   return (
     <Link href={`/item/${slug}`} passHref>
       <a href="product" style={{ textDecoration: 'unset' }}>
         <StyledCard
-          className={className}
-          layout
-          initial={false}
-          whileHover={className === 'list' ? '' : 'hover'}
+          className={viewMode}
+          layout={!isSSR}
+          whileHover={viewMode === 'list' ? '' : 'hover'}
         >
-          <motion.div className="image" layout>
+          <motion.div className="image" layout={!isSSR}>
             <motion.div variants={ImageVariants}>
               {src && (
                 <SanityImage
@@ -146,9 +139,13 @@ const Card = ({ src, name, className, slug }: Props) => {
               )}
             </motion.div>
           </motion.div>
-          <motion.div className="text" layout>
-            <h4>{name}</h4>
-          </motion.div>
+
+          <ClientSideOnly>
+            <StyledText className="text" isCenter={!isPriceRevealed} layout={!isSSR}>
+              <h4>{name}</h4>
+              {isPriceRevealed ? <p>{price}</p> : null}
+            </StyledText>
+          </ClientSideOnly>
         </StyledCard>
       </a>
     </Link>

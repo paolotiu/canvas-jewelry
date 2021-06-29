@@ -1,7 +1,7 @@
 import { Title } from '@components/Title/Title';
 import styled from '@emotion/styled';
 import { breakpoints, points } from '@styles/breakpoints';
-import { ProductReturn } from '@utils/sanity/queries';
+import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
 import { useEffect, useState } from 'react';
 import CardContainer from './CardContainer';
 import CardView, { ViewMode } from './CardView';
@@ -39,7 +39,7 @@ const CardMetaContainer = styled.div<{
 
 interface Props {
   title: string;
-  items: ProductReturn[];
+  items: ProductReturnWithPriceVariants[];
   defaultView?: ViewMode;
   withViewControls?: boolean;
 }

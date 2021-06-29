@@ -5,11 +5,11 @@ import { Category, Product } from 'schemaTypes';
 const productFields = `
 	_id,
 	name,
-	price,
 	description,
 	images[],
 	'slug': slug.current,
 	'mainImage': images[0].asset->,
+ 
   optionsSwitch
 `;
 
@@ -42,7 +42,13 @@ export const CATEGORY_BY_SLUG_QUERY = groq`
 	name,
   'slug': slug.current,
 	products[]->{
-    ${productFields}
+    ${productFields},
+     variants[]{
+      price
+    },
+    defaultVariant{
+      price
+    },
   },
   'image': image.asset->
 
@@ -98,7 +104,7 @@ export const PRICE_PASSWORD_QUERY = groq`
 }
 `;
 
-export type ProductReturn = Pick<Product, '_id' | 'description' | 'price' | 'name'> & {
+export type ProductReturn = Pick<Product, '_id' | 'description' | 'name'> & {
   images: SanityImageSource[];
   slug: string;
   mainImage: {
@@ -135,8 +141,13 @@ export type OptionsSwitch = {
   withSize: boolean;
 };
 
+export type ProductReturnWithPriceVariants = ProductReturn & {
+  variants: { price: number }[];
+  defaultVariant: { price: number };
+};
+
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
-  products: ProductReturn[];
+  products: ProductReturnWithPriceVariants[];
   slug: string;
   image?: {
     metadata: {

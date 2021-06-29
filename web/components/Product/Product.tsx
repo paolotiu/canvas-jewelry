@@ -208,7 +208,11 @@ const Product = ({ product }: Props) => {
               }}
             />
             <DetailsContainer>
-              <ProductDetails description={data.description} name={data.name} price={data.price} />
+              <ProductDetails
+                description={data.description}
+                name={data.name}
+                price={data.defaultVariant.price}
+              />
               {allVariants.length ? (
                 <div className="options">
                   <ProductOptions
