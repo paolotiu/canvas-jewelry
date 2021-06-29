@@ -1,7 +1,9 @@
 import { Title } from '@components/Title/Title';
 import styled from '@emotion/styled';
 import { breakpoints, points } from '@styles/breakpoints';
+import { sortModeAtom } from '@utils/jotai';
 import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
+import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import CardContainer from './CardContainer';
 import CardView, { ViewMode } from './CardView';
@@ -46,6 +48,7 @@ interface Props {
 
 const CardSection = ({ title, items, defaultView, withViewControls = true }: Props) => {
   const [viewMode, setViewMode] = useState<ViewMode>(defaultView || 'block');
+  const [sortMode] = useAtom(sortModeAtom);
 
   useEffect(() => {
     const handleResize = () => {
@@ -72,7 +75,7 @@ const CardSection = ({ title, items, defaultView, withViewControls = true }: Pro
         {withViewControls && <CardView viewMode={viewMode} onClick={(val) => setViewMode(val)} />}
         <Title>{title}</Title>
       </CardMetaContainer>
-      <CardContainer items={items} viewMode={viewMode} />
+      <CardContainer items={items} viewMode={viewMode} sortMode={sortMode} />
     </StyledCardSection>
   );
 };

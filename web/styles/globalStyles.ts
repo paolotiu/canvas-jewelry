@@ -177,6 +177,12 @@ Forms
     margin: 0; /* 2 */
   }
 
+  button {
+    background: none;
+    border: none;
+    color: inherit;
+  }
+
   /**
 Remove the inheritance of text transform in Edge and Firefox.
 1. Remove the inheritance of text transform in Firefox.

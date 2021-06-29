@@ -4,6 +4,7 @@ import { breakpoints } from '@styles/breakpoints';
 import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
 import Card from './Card';
 import { ViewMode } from './CardView';
+import { sortModes, SortModes } from './sortFunctions';
 // import { priceSort, stringSort } from './sortFunctions';
 
 const StyledCardContainer = styled.div`
@@ -37,14 +38,15 @@ const StyledCardContainer = styled.div`
 interface Props {
   items: ProductReturnWithPriceVariants[];
   viewMode: ViewMode;
+  sortMode: SortModes;
 }
 
-const CardContainer = ({ items, viewMode }: Props) => {
+const CardContainer = ({ items, viewMode, sortMode }: Props) => {
   return (
     <>
       <StyledCardContainer className={viewMode}>
         <AnimateSharedLayout type="crossfade">
-          {[...items].map((item) => {
+          {[...items].sort(sortModes[sortMode].fn).map((item) => {
             return (
               <Card
                 src={item.mainImage}
