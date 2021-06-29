@@ -3,7 +3,7 @@ import 'embla-carousel';
 import Card from '@components/Card/Card';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { ProductReturn } from '@utils/sanity/queries';
+import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
 import { useEffect } from 'react';
 
 const Container = styled.div`
@@ -59,7 +59,7 @@ const EmblaSlide = styled.div`
 `;
 
 interface Props {
-  products: ProductReturn[];
+  products: ProductReturnWithPriceVariants[];
 }
 
 const ProductCarousel = ({ products }: Props) => {
@@ -93,7 +93,12 @@ const ProductCarousel = ({ products }: Props) => {
                   }
                 }}
               >
-                <Card src={product.images[0]} name={product.name} slug={product.slug} />
+                <Card
+                  src={product.images[0]}
+                  name={product.name}
+                  slug={product.slug}
+                  price={product.defaultVariant.price}
+                />
               </EmblaSlide>
             );
           })}

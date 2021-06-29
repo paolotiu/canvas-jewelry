@@ -1,3 +1,4 @@
+import ClientSideOnly from '@components/ClientSideOnly/ClientSideOnly';
 import Divider from '@components/Divider/Divider';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
@@ -59,7 +60,9 @@ const ProductDetails = ({ name, description, price }: Props) => {
     <StyledProductDetails>
       <div className="header">
         <h3>{name} </h3>
-        <p className="price">{isPriceRevealed ? variant?.price || price : null}</p>
+        <ClientSideOnly>
+          {isPriceRevealed ? <p className="price">{variant?.price || price}</p> : null}
+        </ClientSideOnly>
       </div>
       <Divider />
 

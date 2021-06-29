@@ -8,7 +8,7 @@ import { breakpoints } from '@styles/breakpoints';
 import {
   CategoryWithProductsReturn,
   CATEGORY_BY_SLUG_QUERY,
-  ProductReturn,
+  ProductReturnWithPriceVariants,
   ProductReturnWithVariants,
   PRODUCT_BY_SLUG_QUERY,
 } from '@utils/sanity/queries';
@@ -141,7 +141,7 @@ interface Props {
 const Product = ({ product }: Props) => {
   const router = useRouter();
   const [isPreview] = useAtom(previewAtom);
-  const [relatedProducts, setRelatedProducts] = useState<ProductReturn[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<ProductReturnWithPriceVariants[]>([]);
 
   useEffect(() => {
     sanityClient
