@@ -79,7 +79,7 @@ const ProductOptions = ({ variants, withSize, defaultVariant }: Props) => {
         }
         return (
           <SelectBlock
-            label={key}
+            label={key === 'color' ? 'Color/Material' : key}
             options={values.map((v) => ({ label: v, value: v }))}
             key={key}
             onChange={(val) => handleSelectChange(val, key)}
