@@ -1,4 +1,7 @@
 import { ObjectType } from '../schemaTypes';
+
+import ConditionalField from 'sanity-plugin-conditional-field';
+
 export const optionalFields: ObjectType = {
   type: 'object',
   name: 'optionsSwitch',
@@ -30,6 +33,18 @@ export const optionalFields: ObjectType = {
       options: {
         layout: 'checkbox',
       },
+    },
+    {
+      type: 'string',
+      name: 'additionalName',
+      title: 'Name for additional',
+      options: {
+        condition: (document) => {
+          return document.optionsSwitch?.withAdditional;
+        },
+      },
+      initialValue: 'Additional',
+      inputComponent: ConditionalField,
     },
     {
       type: 'boolean',

@@ -131,7 +131,7 @@ export type ProductVariant = {
 export type ProductReturnWithVariants = ProductReturn & {
   defaultVariant: ProductVariant;
   variants: ProductVariant[];
-  optionsSwitch?: OptionsSwitch;
+  optionsSwitch: OptionsSwitch;
 };
 
 export type OptionsSwitch = {
@@ -139,6 +139,7 @@ export type OptionsSwitch = {
   withColor: boolean;
   withLetters: boolean;
   withSize: boolean;
+  additionalName?: string;
 };
 
 export type ProductReturnWithPriceVariants = ProductReturn & {

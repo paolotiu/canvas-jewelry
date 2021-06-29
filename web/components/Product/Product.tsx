@@ -218,7 +218,7 @@ const Product = ({ product }: Props) => {
                   <ProductOptions
                     defaultVariant={data.defaultVariant}
                     variants={allVariants}
-                    withSize={data.optionsSwitch?.withSize || false}
+                    optionsSwitch={data.optionsSwitch}
                   />
                 </div>
               ) : null}

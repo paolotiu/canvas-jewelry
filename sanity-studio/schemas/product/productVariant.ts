@@ -104,6 +104,7 @@ export const productVariant: ObjectType = {
       },
       inputComponent: ConditionalField,
     },
+
     {
       type: 'string',
       name: 'additional',
