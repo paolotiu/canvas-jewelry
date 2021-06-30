@@ -26,7 +26,17 @@ export const PRODUCT_BY_SLUG_QUERY = groq`
 	defaultVariant,
 	variants[],
 	${productFields},
-  'categories': *[_type == "category" && references(^._id)]{slug}
+  'categories': *[_type == "category" && references(^._id)][0...3]{
+      products[0...8] -> {
+        variants[]{
+          price
+        },
+        defaultVariant{
+          price
+        },
+        ${productFields}
+      },
+  }
 
 }
 `;
@@ -48,7 +58,8 @@ export const CATEGORY_BY_SLUG_QUERY = groq`
     },
     defaultVariant{
       price
-    },
+    }
+   
   },
   'image': image.asset->
 
@@ -56,6 +67,10 @@ export const CATEGORY_BY_SLUG_QUERY = groq`
 `;
 
 export const RELATED_CATEGORIES_QUERY = groq`
+*[type == 'product' ]{
+
+
+}
 
 `;
 
@@ -107,19 +122,20 @@ export const PRICE_PASSWORD_QUERY = groq`
 }
 `;
 
+export type MainImage = {
+  metadata: {
+    lqip: string;
+    dimensions: {
+      aspectRatio: number;
+    };
+  };
+  mimeType: string;
+  url: string;
+};
 export type ProductReturn = Pick<Product, '_id' | 'description' | 'name'> & {
   images: SanityImageSource[];
   slug: string;
-  mainImage: {
-    metadata: {
-      lqip: string;
-      dimensions: {
-        aspectRatio: number;
-      };
-    };
-    mimeType: string;
-    url: string;
-  };
+  mainImage: MainImage;
 };
 
 export type ProductVariant = {
@@ -137,6 +153,12 @@ export type ProductReturnWithVariants = ProductReturn & {
   optionsSwitch: OptionsSwitch;
 };
 
+export type ProductReturnWithCategories = ProductReturn & {
+  categories: {
+    products: ProductReturnWithPriceVariants[];
+  }[];
+};
+
 export type OptionsSwitch = {
   withAdditional: boolean;
   withColor: boolean;
@@ -145,11 +167,12 @@ export type OptionsSwitch = {
   additionalName?: string;
 };
 
-export type ProductReturnWithPriceVariants = ProductReturn & {
+export type ProductPriceVariants = {
   variants?: { price: number }[];
   defaultVariant: { price: number };
 };
 
+export type ProductReturnWithPriceVariants = ProductReturn & ProductPriceVariants;
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
   products: ProductReturnWithPriceVariants[];
   slug: string;

@@ -94,7 +94,7 @@ const ProductCarousel = ({ products }: Props) => {
                 }}
               >
                 <Card
-                  src={product.images[0]}
+                  src={product.mainImage}
                   name={product.name}
                   slug={product.slug}
                   price={product.defaultVariant.price}
