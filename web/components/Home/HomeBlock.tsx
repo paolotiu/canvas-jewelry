@@ -60,7 +60,7 @@ const OverlayVariants: Variants = {
 };
 const HomeBlock = ({ href, label, unsetGrid = false, ...props }: Props) => {
   return (
-    <Link href={href}>
+    <Link href={href} passHref>
       <StyledBlock initial="rest" whileHover="hover" variants={BlockVariants} unsetGrid={unsetGrid}>
         <>
           <Overlay variants={OverlayVariants}>{label}</Overlay>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useEmblaCarousel,   } from 'embla-carousel/react';
+import { useEmblaCarousel } from 'embla-carousel/react';
 import styled from '@emotion/styled';
 import { useRecursiveTimeout } from '@utils/hooks/useRecursiveTimeout';
 import { breakpoints } from '@styles/breakpoints';
@@ -39,6 +39,10 @@ const EmblaSlide = styled.div<{ objectFit?: 'contain' | 'cover' }>`
   display: flex;
   justify-content: center;
   /* cursor: grab; */
+
+  > div {
+    position: unset !important;
+  }
 
   img {
     object-fit: ${({ objectFit }) => objectFit || 'contain'};
@@ -88,6 +92,7 @@ interface Props {
   };
   cover?: boolean;
   objectFit?: 'contain' | 'cover';
+  minHeight?: number;
 }
 
 const Carousel = ({
@@ -99,6 +104,7 @@ const Carousel = ({
   options,
   objectFit,
   cover,
+  minHeight,
 }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaConfig);
 
@@ -161,6 +167,7 @@ const Carousel = ({
               key={(src as any)._ref || i}
               style={{
                 aspectRatio: unsetAspectRatio ? 'unset' : '',
+                minHeight: minHeight || '',
               }}
             >
               <SanityImage src={src} options={options} cover={cover} />

@@ -2,10 +2,11 @@ import styled from '@emotion/styled';
 import { AnimateSharedLayout } from 'framer-motion';
 import { breakpoints } from '@styles/breakpoints';
 import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
+import { useMemo } from 'react';
+import { getHasFromMap } from '@utils/getHasFromMap';
 import Card from './Card';
 import { ViewMode } from './CardView';
 import { sortModes, SortModes } from './sortFunctions';
-// import { priceSort, stringSort } from './sortFunctions';
 
 const StyledCardContainer = styled.div`
   display: grid;
@@ -42,6 +43,11 @@ interface Props {
 }
 
 const CardContainer = ({ items, viewMode, sortMode }: Props) => {
+  const itemsHasFromMap = useMemo(
+    () => getHasFromMap(items),
+
+    [items],
+  );
   return (
     <>
       <StyledCardContainer className={viewMode}>
@@ -54,7 +60,7 @@ const CardContainer = ({ items, viewMode, sortMode }: Props) => {
                 slug={item.slug}
                 name={item.name}
                 price={item.defaultVariant.price}
-                hasFrom={!!item.variants?.length}
+                hasFrom={itemsHasFromMap[item._id]}
                 viewMode={viewMode}
               />
             );

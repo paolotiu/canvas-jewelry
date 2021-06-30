@@ -21,6 +21,8 @@ const StyledSortButton = styled.button`
   border: none;
   padding-top: 0.05rem;
   color: ${({ theme }) => theme.colors.secondaryText};
+  display: flex;
+  align-items: center;
   :hover {
     color: ${({ theme }) => theme.colors.activeTransparent};
   }

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { FiX } from 'react-icons/fi';
-import Link from 'next/link';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
 import { NAV_ITEMS } from 'constants/NAV_ITEMS';
@@ -123,17 +122,18 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
           <FiX size={20} />
         </button>
         <div>
-          <Link href="/" passHref>
+          {/* <Link href="/" passHref>
             <a className="image-container" href="home">
-              <img
+              <Image
                 src="/logo.png"
-                width="100%"
-                height="100px"
+                layout="responsive"
+                width="120"
+                height="90"
                 alt="logo"
-                style={{ objectFit: 'cover' }}
+                objectFit="cover"
               />
             </a>
-          </Link>
+          </Link> */}
           <div className="link-container">
             <NavLink href="/" label="Home" />
             {NAV_ITEMS.map((item) => {

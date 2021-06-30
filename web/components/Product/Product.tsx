@@ -6,8 +6,7 @@ import Carousel from '@components/Carousel/Carousel';
 import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
 import {
-  CategoryWithProductsReturn,
-  CATEGORY_BY_SLUG_QUERY,
+  ProductReturnWithCategories,
   ProductReturnWithPriceVariants,
   ProductReturnWithVariants,
   PRODUCT_BY_SLUG_QUERY,
@@ -15,9 +14,8 @@ import {
 import { urlFor, usePreviewSubscription } from '@utils/sanity/sanity';
 import { useAtom } from 'jotai';
 import { previewAtom } from '@utils/jotai';
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
-import { sanityClient } from '@utils/sanity/sanity.server';
 import { NextSeo } from 'next-seo';
 import ProductDetails from './ProductDetails';
 import ProductOptions from './ProductOptions';
@@ -135,19 +133,26 @@ const ProductCarouselWrapper = styled.div`
 `;
 
 interface Props {
-  product: ProductReturnWithVariants;
+  product: ProductReturnWithVariants & ProductReturnWithCategories;
 }
 
 const Product = ({ product }: Props) => {
   const router = useRouter();
   const [isPreview] = useAtom(previewAtom);
-  const [relatedProducts, setRelatedProducts] = useState<ProductReturnWithPriceVariants[]>([]);
 
-  useEffect(() => {
-    sanityClient
-      .fetch<CategoryWithProductsReturn>(CATEGORY_BY_SLUG_QUERY, { slug: 'best-sellers' })
-      .then((res) => setRelatedProducts(res.products));
-  }, []);
+  const relatedProducts = useMemo(() => {
+    const map: Record<string, ProductReturnWithPriceVariants> = {};
+    product.categories.forEach((category) => {
+      category.products.forEach((prod) => {
+        if (map[prod._id] || prod._id === product._id) {
+          return;
+        }
+
+        map[prod._id] = prod;
+      });
+    });
+    return Object.values(map);
+  }, [product]);
 
   const { data } = usePreviewSubscription(PRODUCT_BY_SLUG_QUERY, {
     params: { slug: product.slug },

@@ -4,6 +4,7 @@ import { getClient } from '@utils/sanity/sanity.server';
 import {
   ALL_PRODUCTS_QUERY,
   ProductReturn,
+  ProductReturnWithCategories,
   ProductReturnWithVariants,
   PRODUCT_BY_SLUG_QUERY,
 } from '@utils/sanity/queries';
@@ -50,7 +51,7 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { slug: str
 };
 
 interface Props {
-  product: ProductReturnWithVariants;
+  product: ProductReturnWithVariants & ProductReturnWithCategories;
 }
 
 const ProductPage = ({ product }: Props) => {

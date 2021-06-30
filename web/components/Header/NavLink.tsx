@@ -37,7 +37,7 @@ function NavLink({
     );
   }
   return (
-    <Link href={href}>
+    <Link href={href} passHref>
       <StyledNavLink>{label}</StyledNavLink>
     </Link>
   );
