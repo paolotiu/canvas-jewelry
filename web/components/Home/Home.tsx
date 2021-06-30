@@ -52,13 +52,13 @@ const Home = ({ products, homepageSettings }: Props) => {
                   if (windowWidth > points.sm) {
                     return builder.width(1200).height(400).quality(100);
                   }
+                  const width = Math.min(375, windowWidth);
                   return builder
-                    .width(windowWidth * 2)
-                    .height(windowWidth * 2)
+                    .width(Math.floor(width * 3))
+                    .height(Math.floor(width * 3))
                     .quality(100);
                 },
               }}
-              minHeight={400}
               autoPlayInterval={5000}
               withAutoPlay
             />
