@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { AnimateSharedLayout } from 'framer-motion';
 import { breakpoints } from '@styles/breakpoints';
 import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
+import { useMemo } from 'react';
 import Card from './Card';
 import { ViewMode } from './CardView';
 import { sortModes, SortModes } from './sortFunctions';
-// import { priceSort, stringSort } from './sortFunctions';
 
 const StyledCardContainer = styled.div`
   display: grid;
@@ -42,6 +42,19 @@ interface Props {
 }
 
 const CardContainer = ({ items, viewMode, sortMode }: Props) => {
+  const itemsHasFromMap = useMemo(() => {
+    const map: Record<string, boolean> = {};
+
+    // Check if each item has variants with different prices
+    items.forEach((item) => {
+      if (!item.variants) {
+        map[item._id] = false;
+        return;
+      }
+      map[item._id] = item.variants.some((variant) => variant.price !== item.defaultVariant.price);
+    });
+    return map;
+  }, [items]);
   return (
     <>
       <StyledCardContainer className={viewMode}>
@@ -54,7 +67,7 @@ const CardContainer = ({ items, viewMode, sortMode }: Props) => {
                 slug={item.slug}
                 name={item.name}
                 price={item.defaultVariant.price}
-                hasFrom={!!item.variants?.length}
+                hasFrom={itemsHasFromMap[item._id]}
                 viewMode={viewMode}
               />
             );

@@ -133,7 +133,7 @@ export type ProductVariant = {
 
 export type ProductReturnWithVariants = ProductReturn & {
   defaultVariant: ProductVariant;
-  variants: ProductVariant[];
+  variants?: ProductVariant[];
   optionsSwitch: OptionsSwitch;
 };
 
@@ -146,7 +146,7 @@ export type OptionsSwitch = {
 };
 
 export type ProductReturnWithPriceVariants = ProductReturn & {
-  variants: { price: number }[];
+  variants?: { price: number }[];
   defaultVariant: { price: number };
 };
 
