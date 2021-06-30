@@ -1,5 +1,6 @@
 {
   "extends": ["eslint-config-tiu", "plugin:@next/next/recommended"],
+
   "rules": {
     "consistent-return": "off",
     "@next/next/no-sync-scripts": 2,
