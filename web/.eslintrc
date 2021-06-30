@@ -1,6 +1,9 @@
 {
-  "extends": "eslint-config-tiu",
+  "extends": ["eslint-config-tiu", "plugin:@next/next/recommended"],
   "rules": {
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "@next/next/no-sync-scripts": 2,
+    "@next/next/no-html-link-for-pages": 2,
+    "@next/next/no-img-element": 2
   }
 }
