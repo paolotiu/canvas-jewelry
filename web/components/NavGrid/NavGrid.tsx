@@ -16,7 +16,7 @@ const StyledNavGrid = styled.nav`
   }
 `;
 
-const StyledNavLink = styled.span`
+const StyledNavLink = styled.a`
   display: inline-flex;
   justify-content: center;
   text-align: center;
@@ -38,7 +38,7 @@ const NavGrid = ({ links }: Props) => {
     <StyledNavGrid>
       {links.map(({ label, href }) => {
         return (
-          <Link href={href} key={label}>
+          <Link href={href} key={label} passHref>
             <StyledNavLink>{label}</StyledNavLink>
           </Link>
         );
