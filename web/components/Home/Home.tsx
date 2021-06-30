@@ -59,6 +59,7 @@ const Home = ({ products, homepageSettings }: Props) => {
                 },
               }}
               minHeight={400}
+              autoPlayInterval={5000}
               withAutoPlay
             />
           </ClientSideOnly>
