@@ -26,7 +26,14 @@ const SanityImage = ({ src, options, cover = false }: SanityImageProps) => {
     );
   }
 
-  return <Image {...imageProps} layout="intrinsic" alt="Jewelry" />;
+  return (
+    <Image
+      {...imageProps}
+      layout="intrinsic"
+      alt="Jewelry"
+      // sizes="(max-width: 768px) 100vw, 1200px"
+    />
+  );
 };
 
 export default SanityImage;

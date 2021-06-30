@@ -1,22 +1,23 @@
 import CardSection from '@components/Card/CardSection';
 import Carousel from '@components/Carousel/Carousel';
+import ClientSideOnly from '@components/ClientSideOnly/ClientSideOnly';
 import Layout from '@components/Layout';
 import NavGrid from '@components/NavGrid/NavGrid';
 import styled from '@emotion/styled';
-import { breakpoints } from '@styles/breakpoints';
+import { breakpoints, points } from '@styles/breakpoints';
+import { useWindowWidth } from '@utils/hooks/useWindowWidth';
 import { HomepageSettings, ProductReturnWithPriceVariants } from '@utils/sanity/queries';
 import React from 'react';
 import { getHrefFromRef } from './getHrefFromRef';
-import HomeBlock from './HomeBlock';
 
 const BannerContainer = styled.div`
   ${breakpoints.sm} {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: 0.2rem;
-    height: 400px;
-    max-width: 100%;
+    grid-template-rows: repeat(2, minmax(0, 1fr)); */
+    /* gap: 0.2rem; */
+    /* height: 400px;
+    max-width: 100%; */
   }
 `;
 
@@ -31,25 +32,38 @@ interface Props {
   homepageSettings: HomepageSettings;
 }
 const Home = ({ products, homepageSettings }: Props) => {
+  const windowWidth = useWindowWidth();
   return (
     <Layout title="The Canvas Jewelry">
       <Content>
         <BannerContainer>
-          <HomeBlock
+          {/* <HomeBlock
             src={homepageSettings.homepageBlock1.image.asset}
             label={homepageSettings.homepageBlock1.title}
             href={getHrefFromRef(homepageSettings.homepageBlock1.reference)}
-          />
-          <Carousel
-            images={homepageSettings.homepageBanners}
-            withAutoPlay
-            options={{
-              imageBuilder: (builder) => builder.height(1200).quality(100),
-              enableBlurUp: true,
-            }}
-            objectFit="cover"
-          />
-          <HomeBlock
+          /> */}
+          <ClientSideOnly
+            loader={<div style={{ width: '400px', height: '400px', maxWidth: '100vw' }}></div>}
+          >
+            <Carousel
+              images={homepageSettings.homepageBanners}
+              options={{
+                imageBuilder: (builder) => {
+                  if (windowWidth > points.sm) {
+                    return builder.width(1200).height(400).quality(100);
+                  }
+                  return builder
+                    .width(windowWidth * 2)
+                    .height(windowWidth * 2)
+                    .quality(100);
+                },
+              }}
+              minHeight={400}
+              withAutoPlay
+            />
+          </ClientSideOnly>
+
+          {/* <HomeBlock
             src={homepageSettings.homepageBlock2.image.asset}
             label={homepageSettings.homepageBlock2.title}
             href={getHrefFromRef(homepageSettings.homepageBlock2.reference)}
@@ -60,7 +74,7 @@ const Home = ({ products, homepageSettings }: Props) => {
             label={homepageSettings.homepageBlock3.title}
             href={getHrefFromRef(homepageSettings.homepageBlock3.reference)}
             unsetGrid
-          />
+          /> */}
         </BannerContainer>
         <NavGrid
           links={homepageSettings.nav.map((navLink) => ({
