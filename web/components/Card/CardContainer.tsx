@@ -3,6 +3,7 @@ import { AnimateSharedLayout } from 'framer-motion';
 import { breakpoints } from '@styles/breakpoints';
 import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
 import { useMemo } from 'react';
+import { getHasFromMap } from '@utils/getHasFromMap';
 import Card from './Card';
 import { ViewMode } from './CardView';
 import { sortModes, SortModes } from './sortFunctions';
@@ -42,19 +43,11 @@ interface Props {
 }
 
 const CardContainer = ({ items, viewMode, sortMode }: Props) => {
-  const itemsHasFromMap = useMemo(() => {
-    const map: Record<string, boolean> = {};
+  const itemsHasFromMap = useMemo(
+    () => getHasFromMap(items),
 
-    // Check if each item has variants with different prices
-    items.forEach((item) => {
-      if (!item.variants) {
-        map[item._id] = false;
-        return;
-      }
-      map[item._id] = item.variants.some((variant) => variant.price !== item.defaultVariant.price);
-    });
-    return map;
-  }, [items]);
+    [items],
+  );
   return (
     <>
       <StyledCardContainer className={viewMode}>

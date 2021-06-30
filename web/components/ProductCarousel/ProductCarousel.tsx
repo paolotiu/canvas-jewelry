@@ -4,7 +4,8 @@ import Card from '@components/Card/Card';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { getHasFromMap } from '@utils/getHasFromMap';
 
 const Container = styled.div`
   display: flex;
@@ -70,6 +71,7 @@ const ProductCarousel = ({ products }: Props) => {
     containScroll: 'trimSnaps',
   });
 
+  const hasFromMap = useMemo(() => getHasFromMap(products), [products]);
   useEffect(() => {
     // reinit to make dragging work
     if (products.length !== emblaApi?.slideNodes().length) {
@@ -94,6 +96,7 @@ const ProductCarousel = ({ products }: Props) => {
                 }}
               >
                 <Card
+                  hasFrom={hasFromMap[product._id]}
                   src={product.mainImage}
                   name={product.name}
                   slug={product.slug}
