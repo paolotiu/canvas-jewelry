@@ -5,7 +5,7 @@
   },
   "api": {
     "projectId": "94xotc05",
-    "dataset": "production"
+    "dataset": "dev"
   },
   "plugins": [
     "@sanity/base",
@@ -17,13 +17,13 @@
     "conditional-field",
     "@sanity/production-preview",
     "vercel-deploy",
-    "@sanity/dashboard"
+    "@sanity/dashboard",
+    "@sanity/form-builder",
+    "my-studio-logo"
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
@@ -38,6 +38,10 @@
     {
       "implements": "part:@sanity/production-preview/resolve-production-url",
       "path": "./resolveProductionUrl.ts"
+    },
+    {
+      "name": "part:@sanity/desk-tool/structure",
+      "path": "./deskStructure"
     }
   ]
 }
