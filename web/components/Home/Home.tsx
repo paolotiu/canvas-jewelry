@@ -31,7 +31,6 @@ interface Props {
   homepageSettings: HomepageSettings;
 }
 const Home = ({ products, homepageSettings }: Props) => {
-  console.log(homepageSettings);
   return (
     <Layout title="The Canvas Jewelry">
       <Content>

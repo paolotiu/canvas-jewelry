@@ -52,12 +52,12 @@ export const sortModes = {
   stringAsc: {
     fn: stringSort('asc'),
     label: 'Alphabetically, A - Z',
-    icon: FaSortAlphaUp,
+    icon: FaSortAlphaDown,
   },
   stringDesc: {
     fn: stringSort('desc'),
     label: 'Alphabetically, Z - A',
-    icon: FaSortAlphaDown,
+    icon: FaSortAlphaUp,
   },
 };
 
