@@ -93,6 +93,9 @@ interface Props {
   cover?: boolean;
   objectFit?: 'contain' | 'cover';
   minHeight?: number;
+  responsiveImage?: boolean;
+  sizes?: string;
+  priority?: boolean;
 }
 
 const Carousel = ({
@@ -105,6 +108,9 @@ const Carousel = ({
   objectFit,
   cover,
   minHeight,
+  priority,
+  responsiveImage,
+  sizes,
 }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaConfig);
 
@@ -170,7 +176,14 @@ const Carousel = ({
                 minHeight: minHeight || '',
               }}
             >
-              <SanityImage src={src} options={options} cover={cover} />
+              <SanityImage
+                src={src}
+                options={options}
+                cover={cover}
+                responsive={responsiveImage}
+                priority={priority}
+                sizes={sizes}
+              />
             </EmblaSlide>
           ))}
         </EmblaContainer>
