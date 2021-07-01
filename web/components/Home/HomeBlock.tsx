@@ -12,7 +12,8 @@ interface Props extends SanityImageProps {
 }
 
 const StyledBlock = styled(motion.div)<{ unsetGrid?: boolean }>`
-  ${({ unsetGrid }) => (unsetGrid ? '' : `grid-column: 3 / -1;`)}
+  /* ${({ unsetGrid }) => (unsetGrid ? '' : `grid-column: 3 / -1;`)} */
+  grid-row: 1 /-1;
   height: 100%;
   position: relative;
   cursor: pointer;

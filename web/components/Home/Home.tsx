@@ -31,6 +31,7 @@ interface Props {
   homepageSettings: HomepageSettings;
 }
 const Home = ({ products, homepageSettings }: Props) => {
+  console.log(homepageSettings);
   return (
     <Layout title="The Canvas Jewelry">
       <Content>
@@ -40,7 +41,11 @@ const Home = ({ products, homepageSettings }: Props) => {
             label={homepageSettings.homepageBlock1.title}
             href={getHrefFromRef(homepageSettings.homepageBlock1.reference)}
           />
-
+          <HomeBlock
+            src={homepageSettings.homepageBlock2.image.asset}
+            label={homepageSettings.homepageBlock2.title}
+            href={getHrefFromRef(homepageSettings.homepageBlock2.reference)}
+          />
           <Carousel
             images={homepageSettings.homepageBanners}
             options={{
@@ -49,19 +54,6 @@ const Home = ({ products, homepageSettings }: Props) => {
             autoPlayInterval={5000}
             withAutoPlay
             objectFit="cover"
-          />
-
-          <HomeBlock
-            src={homepageSettings.homepageBlock2.image.asset}
-            label={homepageSettings.homepageBlock2.title}
-            href={getHrefFromRef(homepageSettings.homepageBlock2.reference)}
-            unsetGrid
-          />
-          <HomeBlock
-            src={homepageSettings.homepageBlock3.image.asset}
-            label={homepageSettings.homepageBlock3.title}
-            href={getHrefFromRef(homepageSettings.homepageBlock3.reference)}
-            unsetGrid
           />
         </BannerContainer>
         <NavGrid
