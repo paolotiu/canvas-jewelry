@@ -14,6 +14,7 @@
     "sanity"
   ],
   "dependencies": {
+    "@reach/auto-id": "^0.15.2",
     "@sanity/base": "^2.12.2",
     "@sanity/components": "^2.2.6",
     "@sanity/core": "^2.12.2",
@@ -21,6 +22,7 @@
     "@sanity/default-layout": "^2.12.2",
     "@sanity/default-login": "^2.11.1",
     "@sanity/desk-tool": "^2.12.2",
+    "@sanity/form-builder": "^2.12.2",
     "@sanity/production-preview": "^2.2.6",
     "@sanity/vision": "^2.11.2",
     "prop-types": "^15.7",
@@ -31,6 +33,7 @@
     "sanity-plugin-vercel-deploy": "^2.0.1"
   },
   "devDependencies": {
+    "@sanity/types": "^2.12.2",
     "prettier": "^2.3.1",
     "sanity-codegen": "^0.9.3"
   }
