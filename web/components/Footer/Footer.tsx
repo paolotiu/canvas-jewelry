@@ -47,7 +47,9 @@ const Footer = () => {
           <Facebook />
         </a>
         <p>
-          <Mail />
+          <a href="mailto:info@thecanvasjewelry.com">
+            <Mail />
+          </a>
         </p>
       </div>
       <p>thecanvasjewlery</p>

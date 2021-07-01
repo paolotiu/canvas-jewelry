@@ -5,12 +5,12 @@ import { breakpoints } from '@styles/breakpoints';
 import { priceRevealAtom, productVariantAtom } from '@utils/jotai';
 import { useAtom } from 'jotai';
 import React from 'react';
-import { SanityBlock } from 'sanity-codegen';
+import { SanityBlock, SanityKeyed } from 'sanity-codegen';
 import ProductDescription from './ProductDescription';
 
 interface Props {
   name: string;
-  description?: SanityBlock;
+  description?: Array<SanityKeyed<SanityBlock>>;
   price: number;
 }
 
