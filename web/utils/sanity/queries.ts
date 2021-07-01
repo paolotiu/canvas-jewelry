@@ -79,21 +79,21 @@ export const HOMEPAGE_SETTINGS_QUERY = groq`
 	...,
     homepageBlock1 {
 	      ...,
-        blockReference -> {
+        reference -> {
         _type,
         'slug': slug.current
 	      }
     },
  homepageBlock2 {
 	      ...,
-        blockReference -> {
+        reference -> {
         _type,
         'slug': slug.current
 	      }
     },
  homepageBlock3 {
 	      ...,
-        blockReference -> {
+        reference -> {
         _type,
         'slug': slug.current
 	      }
