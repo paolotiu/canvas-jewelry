@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 const Overlay = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.blackAlpha[300]};
@@ -18,5 +18,20 @@ const Overlay = styled(motion.div)`
     display: none;
   }
 `;
+
+export const overlayVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    transitionEnd: {
+      pointerEvents: 'none',
+    },
+  },
+  shown: {
+    opacity: 1,
+    transitionEnd: {
+      pointerEvents: 'auto',
+    },
+  },
+};
 
 export default Overlay;

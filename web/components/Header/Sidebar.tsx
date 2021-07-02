@@ -5,7 +5,8 @@ import { motion, Variants } from 'framer-motion';
 import { NAV_ITEMS } from 'constants/NAV_ITEMS';
 import dynamic from 'next/dynamic';
 import { useModal } from '@components/Modal/useModal';
-import Overlay from '@components/Common/Overlay/Overlay';
+import Overlay, { overlayVariants } from '@components/Common/Overlay/Overlay';
+import { usePreventScroll } from '@utils/hooks/usePreventScroll';
 import NavDropdown from './NavDropdown';
 import NavLink from './NavLink';
 
@@ -73,34 +74,22 @@ const variants: Variants = {
   },
 };
 
-const overlayVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    transitionEnd: {
-      pointerEvents: 'none',
-    },
-  },
-  shown: {
-    opacity: 1,
-    transitionEnd: {
-      pointerEvents: 'auto',
-    },
-  },
-};
 export interface SidebarProps {
-  open: boolean;
+  isOpen: boolean;
   closeSidebar: () => void;
   isHidden?: boolean;
 }
 
-const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
+const Sidebar = ({ isOpen, closeSidebar, isHidden }: SidebarProps) => {
   const { isModalOpen, closeModal, openModal } = useModal();
+
+  usePreventScroll(isOpen);
 
   return (
     <>
       <StyledSidebar
         variants={variants}
-        animate={open ? 'shown' : 'hidden'}
+        animate={isOpen ? 'shown' : 'hidden'}
         initial={isHidden ? 'hidden' : 'shown'}
       >
         <button type="button" id="close-sidebar" onClick={closeSidebar}>
@@ -140,7 +129,7 @@ const Sidebar = ({ open, closeSidebar, isHidden }: SidebarProps) => {
         onClick={closeSidebar}
         initial="hidden"
         variants={overlayVariants}
-        animate={open ? 'shown' : 'hidden'}
+        animate={isOpen ? 'shown' : 'hidden'}
       />
       <PricePasswordModal isOpen={isModalOpen} onRequestClose={closeModal} />
     </>

@@ -1,5 +1,6 @@
 import { theme } from '@styles/theme';
-import React, { useEffect } from 'react';
+import { usePreventScroll } from '@utils/hooks/usePreventScroll';
+import React from 'react';
 import ReactModal from 'react-modal';
 
 export interface ModalProps extends ReactModal.Props {
@@ -27,16 +28,7 @@ const styles: ReactModal.Styles = {
 ReactModal.setAppElement('#__next');
 
 const Modal = ({ children, style, isOpen, ...props }: ModalProps) => {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
+  usePreventScroll(isOpen);
   return (
     <ReactModal
       isOpen={isOpen}
