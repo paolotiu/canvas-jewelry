@@ -1,4 +1,4 @@
-import { Title } from '@components/Title/Title';
+import { Title } from '@components/Common/Title/Title';
 import styled from '@emotion/styled';
 import { breakpoints, points } from '@styles/breakpoints';
 import { sortModeAtom } from '@utils/jotai';

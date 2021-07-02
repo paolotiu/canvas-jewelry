@@ -1,4 +1,4 @@
-import Button from '@components/General/Button';
+import Button from '@components/Common/Button/Button';
 import Modal, { ModalProps } from '@components/Modal/Modal';
 import styled from '@emotion/styled';
 import { priceRevealAtom } from '@utils/jotai';

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { ButtonColors, theme as t } from '@styles/theme';
 
 type Colors = keyof typeof t.colors;
+
 interface ButtonProps {
   size?: keyof typeof t.typography.fontSizes;
   isWhite?: boolean;
@@ -12,6 +13,7 @@ interface ButtonProps {
   hoverColor?: Colors;
   color?: Colors;
 }
+
 const Button = styled.button<ButtonProps>`
   cursor: pointer;
   border-radius: ${({ theme, borderRadius }) =>

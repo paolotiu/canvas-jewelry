@@ -5,6 +5,7 @@ import { motion, Variants } from 'framer-motion';
 import { NAV_ITEMS } from 'constants/NAV_ITEMS';
 import dynamic from 'next/dynamic';
 import { useModal } from '@components/Modal/useModal';
+import Overlay from '@components/Common/Overlay/Overlay';
 import NavDropdown from './NavDropdown';
 import NavLink from './NavLink';
 
@@ -56,22 +57,6 @@ const StyledSidebar = styled(motion.aside)`
   }
 `;
 
-const Overlay = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.blackAlpha[300]};
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  z-index: 6;
-
-  body {
-    overflow: hidden;
-  }
-  ${breakpoints.lg} {
-    display: none;
-  }
-`;
 const variants: Variants = {
   hidden: {
     x: `-100%`,
