@@ -1,5 +1,5 @@
 import ClientSideOnly from '@components/ClientSideOnly/ClientSideOnly';
-import Divider from '@components/Divider/Divider';
+import Divider from '@components/Common/Divider/Divider';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { priceRevealAtom, productVariantAtom } from '@utils/jotai';

@@ -3,7 +3,6 @@ import Layout from '@components/Layout';
 import ChevronLeft from '@assets/icons/chevron-left.svg';
 import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
-import Button from '@components/General/Button';
 import { breakpoints } from '@styles/breakpoints';
 import {
   ProductReturnWithCategories,
@@ -17,6 +16,7 @@ import { previewAtom } from '@utils/jotai';
 import React, { useMemo } from 'react';
 import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
 import { NextSeo } from 'next-seo';
+import Button from '@components/Common/Button/Button';
 import ProductDetails from './ProductDetails';
 import ProductOptions from './ProductOptions';
 
@@ -203,7 +203,6 @@ const Product = ({ product }: Props) => {
               withButtons
               images={data.images}
               unsetAspectRatio
-              // objectFit="cover"
               options={{
                 imageBuilder: (builder) =>
                   builder
@@ -211,6 +210,7 @@ const Product = ({ product }: Props) => {
                     .height(500 * 2.5)
                     .quality(100),
               }}
+              priority
             />
             <DetailsContainer>
               <ProductDetails
