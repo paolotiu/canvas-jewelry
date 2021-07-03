@@ -1,6 +1,11 @@
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { groq } from 'next-sanity';
-import { Category, Product } from 'schemaTypes';
+import {
+  Category,
+  OptionsSwitch,
+  Product,
+  ProductVariant as SchemaProductVariant,
+} from 'schemaTypes';
 
 const productFields = `
 	_id,
@@ -138,13 +143,8 @@ export type ProductReturn = Pick<Product, '_id' | 'description' | 'name'> & {
   mainImage: MainImage;
 };
 
-export type ProductVariant = {
-  price: number;
-  color?: string;
-  minSize?: number;
-  maxSize?: number;
-  hasHalfSizes?: boolean;
-  isAllHalfSizes?: boolean;
+export type ProductVariant = SchemaProductVariant & {
+  size?: number;
 };
 
 export type ProductReturnWithVariants = ProductReturn & {
@@ -157,14 +157,6 @@ export type ProductReturnWithCategories = ProductReturn & {
   categories: {
     products: ProductReturnWithPriceVariants[];
   }[];
-};
-
-export type OptionsSwitch = {
-  withAdditional: boolean;
-  withColor: boolean;
-  withLetters: boolean;
-  withSize: boolean;
-  additionalName?: string;
 };
 
 export type ProductPriceVariants = {

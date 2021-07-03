@@ -4,7 +4,13 @@ export const useWindowWidth = () => {
   const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
+    const changeWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', changeWidth);
+    return () => {
+      window.removeEventListener('resize', changeWidth);
+    };
   }, []);
   return windowWidth;
 };
