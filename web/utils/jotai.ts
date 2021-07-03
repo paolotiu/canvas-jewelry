@@ -13,13 +13,16 @@ export const priceRevealAtom = atomWithStorage('isPriceRevealed', false);
 
 type PossibleAttribute = 'size' | 'color' | 'letters' | 'additional';
 export interface CartItem {
-  [x: string]: any;
+  id: string;
   name: string;
   price: number;
   quantity: number;
   attributes: { [key in PossibleAttribute]?: number | string };
-  configId: string;
   image: SanityImageSource;
+  configId: string;
 }
 
 export const cartAtom = atomWithStorage<CartItem[]>('cart', []);
+if (process.env.NODE_ENV !== 'production') {
+  cartAtom.debugLabel = 'cart'
+}
