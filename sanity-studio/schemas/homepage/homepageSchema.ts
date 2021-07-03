@@ -5,7 +5,8 @@ export const homepageSchema: Document = {
   name: 'homepageSettings',
   title: 'Homepage Settings',
   // Limit to 1 document
-  __experimental_actions: ['update', 'publish'],
+  __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
+
   fieldsets: [
     {
       title: 'Banners',
