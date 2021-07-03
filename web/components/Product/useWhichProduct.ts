@@ -18,7 +18,7 @@ const getWhichProductWithSize = (
 
   const products = getMatchedProducts(variants, optionsWithoutSize);
 
-  return products.find((product) => {
+  const returnProduct = products.find((product) => {
     if (!product.maxSize || !product.minSize) {
       return false;
     }
@@ -36,6 +36,11 @@ const getWhichProductWithSize = (
     }
     return true;
   });
+  if (!returnProduct) {
+    return null;
+  }
+  returnProduct.size = options.size;
+  return returnProduct;
 };
 
 export const useWhichProduct = (initial: any = {}, variants: ProductVariant[]) => {

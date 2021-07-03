@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Burger from '@assets/icons/burger.svg';
 // import Search from '@assets/icons/search.svg';
 import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { breakpoints, points } from '@styles/breakpoints';
+import { BsBag } from 'react-icons/bs';
 import Link from 'next/link';
+import { useOpenClose } from '@utils/hooks/useOpenClose';
 
 const Sidebar = dynamic(
   () => (window.innerWidth > points.lg ? import('./Sidebar') : import('./MobileSidebar')),
   { ssr: false },
 );
+
+const Cart = dynamic(() => import('../Cart/Cart'), { ssr: false });
 
 const StyledHeader = styled.header`
   padding: 0.7rem;
@@ -41,14 +45,22 @@ const LogoLink = styled.a`
   justify-content: center;
 `;
 
+const BagContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+`;
+
 const Header = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, { close: closeSidebar, open: openSidebar }] = useOpenClose();
+  const [isCartOpen, { close: closeCart, open: openCart }] = useOpenClose();
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
       if (width > points.lg) {
-        setIsSidebarOpen(true);
+        openSidebar();
       }
     };
     handleResize();
@@ -57,17 +69,11 @@ const Header = () => {
 
     // Cleanup
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [openSidebar]);
 
-  const openSidebar = () => {
-    setIsSidebarOpen(true);
-  };
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
-  };
   return (
     <>
-      <Sidebar open={isSidebarOpen} closeSidebar={closeSidebar} />
+      <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />
       <StyledHeader>
         <Burger id="burger" onClick={openSidebar} />
 
@@ -85,8 +91,11 @@ const Header = () => {
             />
           </LogoLink>
         </Link>
-        {/* <Search style={{ justifySelf: 'end' }} /> */}
+        <BagContainer>
+          <BsBag size="20px" onClick={openCart} />
+        </BagContainer>
       </StyledHeader>
+      <Cart isOpen={isCartOpen} closeCart={closeCart} />
     </>
   );
 };

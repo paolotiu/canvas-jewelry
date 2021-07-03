@@ -12,13 +12,14 @@ import {
 } from '@utils/sanity/queries';
 import { urlFor, usePreviewSubscription } from '@utils/sanity/sanity';
 import { useAtom } from 'jotai';
-import { previewAtom } from '@utils/jotai';
+import { cartAtom, previewAtom, productVariantAtom } from '@utils/jotai';
 import React, { useMemo } from 'react';
 import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
 import { NextSeo } from 'next-seo';
 import Button from '@components/Common/Button/Button';
 import ProductDetails from './ProductDetails';
 import ProductOptions from './ProductOptions';
+import { transformVariantToCartItem } from './transformVariantToCartItem';
 
 const ProductSection = styled.section`
   width: 100%;
@@ -139,6 +140,8 @@ interface Props {
 const Product = ({ product }: Props) => {
   const router = useRouter();
   const [isPreview] = useAtom(previewAtom);
+  const [currentVariant] = useAtom(productVariantAtom);
+  const [, setCart] = useAtom(cartAtom);
 
   const relatedProducts = useMemo(() => {
     const map: Record<string, ProductReturnWithPriceVariants> = {};
@@ -244,6 +247,37 @@ const Product = ({ product }: Props) => {
                     Shop Now
                   </Button>
                 </a>
+                <Button
+                  withBorder
+                  fontWeight="bold"
+                  size="sm"
+                  style={{ padding: '1rem' }}
+                  onClick={() => {
+                    if (currentVariant) {
+                      const item = transformVariantToCartItem({
+                        optionsSwitch: product.optionsSwitch,
+                        name: product.name,
+                        variant: currentVariant,
+                        id: product._id,
+                        image: product.mainImage,
+                      });
+
+                      setCart((prev) => {
+                        const clone = [...prev];
+                        const matchedItem = clone.find((x) => x.configId === item.configId);
+                        if (matchedItem) {
+                          matchedItem.quantity += 1;
+                        } else {
+                          clone.push(item);
+                        }
+
+                        return clone;
+                      });
+                    }
+                  }}
+                >
+                  Add to Cart
+                </Button>
               </div>
             </DetailsContainer>
           </div>

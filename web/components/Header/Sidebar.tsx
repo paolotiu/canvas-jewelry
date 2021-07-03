@@ -7,13 +7,14 @@ import dynamic from 'next/dynamic';
 import { useModal } from '@components/Modal/useModal';
 import Overlay, { overlayVariants } from '@components/Common/Overlay/Overlay';
 import { usePreventScroll } from '@utils/hooks/usePreventScroll';
+import { useWindowWidth } from '@utils/hooks/useWindowWidth';
 import NavDropdown from './NavDropdown';
 import NavLink from './NavLink';
 
 const PricePasswordModal = dynamic(() => import('@components/Header/PricePasswordModal'));
 
 const StyledSidebar = styled(motion.aside)`
-  height: 100vh;
+  height: 100%;
   width: 250px;
   position: fixed;
   left: 0;
@@ -82,8 +83,8 @@ export interface SidebarProps {
 
 const Sidebar = ({ isOpen, closeSidebar, isHidden }: SidebarProps) => {
   const { isModalOpen, closeModal, openModal } = useModal();
-
-  usePreventScroll(isOpen);
+  const windowWidth = useWindowWidth();
+  usePreventScroll(isOpen && windowWidth < 1200);
 
   return (
     <>
@@ -93,21 +94,9 @@ const Sidebar = ({ isOpen, closeSidebar, isHidden }: SidebarProps) => {
         initial={isHidden ? 'hidden' : 'shown'}
       >
         <button type="button" id="close-sidebar" onClick={closeSidebar}>
-          <FiX size={20} />
+          <FiX size={22} strokeWidth="1" />
         </button>
         <div>
-          {/* <Link href="/" passHref>
-            <a className="image-container" href="home">
-              <Image
-                src="/logo.png"
-                layout="responsive"
-                width="120"
-                height="90"
-                alt="logo"
-                objectFit="cover"
-              />
-            </a>
-          </Link> */}
           <div className="link-container">
             <NavLink href="/" label="Home" />
             {NAV_ITEMS.map((item) => {

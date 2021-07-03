@@ -13,6 +13,8 @@ export interface SanityImageProps {
   responsive?: boolean;
   sizes?: string;
   priority?: boolean;
+  width?: number | string;
+  height?: number | string;
 }
 
 const SanityImage = ({
@@ -22,6 +24,7 @@ const SanityImage = ({
   responsive,
   sizes,
   priority,
+  ...props
 }: SanityImageProps) => {
   const imageProps = useNextSanityImage(sanityClient, src, options);
   if (cover) {
@@ -38,18 +41,18 @@ const SanityImage = ({
 
   if (responsive) {
     return (
-      <Image {...imageProps} layout="responsive" alt="Jewelry" priority={priority} sizes={sizes} />
+      <Image
+        {...imageProps}
+        layout="responsive"
+        alt="Jewelry"
+        priority={priority}
+        sizes={sizes}
+        {...props}
+      />
     );
   }
 
-  return (
-    <Image
-      {...imageProps}
-      layout="intrinsic"
-      alt="Jewelry"
-      // sizes="(max-width: 768px) 100vw, 1200px"
-    />
-  );
+  return <Image {...imageProps} layout="intrinsic" alt="Jewelry" {...props} />;
 };
 
 export default SanityImage;

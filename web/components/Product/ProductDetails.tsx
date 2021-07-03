@@ -56,6 +56,7 @@ const StyledProductDetails = styled.div`
 const ProductDetails = ({ name, description, price }: Props) => {
   const [variant] = useAtom(productVariantAtom);
   const [isPriceRevealed] = useAtom(priceRevealAtom);
+
   return (
     <StyledProductDetails>
       <div className="header">
@@ -69,7 +70,7 @@ const ProductDetails = ({ name, description, price }: Props) => {
       <ProductDescription blocks={description} />
 
       <Divider />
-      {/* {description && <p className="description">{description}</p>} */}
+
       <div>
         {!variant?.price ? <span className="warning">Not a valid configuration</span> : null}
       </div>

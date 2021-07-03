@@ -1,7 +1,8 @@
 import { generateRange } from '@utils/generateRange';
-import { OptionsSwitch, ProductVariant } from '@utils/sanity/queries';
+import { ProductVariant } from '@utils/sanity/queries';
 import React, { useMemo } from 'react';
 import SelectBlock from '@components/Select/SelectBlock';
+import { OptionsSwitch } from 'schemaTypes';
 import { useWhichProduct } from './useWhichProduct';
 
 interface Props {
@@ -71,6 +72,7 @@ const ProductOptions = ({ variants, optionsSwitch, defaultVariant }: Props) => {
     () => (optionsSwitch.withSize ? getPossibleSizes(variants) : null),
     [variants, optionsSwitch.withSize],
   );
+
   const { handleSelectChange } = useWhichProduct(defaultOption, variants);
 
   return (
@@ -94,7 +96,7 @@ const ProductOptions = ({ variants, optionsSwitch, defaultVariant }: Props) => {
         <SelectBlock
           label="Size"
           options={sizes.map((size) => ({ label: String(size), value: String(size) }))}
-          initialValue={{ label: String(sizes[0]), value: String(sizes[0]) }}
+          initialValue={{ label: defaultOption.size, value: defaultOption.size }}
           onChange={(val) => handleSelectChange(val, 'size', 'number')}
         />
       ) : null}
