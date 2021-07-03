@@ -6,15 +6,13 @@ import { Product } from 'schemaTypes';
 interface TransformVariantToCartItemParams {
   variant: ProductVariant;
   name: string;
-  id: string;
   optionsSwitch: Product['optionsSwitch'];
   image: SanityImageSource;
 }
 export const transformVariantToCartItem = ({
   name,
   optionsSwitch,
-  variant: { color, price, size, letters, additional },
-  id,
+  variant: { color, price, size, letters, additional, id },
   image,
 }: TransformVariantToCartItemParams): CartItem => {
   let configId = id;
@@ -47,5 +45,6 @@ export const transformVariantToCartItem = ({
     attributes,
     configId,
     image,
+    id,
   };
 };

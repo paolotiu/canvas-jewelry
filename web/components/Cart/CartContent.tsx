@@ -34,7 +34,7 @@ const EmptyState = styled(motion.div)`
 `;
 
 const CartContent = () => {
-  const [cartItems, setCart] = useAtom(cartAtom);
+  const [cartItems] = useAtom(cartAtom);
   return (
     <>
       <AnimatePresence exitBeforeEnter>
@@ -63,9 +63,6 @@ const CartContent = () => {
                 <CheckoutSection
                   price={cartItems.reduce((prev, curr) => prev + curr.price * curr.quantity, 0)}
                 />
-                <button type="button" onClick={() => setCart([])}>
-                  Empty
-                </button>
               </CheckoutContainer>
             </CheckoutWrapper>
           </React.Fragment>

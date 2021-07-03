@@ -38,9 +38,10 @@ const StyledSidebar = styled(motion.aside)`
   }
 
   .link-container {
-    padding-top: 3rem;
+    padding: 3rem 0;
     display: grid;
     gap: 1em;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   }
 
   #close-sidebar {
@@ -52,6 +53,10 @@ const StyledSidebar = styled(motion.aside)`
     ${breakpoints.lg} {
       display: none;
     }
+  }
+
+  .actions {
+    padding-top: 2rem;
   }
 
   .bottom-nav {
@@ -79,9 +84,10 @@ export interface SidebarProps {
   isOpen: boolean;
   closeSidebar: () => void;
   isHidden?: boolean;
+  openCart: () => void;
 }
 
-const Sidebar = ({ isOpen, closeSidebar, isHidden }: SidebarProps) => {
+const Sidebar = ({ isOpen, closeSidebar, isHidden, openCart }: SidebarProps) => {
   const { isModalOpen, closeModal, openModal } = useModal();
   const windowWidth = useWindowWidth();
   usePreventScroll(isOpen && windowWidth < 1200);
@@ -109,7 +115,11 @@ const Sidebar = ({ isOpen, closeSidebar, isHidden }: SidebarProps) => {
               return <NavDropdown key={item.label} item={item} />;
             })}
           </div>
+          <div className="actions">
+            <NavLink asButton label="Cart" onClick={openCart} href="#" />
+          </div>
         </div>
+
         <div className="bottom-nav">
           <NavLink asButton label="Show Prices" href="#" onClick={openModal} />
         </div>

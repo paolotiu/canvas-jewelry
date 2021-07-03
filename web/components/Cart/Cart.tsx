@@ -9,9 +9,10 @@ import CartContent from './CartContent';
 const StyledCart = styled(motion.aside)`
   width: calc(100vw - 65px);
   height: 100%;
+  max-width: 400px;
   position: fixed;
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  grid-template-rows: minmax(5%, 50px) 75% 15%;
   z-index: 10;
   right: 0;
   top: 0;
@@ -53,6 +54,7 @@ const variants: Variants = {
 const Cart = React.memo(
   ({ isOpen, closeCart }: Props) => {
     usePreventScroll(isOpen);
+
     return (
       <>
         <StyledCart initial="hidden" variants={variants} animate={isOpen ? 'shown' : 'hidden'}>
@@ -64,6 +66,7 @@ const Cart = React.memo(
           <CartContent />
         </StyledCart>
         <Overlay
+          shouldPreserve
           onClick={closeCart}
           initial="hidden"
           variants={overlayVariants}

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
 import { motion, Variants } from 'framer-motion';
 
-const Overlay = styled(motion.div)`
+const Overlay = styled(motion.div)<{ shouldPreserve?: boolean }>`
   background-color: ${({ theme }) => theme.colors.blackAlpha[300]};
   position: fixed;
   top: 0;
@@ -11,11 +11,8 @@ const Overlay = styled(motion.div)`
   width: 100vw;
   z-index: 6;
 
-  body {
-    overflow: hidden;
-  }
   ${breakpoints.lg} {
-    display: none;
+    display: ${({ shouldPreserve }) => (shouldPreserve ? 'inherit' : 'none')};
   }
 `;
 

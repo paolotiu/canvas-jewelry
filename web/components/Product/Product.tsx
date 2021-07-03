@@ -258,7 +258,6 @@ const Product = ({ product }: Props) => {
                         optionsSwitch: product.optionsSwitch,
                         name: product.name,
                         variant: currentVariant,
-                        id: product._id,
                         image: product.mainImage,
                       });
 

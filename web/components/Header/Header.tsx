@@ -54,7 +54,12 @@ const BagContainer = styled.div`
 
 const Header = () => {
   const [isSidebarOpen, { close: closeSidebar, open: openSidebar }] = useOpenClose();
-  const [isCartOpen, { close: closeCart, open: openCart }] = useOpenClose();
+  const [isCartOpen, { close: closeCart, open: baseOpenCart }] = useOpenClose();
+
+  const openCart = () => {
+    closeSidebar();
+    baseOpenCart();
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -73,7 +78,7 @@ const Header = () => {
 
   return (
     <>
-      <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />
+      <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} openCart={openCart} />
       <StyledHeader>
         <Burger id="burger" onClick={openSidebar} />
 
