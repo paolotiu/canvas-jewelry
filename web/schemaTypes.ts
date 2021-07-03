@@ -67,7 +67,7 @@ export interface Product extends SanityDocument {
    *
    *
    */
-  optionsSwitch?: OptionsSwitch;
+  optionsSwitch: OptionsSwitch;
 
   /**
    * Variants — `array`
@@ -257,21 +257,28 @@ export type OptionsSwitch = {
    *
    *
    */
-  withSize?: boolean;
+  withSize: boolean;
 
   /**
    * Color Field — `boolean`
    *
    *
    */
-  withColor?: boolean;
+  withColor: boolean;
 
   /**
    * Letter Field — `boolean`
    *
    *
    */
-  withLetters?: boolean;
+  withLetters: boolean;
+
+  /**
+   * Name — `boolean`
+   *
+   *
+   */
+  withName: boolean;
 
   /**
    * Name for additional — `string`
@@ -285,7 +292,7 @@ export type OptionsSwitch = {
    *
    *
    */
-  withAdditional?: boolean;
+  withAdditional: boolean;
 };
 
 export type HomepageBlock = {
