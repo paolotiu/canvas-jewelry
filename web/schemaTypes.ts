@@ -194,6 +194,13 @@ export interface HomepageSettings extends SanityDocument {
 export type ProductVariant = {
   _type: "productVariant";
   /**
+   * ID — `string`
+   *
+   *
+   */
+  id: string;
+
+  /**
    * Price — `number`
    *
    *
