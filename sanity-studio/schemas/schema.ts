@@ -11,6 +11,9 @@ import { homepageSchema } from './homepage/homepageSchema';
 import { homepageBlock } from './homepage/homepageBlock';
 import { homepageNav } from './homepage/homepageNav';
 
+import { singleProduct } from './commerce/singleProduct';
+import { commercejsProducts } from './commerce/commercejsProducts';
+import { price } from './commerce/price';
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
   // We name our schema
@@ -26,5 +29,8 @@ export default createSchema({
     homepageSchema,
     homepageBlock,
     homepageNav,
+    singleProduct,
+    commercejsProducts,
+    price,
   ]),
 });

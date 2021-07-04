@@ -1,4 +1,9 @@
 import { ObjectType } from '../schemaTypes';
+
+import { customAlphabet } from 'nanoid';
+
+const nanoid = customAlphabet('1234567890abcdef', 10);
+
 import ConditionalField from 'sanity-plugin-conditional-field';
 
 export const productVariant: ObjectType = {
@@ -17,6 +22,17 @@ export const productVariant: ObjectType = {
     },
   ],
   fields: [
+    {
+      type: 'string',
+      name: 'id',
+      title: 'ID',
+      initialValue: nanoid(),
+      codegen: {
+        required: true,
+      },
+      hidden: true,
+      validation: (Rules) => Rules.required(),
+    },
     {
       type: 'number',
       name: 'price',
@@ -118,4 +134,12 @@ export const productVariant: ObjectType = {
       inputComponent: ConditionalField,
     },
   ],
+  preview: {
+    select: {
+      color: 'color',
+    },
+    prepare: ({ size, color }) => {
+      return { title: `${color}` };
+    },
+  },
 };

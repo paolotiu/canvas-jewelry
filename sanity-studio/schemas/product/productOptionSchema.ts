@@ -15,6 +15,10 @@ export const optionalFields: ObjectType = {
       options: {
         layout: 'checkbox',
       },
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
     },
     {
       type: 'boolean',
@@ -24,6 +28,10 @@ export const optionalFields: ObjectType = {
       options: {
         layout: 'checkbox',
       },
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
     },
     {
       type: 'boolean',
@@ -33,6 +41,21 @@ export const optionalFields: ObjectType = {
       options: {
         layout: 'checkbox',
       },
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
+    },
+
+    {
+      type: 'boolean',
+      name: 'withName',
+      initialValue: false,
+      title: 'Name',
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
     },
     {
       type: 'string',
@@ -54,6 +77,11 @@ export const optionalFields: ObjectType = {
       options: {
         layout: 'checkbox',
       },
+
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
     },
   ],
 };

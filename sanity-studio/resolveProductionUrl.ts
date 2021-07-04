@@ -3,5 +3,8 @@ const projectUrl =
   process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000';
 
 export default function resolveProductionUrl(document) {
+  if (!document.slug) {
+    return `${projectUrl}`;
+  }
   return `${projectUrl}/api/preview?secret=${previewSecret}&slug=${document.slug.current}&type=${document._type}`;
 }

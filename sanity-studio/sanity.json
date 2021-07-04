@@ -18,7 +18,6 @@
     "@sanity/production-preview",
     "vercel-deploy",
     "@sanity/dashboard",
-    "@sanity/form-builder",
     "my-studio-logo"
   ],
   "env": {
@@ -38,10 +37,6 @@
     {
       "implements": "part:@sanity/production-preview/resolve-production-url",
       "path": "./resolveProductionUrl.ts"
-    },
-    {
-      "name": "part:@sanity/desk-tool/structure",
-      "path": "./deskStructure"
     }
   ]
 }

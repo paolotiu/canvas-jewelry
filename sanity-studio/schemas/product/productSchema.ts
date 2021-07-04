@@ -6,6 +6,11 @@ export const productSchema: Document = {
   title: 'Product',
   fields: [
     {
+      title: 'Related products',
+      name: 'Product',
+      type: 'singleProduct',
+    },
+    {
       type: 'string',
       name: 'name',
       title: 'Name',
@@ -41,6 +46,10 @@ export const productSchema: Document = {
     {
       type: 'optionsSwitch',
       name: 'optionsSwitch',
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
     },
     {
       title: 'Variants',
