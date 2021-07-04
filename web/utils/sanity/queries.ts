@@ -12,6 +12,7 @@ const productFields = `
 	name,
 	description,
 	images[],
+  product,
 	'slug': slug.current,
 	'mainImage': images[0].asset->,
  
@@ -137,7 +138,8 @@ export type MainImage = {
   mimeType: string;
   url: string;
 };
-export type ProductReturn = Pick<Product, '_id' | 'description' | 'name'> & {
+
+export type ProductReturn = Pick<Product, '_id' | 'description' | 'name' | 'product'> & {
   images: SanityImageSource[];
   slug: string;
   mainImage: MainImage;
@@ -153,20 +155,8 @@ export type ProductReturnWithVariants = ProductReturn & {
   optionsSwitch: OptionsSwitch;
 };
 
-export type ProductReturnWithCategories = ProductReturn & {
-  categories: {
-    products: ProductReturnWithPriceVariants[];
-  }[];
-};
-
-export type ProductPriceVariants = {
-  variants?: { price: number }[];
-  defaultVariant: { price: number };
-};
-
-export type ProductReturnWithPriceVariants = ProductReturn & ProductPriceVariants;
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
-  products: ProductReturnWithPriceVariants[];
+  products: ProductReturn[];
   slug: string;
   image?: {
     metadata: {
