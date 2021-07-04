@@ -2,7 +2,7 @@ import ClientSideOnly from '@components/ClientSideOnly/ClientSideOnly';
 import Divider from '@components/Common/Divider/Divider';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { priceRevealAtom, productVariantAtom } from '@utils/jotai';
+import { priceRevealAtom } from '@utils/jotai';
 import { useAtom } from 'jotai';
 import React from 'react';
 import { SanityBlock, SanityKeyed } from 'sanity-codegen';
@@ -12,6 +12,7 @@ interface Props {
   name: string;
   description?: Array<SanityKeyed<SanityBlock>>;
   price: number;
+  shouldShowError?: boolean;
 }
 
 const StyledProductDetails = styled.div`
@@ -53,8 +54,7 @@ const StyledProductDetails = styled.div`
   }
 `;
 
-const ProductDetails = ({ name, description, price }: Props) => {
-  const [variant] = useAtom(productVariantAtom);
+const ProductDetails = ({ name, description, price, shouldShowError }: Props) => {
   const [isPriceRevealed] = useAtom(priceRevealAtom);
 
   return (
@@ -62,7 +62,7 @@ const ProductDetails = ({ name, description, price }: Props) => {
       <div className="header">
         <h3>{name} </h3>
         <ClientSideOnly>
-          {isPriceRevealed ? <p className="price">{variant?.price || price}</p> : null}
+          {isPriceRevealed && !shouldShowError ? <p className="price">{price}</p> : null}
         </ClientSideOnly>
       </div>
       <Divider />
@@ -72,7 +72,7 @@ const ProductDetails = ({ name, description, price }: Props) => {
       <Divider />
 
       <div>
-        {!variant?.price ? <span className="warning">Not a valid configuration</span> : null}
+        {shouldShowError ? <span className="warning">Not a valid configuration</span> : null}
       </div>
     </StyledProductDetails>
   );
