@@ -35,6 +35,13 @@ export interface Product extends SanityDocument {
   _type: "product";
 
   /**
+   * Linked product — `singleProduct`
+   *
+   *
+   */
+  product: SingleProduct;
+
+  /**
    * Name — `string`
    *
    *
@@ -54,27 +61,6 @@ export interface Product extends SanityDocument {
    *
    */
   description?: Array<SanityKeyed<SanityBlock>>;
-
-  /**
-   * Default Variant — `productVariant`
-   *
-   *
-   */
-  defaultVariant?: ProductVariant;
-
-  /**
-   * optionsSwitch — `optionsSwitch`
-   *
-   *
-   */
-  optionsSwitch: OptionsSwitch;
-
-  /**
-   * Variants — `array`
-   *
-   *
-   */
-  variants?: Array<SanityKeyed<ProductVariant>>;
 
   /**
    * Images — `array`
@@ -346,6 +332,105 @@ export type Nav = {
    *
    */
   reference?: SanityReference<Category | Product>;
+};
+
+export type SingleProduct = {
+  _type: "singleProduct";
+  /**
+   * id — `string`
+   *
+   *
+   */
+  id?: string;
+
+  /**
+   * created — `number`
+   *
+   *
+   */
+  created?: number;
+
+  /**
+   * last_updated — `number`
+   *
+   *
+   */
+  last_updated?: number;
+
+  /**
+   * active — `boolean`
+   *
+   *
+   */
+  active?: boolean;
+
+  /**
+   * permalink — `string`
+   *
+   *
+   */
+  permalink?: string;
+
+  /**
+   * name — `string`
+   *
+   *
+   */
+  name?: string;
+
+  /**
+   * description — `string`
+   *
+   *
+   */
+  description?: string;
+
+  /**
+   * price — `price`
+   *
+   *
+   */
+  price?: Price;
+
+  /**
+   * quantity — `number`
+   *
+   *
+   */
+  quantity?: number;
+};
+
+export type CommercejsProducts = Array<SanityKeyed<SingleProduct>>;
+
+export type Price = {
+  _type: "price";
+  /**
+   * raw — `number`
+   *
+   *
+   */
+  raw?: number;
+
+  /**
+   * formatted — `string`
+   *
+   *
+   */
+  formatted?: string;
+
+  /**
+   * formatted_with_symbol — `string`
+   *
+   *
+   */
+  formatted_with_symbol?: string;
+
+  /**
+   * formatted_with_code — `string`
+   *
+   *
+   */
+  formatted_with_code?: string;
 };
 
 export type Documents = Product | Category | HomepageSettings;
