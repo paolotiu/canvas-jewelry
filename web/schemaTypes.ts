@@ -42,13 +42,6 @@ export interface Product extends SanityDocument {
   product: SingleProduct;
 
   /**
-   * Name — `string`
-   *
-   *
-   */
-  name: string;
-
-  /**
    * Slug — `slug`
    *
    *

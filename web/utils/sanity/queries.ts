@@ -139,10 +139,7 @@ export type MainImage = {
   url: string;
 };
 
-export type ProductReturn = Pick<
-  Product,
-  '_id' | 'description' | 'name' | 'product' | 'hasFrom'
-> & {
+export type ProductReturn = Pick<Product, '_id' | 'description' | 'product' | 'hasFrom'> & {
   images: SanityImageSource[];
   slug: string;
   mainImage: MainImage;
