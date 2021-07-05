@@ -37,6 +37,20 @@ export const productSchema: Document = {
       validation: (Rules) => Rules.required(),
     },
     {
+      type: 'boolean',
+      name: 'hasFrom',
+      title: 'Has From',
+      initialValue: false,
+      options: {
+        layout: 'checkbox',
+      },
+
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
+    },
+    {
       type: 'array',
       name: 'description',
       title: 'Description',
