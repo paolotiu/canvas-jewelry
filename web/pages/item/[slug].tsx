@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>, { slug: str
   }
 
   const product = await commerce.products.retrieve(info.product.id || '');
-  const variants = await commerce.products.getVariants(info.product.id || '');
+  const variants = await commerce.products.getVariants(info.product.id || '', { limit: 300 });
 
   return {
     props: {
