@@ -6,14 +6,9 @@ export const productSchema: Document = {
   title: 'Product',
   fields: [
     {
-      title: 'Related products',
-      name: 'Product',
+      title: 'Linked product',
+      name: 'product',
       type: 'singleProduct',
-    },
-    {
-      type: 'string',
-      name: 'name',
-      title: 'Name',
       codegen: {
         required: true,
       },
@@ -25,8 +20,22 @@ export const productSchema: Document = {
       name: 'slug',
       title: 'Slug',
       options: {
-        source: 'name',
+        source: 'product.name',
       },
+      codegen: {
+        required: true,
+      },
+      validation: (Rules) => Rules.required(),
+    },
+    {
+      type: 'boolean',
+      name: 'hasFrom',
+      title: 'Has From',
+      initialValue: false,
+      options: {
+        layout: 'checkbox',
+      },
+
       codegen: {
         required: true,
       },
@@ -37,25 +46,6 @@ export const productSchema: Document = {
       name: 'description',
       title: 'Description',
       of: [{ type: 'block' }],
-    },
-    {
-      title: 'Default Variant',
-      name: 'defaultVariant',
-      type: 'productVariant',
-    },
-    {
-      type: 'optionsSwitch',
-      name: 'optionsSwitch',
-      codegen: {
-        required: true,
-      },
-      validation: (Rules) => Rules.required(),
-    },
-    {
-      title: 'Variants',
-      name: 'variants',
-      type: 'array',
-      of: [{ type: 'productVariant' }],
     },
 
     {
@@ -72,7 +62,7 @@ export const productSchema: Document = {
 
   preview: {
     select: {
-      title: 'name',
+      title: 'product.name',
       media: 'images.0',
     },
   },

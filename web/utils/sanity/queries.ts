@@ -1,21 +1,17 @@
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { groq } from 'next-sanity';
-import {
-  Category,
-  OptionsSwitch,
-  Product,
-  ProductVariant as SchemaProductVariant,
-} from 'schemaTypes';
+import { Category, Product, ProductVariant as SchemaProductVariant } from 'schemaTypes';
 
 const productFields = `
 	_id,
 	name,
 	description,
 	images[],
+  product,
 	'slug': slug.current,
 	'mainImage': images[0].asset->,
+  hasFrom
  
-  optionsSwitch
 `;
 
 export const ALL_PRODUCTS_QUERY = groq`
@@ -33,12 +29,7 @@ export const PRODUCT_BY_SLUG_QUERY = groq`
 	${productFields},
   'categories': *[_type == "category" && references(^._id)][0...3]{
       products[0...8] -> {
-        variants[]{
-          price
-        },
-        defaultVariant{
-          price
-        },
+       
         ${productFields}
       },
   }
@@ -137,36 +128,22 @@ export type MainImage = {
   mimeType: string;
   url: string;
 };
-export type ProductReturn = Pick<Product, '_id' | 'description' | 'name'> & {
+
+export type ProductReturn = Pick<Product, '_id' | 'description' | 'product' | 'hasFrom'> & {
   images: SanityImageSource[];
   slug: string;
   mainImage: MainImage;
+  categories: {
+    products: ProductReturn[];
+  }[];
 };
 
 export type ProductVariant = SchemaProductVariant & {
   size?: number;
 };
 
-export type ProductReturnWithVariants = ProductReturn & {
-  defaultVariant: ProductVariant;
-  variants?: ProductVariant[];
-  optionsSwitch: OptionsSwitch;
-};
-
-export type ProductReturnWithCategories = ProductReturn & {
-  categories: {
-    products: ProductReturnWithPriceVariants[];
-  }[];
-};
-
-export type ProductPriceVariants = {
-  variants?: { price: number }[];
-  defaultVariant: { price: number };
-};
-
-export type ProductReturnWithPriceVariants = ProductReturn & ProductPriceVariants;
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
-  products: ProductReturnWithPriceVariants[];
+  products: ProductReturn[];
   slug: string;
   image?: {
     metadata: {

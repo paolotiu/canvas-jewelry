@@ -4,7 +4,7 @@ import Layout from '@components/Layout';
 import NavGrid from '@components/NavGrid/NavGrid';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { HomepageSettings, ProductReturnWithPriceVariants } from '@utils/sanity/queries';
+import { HomepageSettings, ProductReturn } from '@utils/sanity/queries';
 import React from 'react';
 import { getHrefFromRef } from './getHrefFromRef';
 import HomeBlock from './HomeBlock';
@@ -27,7 +27,7 @@ const Content = styled.div`
   }
 `;
 interface Props {
-  products: ProductReturnWithPriceVariants[];
+  products: ProductReturn[];
   homepageSettings: HomepageSettings;
 }
 const Home = ({ products, homepageSettings }: Props) => {

@@ -4,22 +4,22 @@ import ChevronLeft from '@assets/icons/chevron-left.svg';
 import { useRouter } from 'next/router';
 import Carousel from '@components/Carousel/Carousel';
 import { breakpoints } from '@styles/breakpoints';
-import {
-  ProductReturnWithCategories,
-  ProductReturnWithPriceVariants,
-  ProductReturnWithVariants,
-  PRODUCT_BY_SLUG_QUERY,
-} from '@utils/sanity/queries';
+import { ProductReturn, PRODUCT_BY_SLUG_QUERY } from '@utils/sanity/queries';
 import { urlFor, usePreviewSubscription } from '@utils/sanity/sanity';
 import { useAtom } from 'jotai';
-import { cartAtom, previewAtom, productVariantAtom } from '@utils/jotai';
-import React, { useMemo } from 'react';
+import { previewAtom } from '@utils/jotai';
+import React, { useState, useEffect, useMemo } from 'react';
 import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
 import { NextSeo } from 'next-seo';
 import Button from '@components/Common/Button/Button';
+import {
+  CommerceProduct,
+  CommerceProductVariants,
+  CommerceVariantGroups,
+} from '@utils/commerce/commerce';
+import { isEqual } from 'lodash';
 import ProductDetails from './ProductDetails';
-import ProductOptions from './ProductOptions';
-import { transformVariantToCartItem } from './transformVariantToCartItem';
+import ProductVariantPicker from './ProductVariantPicker';
 
 const ProductSection = styled.section`
   width: 100%;
@@ -58,13 +58,6 @@ const DetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
   .text {
-  }
-
-  .options {
-    padding: 1rem 0;
-    display: grid;
-    gap: 1rem;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   }
 
   ${breakpoints.sm} {
@@ -134,20 +127,82 @@ const ProductCarouselWrapper = styled.div`
 `;
 
 interface Props {
-  product: ProductReturnWithVariants & ProductReturnWithCategories;
+  info: ProductReturn;
+  product: CommerceProduct;
+  variants: CommerceProductVariants;
 }
 
-const Product = ({ product }: Props) => {
+const getPrice = (x: {
+  variantGroups: CommerceVariantGroups;
+  basePrice: number;
+  selectedOptions: Record<string, string>;
+}) => {
+  const { selectedOptions, variantGroups, basePrice } = x;
+  const options = Object.entries(selectedOptions);
+
+  return (
+    basePrice +
+    options.reduce((acc, [variantGroup, option]) => {
+      const variantDetail = variantGroups.find((candidate) => candidate.id === variantGroup);
+
+      if (!variantDetail) {
+        return acc;
+      }
+
+      const optionDetail = variantDetail.options.find((candidate) => candidate.id === option);
+
+      if (!optionDetail) {
+        return acc;
+      }
+
+      return acc + optionDetail.price.raw;
+    }, 0)
+  );
+};
+
+const getVariant = (selectedOptions: Record<string, string>, variants: CommerceProductVariants) => {
+  return variants.data.find((variant) => isEqual(variant.options, selectedOptions));
+};
+
+const Product = ({ info, product, variants }: Props) => {
   const router = useRouter();
   const [isPreview] = useAtom(previewAtom);
-  const [currentVariant] = useAtom(productVariantAtom);
-  const [, setCart] = useAtom(cartAtom);
+  const [currentPrice, setCurrentPrice] = useState(product.price.raw);
+  const [shouldShowError, setShouldShowError] = useState(false);
+  // const [currentVariant, setCurrentVariant] = useAtom(productVariantAtom);
 
+  const initialOptions = variants.data[0].options;
+
+  const [selectedOptions, setSelectedOptions] = useState(initialOptions);
+
+  const handleSelectChange = (
+    val: { label: string; value: string } | null,
+    variantGroupId: string,
+  ) => {
+    if (val) {
+      setSelectedOptions((prev) => ({ ...prev, [variantGroupId]: val.value }));
+    }
+  };
+
+  useEffect(() => {
+    const variant = getVariant(selectedOptions, variants);
+    if (variant) {
+      const price = getPrice({
+        variantGroups: product.variant_groups,
+        basePrice: product.price.raw,
+        selectedOptions,
+      });
+      setCurrentPrice(variant.price?.raw || price);
+      setShouldShowError(false);
+    } else {
+      setShouldShowError(true);
+    }
+  }, [product.price.raw, product.variant_groups, selectedOptions, variants]);
   const relatedProducts = useMemo(() => {
-    const map: Record<string, ProductReturnWithPriceVariants> = {};
-    product.categories.forEach((category) => {
+    const map: Record<string, ProductReturn> = {};
+    info.categories.forEach((category) => {
       category.products.forEach((prod) => {
-        if (map[prod._id] || prod._id === product._id) {
+        if (map[prod._id] || prod._id === info._id) {
           return;
         }
 
@@ -155,36 +210,29 @@ const Product = ({ product }: Props) => {
       });
     });
     return Object.values(map);
-  }, [product]);
+  }, [info]);
 
   const { data } = usePreviewSubscription(PRODUCT_BY_SLUG_QUERY, {
-    params: { slug: product.slug },
-    initialData: product,
+    params: { slug: info.slug },
+    initialData: info,
     enabled: isPreview,
   });
-
-  const allVariants = useMemo(() => {
-    if (data.variants) {
-      return [data.defaultVariant, ...data.variants];
-    }
-    return [data.defaultVariant];
-  }, [data]);
 
   return (
     <Layout>
       <NextSeo
         titleTemplate="Canvas | %s"
-        title={data.name}
+        title={data.product.name}
         openGraph={{
           images: [
             {
-              url: urlFor(product.mainImage).width(614).height(937).url() || product.mainImage.url,
+              url: urlFor(info.mainImage).width(614).height(937).url() || info.mainImage.url,
               width: 614,
               height: 937,
             },
 
             {
-              url: urlFor(product.mainImage).width(1200).height(630).url() || product.mainImage.url,
+              url: urlFor(info.mainImage).width(1200).height(630).url() || info.mainImage.url,
               width: 1200,
               height: 630,
             },
@@ -218,18 +266,15 @@ const Product = ({ product }: Props) => {
             <DetailsContainer>
               <ProductDetails
                 description={data.description}
-                name={data.name}
-                price={data.defaultVariant.price}
+                name={data.product.name || ''}
+                price={currentPrice}
+                shouldShowError={shouldShowError}
               />
-              {allVariants.length ? (
-                <div className="options">
-                  <ProductOptions
-                    defaultVariant={data.defaultVariant}
-                    variants={allVariants}
-                    optionsSwitch={data.optionsSwitch}
-                  />
-                </div>
-              ) : null}
+              <ProductVariantPicker
+                handleSelectChange={handleSelectChange}
+                defaultValues={initialOptions}
+                variantGroups={product.variant_groups}
+              />
 
               <div className="button-container">
                 <a
@@ -247,7 +292,7 @@ const Product = ({ product }: Props) => {
                     Shop Now
                   </Button>
                 </a>
-                <Button
+                {/* <Button
                   withBorder
                   fontWeight="bold"
                   size="sm"
@@ -276,7 +321,7 @@ const Product = ({ product }: Props) => {
                   }}
                 >
                   Add to Cart
-                </Button>
+                </Button> */}
               </div>
             </DetailsContainer>
           </div>
