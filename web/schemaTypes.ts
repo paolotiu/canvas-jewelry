@@ -56,6 +56,13 @@ export interface Product extends SanityDocument {
   slug: { _type: "slug"; current: string };
 
   /**
+   * Has From — `boolean`
+   *
+   *
+   */
+  hasFrom: boolean;
+
+  /**
    * Description — `array`
    *
    *
