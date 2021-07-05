@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import { AnimateSharedLayout } from 'framer-motion';
 import { breakpoints } from '@styles/breakpoints';
-import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
-import { useMemo } from 'react';
-import { getHasFromMap } from '@utils/getHasFromMap';
+import { ProductReturn } from '@utils/sanity/queries';
 import Card from './Card';
 import { ViewMode } from './CardView';
 import { sortModes, SortModes } from './sortFunctions';
@@ -37,17 +35,12 @@ const StyledCardContainer = styled.div`
 `;
 
 interface Props {
-  items: ProductReturnWithPriceVariants[];
+  items: ProductReturn[];
   viewMode: ViewMode;
   sortMode: SortModes;
 }
 
 const CardContainer = ({ items, viewMode, sortMode }: Props) => {
-  const itemsHasFromMap = useMemo(
-    () => getHasFromMap(items),
-
-    [items],
-  );
   return (
     <>
       <StyledCardContainer className={viewMode}>
@@ -59,8 +52,8 @@ const CardContainer = ({ items, viewMode, sortMode }: Props) => {
                 key={item._id}
                 slug={item.slug}
                 name={item.name}
-                price={item.defaultVariant.price}
-                hasFrom={itemsHasFromMap[item._id]}
+                price={item.product?.price?.raw || 0}
+                hasFrom={item.hasFrom}
                 viewMode={viewMode}
               />
             );

@@ -2,7 +2,7 @@ import { Title } from '@components/Common/Title/Title';
 import styled from '@emotion/styled';
 import { breakpoints, points } from '@styles/breakpoints';
 import { sortModeAtom } from '@utils/jotai';
-import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
+import { ProductReturn } from '@utils/sanity/queries';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import CardContainer from './CardContainer';
@@ -41,7 +41,7 @@ const CardMetaContainer = styled.div<{
 
 interface Props {
   title: string;
-  items: ProductReturnWithPriceVariants[];
+  items: ProductReturn[];
   defaultView?: ViewMode;
   withViewControls?: boolean;
 }
