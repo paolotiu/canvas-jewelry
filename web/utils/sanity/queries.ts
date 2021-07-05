@@ -1,11 +1,6 @@
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { groq } from 'next-sanity';
-import {
-  Category,
-  OptionsSwitch,
-  Product,
-  ProductVariant as SchemaProductVariant,
-} from 'schemaTypes';
+import { Category, Product, ProductVariant as SchemaProductVariant } from 'schemaTypes';
 
 const productFields = `
 	_id,
@@ -15,8 +10,8 @@ const productFields = `
   product,
 	'slug': slug.current,
 	'mainImage': images[0].asset->,
+  hasFrom
  
-  optionsSwitch
 `;
 
 export const ALL_PRODUCTS_QUERY = groq`
@@ -34,12 +29,7 @@ export const PRODUCT_BY_SLUG_QUERY = groq`
 	${productFields},
   'categories': *[_type == "category" && references(^._id)][0...3]{
       products[0...8] -> {
-        variants[]{
-          price
-        },
-        defaultVariant{
-          price
-        },
+       
         ${productFields}
       },
   }
@@ -143,16 +133,13 @@ export type ProductReturn = Pick<Product, '_id' | 'description' | 'product' | 'h
   images: SanityImageSource[];
   slug: string;
   mainImage: MainImage;
+  categories: {
+    products: ProductReturn[];
+  }[];
 };
 
 export type ProductVariant = SchemaProductVariant & {
   size?: number;
-};
-
-export type ProductReturnWithVariants = ProductReturn & {
-  defaultVariant: ProductVariant;
-  variants?: ProductVariant[];
-  optionsSwitch: OptionsSwitch;
 };
 
 export type CategoryWithProductsReturn = Pick<Category, '_id' | 'name'> & {
