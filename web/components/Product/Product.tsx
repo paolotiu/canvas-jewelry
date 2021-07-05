@@ -8,8 +8,8 @@ import { ProductReturn, PRODUCT_BY_SLUG_QUERY } from '@utils/sanity/queries';
 import { urlFor, usePreviewSubscription } from '@utils/sanity/sanity';
 import { useAtom } from 'jotai';
 import { previewAtom } from '@utils/jotai';
-import React, { useState, useEffect } from 'react';
-// import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
+import React, { useState, useEffect, useMemo } from 'react';
+import ProductCarousel from '@components/ProductCarousel/ProductCarousel';
 import { NextSeo } from 'next-seo';
 import Button from '@components/Common/Button/Button';
 import {
@@ -119,12 +119,12 @@ const ContentContainer = styled.div`
   }
 `;
 
-// const ProductCarouselWrapper = styled.div`
-//   padding: 1rem;
-//   width: 100%;
-//   display: flex;
-//   justify-content: center;
-// `;
+const ProductCarouselWrapper = styled.div`
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
 
 interface Props {
   info: ProductReturn;
@@ -198,19 +198,19 @@ const Product = ({ info, product, variants }: Props) => {
       setShouldShowError(true);
     }
   }, [product.price.raw, product.variant_groups, selectedOptions, variants]);
-  // const relatedProducts = useMemo(() => {
-  //   const map: Record<string, ProductReturnWithPriceVariants> = {};
-  //   info.categories.forEach((category) => {
-  //     category.products.forEach((prod) => {
-  //       if (map[prod._id] || prod._id === info._id) {
-  //         return;
-  //       }
+  const relatedProducts = useMemo(() => {
+    const map: Record<string, ProductReturn> = {};
+    info.categories.forEach((category) => {
+      category.products.forEach((prod) => {
+        if (map[prod._id] || prod._id === info._id) {
+          return;
+        }
 
-  //       map[prod._id] = prod;
-  //     });
-  //   });
-  //   return Object.values(map);
-  // }, [info]);
+        map[prod._id] = prod;
+      });
+    });
+    return Object.values(map);
+  }, [info]);
 
   const { data } = usePreviewSubscription(PRODUCT_BY_SLUG_QUERY, {
     params: { slug: info.slug },
@@ -326,9 +326,9 @@ const Product = ({ info, product, variants }: Props) => {
             </DetailsContainer>
           </div>
         </ContentContainer>
-        {/* <ProductCarouselWrapper>
+        <ProductCarouselWrapper>
           <ProductCarousel products={relatedProducts} />
-        </ProductCarouselWrapper> */}
+        </ProductCarouselWrapper>
       </ProductSection>
     </Layout>
   );
