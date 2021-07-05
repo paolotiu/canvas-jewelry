@@ -192,7 +192,7 @@ const Product = ({ info, product, variants }: Props) => {
         basePrice: product.price.raw,
         selectedOptions,
       });
-      setCurrentPrice(price);
+      setCurrentPrice( variant.price?.raw ||  price);
       setShouldShowError(false);
     } else {
       setShouldShowError(true);
