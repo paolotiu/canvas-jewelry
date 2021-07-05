@@ -14,15 +14,6 @@ export const productSchema: Document = {
       },
       validation: (Rules) => Rules.required(),
     },
-    {
-      type: 'string',
-      name: 'name',
-      title: 'Name',
-      codegen: {
-        required: true,
-      },
-      validation: (Rules) => Rules.required(),
-    },
 
     {
       type: 'slug',
@@ -71,7 +62,7 @@ export const productSchema: Document = {
 
   preview: {
     select: {
-      title: 'name',
+      title: 'product.name',
       media: 'images.0',
     },
   },

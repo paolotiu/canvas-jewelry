@@ -14,7 +14,7 @@ const buildPatches = (docs) =>
   docs.map((doc) => ({
     id: doc._id,
     patch: {
-      unset: ['defaultVariant', 'optionsSwitch', 'variants'],
+      unset: ['defaultVariant', 'optionsSwitch', 'variants', 'name'],
       // this will cause the transaction to fail if the documents has been
       // modified since it was fetched.
       ifRevisionID: doc._rev,
