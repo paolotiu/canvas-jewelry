@@ -51,7 +51,7 @@ const CardContainer = ({ items, viewMode, sortMode }: Props) => {
                 src={item.mainImage}
                 key={item._id}
                 slug={item.slug}
-                name={item.name}
+                name={item.product?.name || ''}
                 price={item.product?.price?.raw || 0}
                 hasFrom={item.hasFrom}
                 viewMode={viewMode}

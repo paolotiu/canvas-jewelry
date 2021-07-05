@@ -192,7 +192,7 @@ const Product = ({ info, product, variants }: Props) => {
         basePrice: product.price.raw,
         selectedOptions,
       });
-      setCurrentPrice( variant.price?.raw ||  price);
+      setCurrentPrice(variant.price?.raw || price);
       setShouldShowError(false);
     } else {
       setShouldShowError(true);
@@ -222,7 +222,7 @@ const Product = ({ info, product, variants }: Props) => {
     <Layout>
       <NextSeo
         titleTemplate="Canvas | %s"
-        title={data.name}
+        title={data.product.name}
         openGraph={{
           images: [
             {
@@ -266,7 +266,7 @@ const Product = ({ info, product, variants }: Props) => {
             <DetailsContainer>
               <ProductDetails
                 description={data.description}
-                name={data.name}
+                name={data.product.name || ''}
                 price={currentPrice}
                 shouldShowError={shouldShowError}
               />

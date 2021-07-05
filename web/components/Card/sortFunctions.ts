@@ -1,15 +1,18 @@
-import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
+import { ProductReturn } from '@utils/sanity/queries';
 import { FaSortAlphaDown, FaSortAlphaUp, FaSortNumericDown, FaSortNumericUp } from 'react-icons/fa';
 
 export const stringSort =
   (type: 'asc' | 'desc' = 'asc') =>
-  (a: ProductReturnWithPriceVariants, b: ProductReturnWithPriceVariants) => {
+  (a: ProductReturn, b: ProductReturn) => {
     let result = 0;
-    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+
+    const aName = a.product?.name || '';
+    const bName = b.product?.name || '';
+    if (aName.toLowerCase() > bName.toLowerCase()) {
       result = 1;
     }
 
-    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+    if (aName.toLowerCase() < bName.toLowerCase()) {
       result = -1;
     }
 
@@ -21,13 +24,16 @@ export const stringSort =
 
 export const priceSort =
   (type: 'asc' | 'desc' = 'asc') =>
-  (a: ProductReturnWithPriceVariants, b: ProductReturnWithPriceVariants) => {
+  (a: ProductReturn, b: ProductReturn) => {
+    const aPrice = a.product.price?.raw || 0;
+    const bPrice = b.product.price?.raw || 0;
+
     let result = 0;
-    if (a.defaultVariant.price > b.defaultVariant.price) {
+    if (aPrice > bPrice) {
       result = 1;
     }
 
-    if (a.defaultVariant.price < b.defaultVariant.price) {
+    if (aPrice < bPrice) {
       result = -1;
     }
 
