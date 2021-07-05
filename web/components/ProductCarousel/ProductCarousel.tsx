@@ -3,9 +3,8 @@ import 'embla-carousel';
 import Card from '@components/Card/Card';
 import styled from '@emotion/styled';
 import { breakpoints } from '@styles/breakpoints';
-import { ProductReturnWithPriceVariants } from '@utils/sanity/queries';
-import { useEffect, useMemo } from 'react';
-import { getHasFromMap } from '@utils/getHasFromMap';
+import { useEffect } from 'react';
+import { ProductReturn } from '@utils/sanity/queries';
 
 const Container = styled.div`
   display: flex;
@@ -60,7 +59,7 @@ const EmblaSlide = styled.div`
 `;
 
 interface Props {
-  products: ProductReturnWithPriceVariants[];
+  products: ProductReturn[];
 }
 
 const ProductCarousel = ({ products }: Props) => {
@@ -71,7 +70,6 @@ const ProductCarousel = ({ products }: Props) => {
     containScroll: 'trimSnaps',
   });
 
-  const hasFromMap = useMemo(() => getHasFromMap(products), [products]);
   useEffect(() => {
     // reinit to make dragging work
     if (products.length !== emblaApi?.slideNodes().length) {
@@ -96,11 +94,11 @@ const ProductCarousel = ({ products }: Props) => {
                 }}
               >
                 <Card
-                  hasFrom={hasFromMap[product._id]}
+                  hasFrom={product.hasFrom}
                   src={product.mainImage}
-                  name={product.name}
+                  name={product.product.name || ''}
                   slug={product.slug}
-                  price={product.defaultVariant.price}
+                  price={product.product.price?.raw || 0}
                 />
               </EmblaSlide>
             );
