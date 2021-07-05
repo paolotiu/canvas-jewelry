@@ -25,11 +25,11 @@ const loadOptions = debounce((inputValue, callback) => {
   if (inputValue) {
     commerce.products
       .list({ query: inputValue })
-      .then((res) => callback(mapToSelectOptions(res.data)));
+      .then((res) => callback(mapToSelectOptions(res.data || [])));
   } else {
     commerce.products
       .list()
-      .then((res) => callback(mapToSelectOptions(res.data)));
+      .then((res) => callback(mapToSelectOptions(res.data || [])));
   }
 }, 500);
 
