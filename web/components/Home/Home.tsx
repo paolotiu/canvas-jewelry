@@ -47,12 +47,11 @@ const Home = ({ products, homepageSettings }: Props) => {
           />
           <Carousel
             images={homepageSettings.homepageBanners}
-            options={{
-              imageBuilder: (builder) => builder.width(1200).quality(100),
-            }}
             autoPlayInterval={5000}
             withAutoPlay
             objectFit="cover"
+            priority
+            responsiveImage
           />
         </BannerContainer>
         <NavGrid

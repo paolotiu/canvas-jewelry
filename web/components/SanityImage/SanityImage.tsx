@@ -10,9 +10,19 @@ export interface SanityImageProps {
     enableBlurUp?: true;
   };
   cover?: boolean;
+  responsive?: boolean;
+  sizes?: string;
+  priority?: boolean;
 }
 
-const SanityImage = ({ src, options, cover = false }: SanityImageProps) => {
+const SanityImage = ({
+  src,
+  options,
+  cover = false,
+  responsive,
+  sizes,
+  priority,
+}: SanityImageProps) => {
   const imageProps = useNextSanityImage(sanityClient, src, options);
   if (cover) {
     return (
@@ -23,6 +33,12 @@ const SanityImage = ({ src, options, cover = false }: SanityImageProps) => {
         layout="fill"
         objectFit="cover"
       />
+    );
+  }
+
+  if (responsive) {
+    return (
+      <Image {...imageProps} layout="responsive" alt="Jewelry" priority={priority} sizes={sizes} />
     );
   }
 
