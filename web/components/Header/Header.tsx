@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Burger from '@assets/icons/burger.svg';
-// import Search from '@assets/icons/search.svg';
 import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
 import Image from 'next/image';
@@ -8,6 +7,8 @@ import { breakpoints, points } from '@styles/breakpoints';
 import { BsBag } from 'react-icons/bs';
 import Link from 'next/link';
 import { useOpenClose } from '@utils/hooks/useOpenClose';
+import { useAtom } from 'jotai';
+import { isCartOpenAtom } from '@utils/jotai';
 
 const Sidebar = dynamic(
   () => (window.innerWidth > points.lg ? import('./Sidebar') : import('./MobileSidebar')),
@@ -54,11 +55,16 @@ const BagContainer = styled.div`
 
 const Header = () => {
   const [isSidebarOpen, { close: closeSidebar, open: openSidebar }] = useOpenClose();
-  const [isCartOpen, { close: closeCart, open: baseOpenCart }] = useOpenClose();
+
+  const [isCartOpen, setIsCartOpen] = useAtom(isCartOpenAtom);
 
   const openCart = () => {
     closeSidebar();
-    baseOpenCart();
+    setIsCartOpen(true);
+  };
+
+  const closeCart = () => {
+    setIsCartOpen(false);
   };
 
   useEffect(() => {
