@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
-import { CartItem as CartItemType } from '@utils/jotai';
-import React from 'react';
-import SanityImage from '@components/SanityImage/SanityImage';
-import QuantityInput from './QuantityInput';
+import Image from 'next/image';
+import { LineItem } from '@chec/commerce.js/types/line-item';
+import { commerce } from '@utils/commerce/commerce';
+import { debounce } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
+import QuantityInput from '../Common/QuantityInput/QuantityInput';
 import { useCart } from './useCart';
 
 interface Props {
-  item: CartItemType;
+  item: LineItem;
 }
 
 const Container = styled.div`
@@ -59,33 +61,77 @@ const ActionsContainer = styled.div`
 `;
 
 const CartItem = ({ item }: Props) => {
-  const [, { removeFromCart }] = useCart();
+  const [, { setCart, handleItemRemove, handleQuantityChange, triggerFetching }] = useCart(item.id);
+
+  const [currentQuantity, setCurrentQuantity] = useState(item.quantity);
+
+  const { current: debouncedQuantityChange } = useRef(
+    debounce(async (q: number, shouldRemove?: boolean) => {
+      triggerFetching();
+
+      if (shouldRemove) {
+        await handleItemRemove();
+        return;
+      }
+
+      handleQuantityChange(item.id, q);
+    }, 500),
+  );
+
+  const handleDecrement = () => {
+    setCurrentQuantity((prev) => {
+      const val = Math.max(1, prev - 1);
+      debouncedQuantityChange(val, prev - 1 <= 0);
+      return val;
+    });
+  };
+
+  const handleIncrement = () => {
+    setCurrentQuantity((prev) => {
+      const val = Math.min(9, prev + 1);
+      debouncedQuantityChange(val);
+      return val;
+    });
+  };
+
+  // For quantity updates coming from outside the cart sidebar
+  useEffect(() => {
+    setCurrentQuantity(item.quantity);
+  }, [item.quantity]);
+
   return (
     <Container>
       <ImageContainer>
-        <SanityImage
-          width={90}
-          height={130}
-          options={{ imageBuilder: (builder) => builder.width(180).height(260) }}
-          src={item.image}
-          responsive
-        />
+        {item.media?.source ? <Image width={90} height={130} src={item.media.source} /> : null}
       </ImageContainer>
 
       <Info>
         <h4>{item.name}</h4>
         <AttributesContainer>
-          {Object.entries(item.attributes).map(([key, val]) => (
-            <p key={key} className="attribute">
-              {key === 'size' ? 'size' : null} {val}
+          {(item as any).selected_options.map((val: any) => (
+            <p key={val.option_id} className="attribute">
+              {val.group_name === 'Size' ? 'size' : null} {val.option_name}
             </p>
           ))}
 
-          <p className="attribute">₱{item.price}</p>
+          <p className="attribute">{item.price.formatted_with_symbol}</p>
         </AttributesContainer>
         <ActionsContainer>
-          <QuantityInput quantity={item.quantity} configId={item.configId} />
-          <button type="button" onClick={() => removeFromCart(item.configId)}>
+          <QuantityInput
+            quantity={currentQuantity}
+            onDecrement={handleDecrement}
+            onIncrement={handleIncrement}
+            readOnly
+          />
+          <button
+            type="button"
+            onClick={async () => {
+              const res = await commerce.cart.remove(item.id);
+              if (res.success) {
+                setCart(res.cart);
+              }
+            }}
+          >
             REMOVE
           </button>
         </ActionsContainer>
