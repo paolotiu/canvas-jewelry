@@ -1,3 +1,4 @@
 **/node_modules
 sanity-studio/dist
 .vercel
+sanity-studio/production.tar.gz
