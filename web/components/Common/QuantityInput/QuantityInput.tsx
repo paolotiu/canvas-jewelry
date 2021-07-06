@@ -5,10 +5,17 @@ import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 const QuantityInputContainer = styled.div`
   margin-top: auto;
   display: flex;
-  gap: 0.4rem;
-  align-items: center;
   font-size: ${({ theme }) => theme.typography.fontSizes.sm};
   transition: all 0.2s ease-in;
+
+  > div {
+    display: flex;
+    align-items: center;
+    > *:not(:first-child) {
+      margin-left: 0.3rem;
+    }
+  }
+
   button {
     display: flex;
     align-items: center;
@@ -24,6 +31,7 @@ const QuantityInputContainer = styled.div`
     width: 1.25rem;
     font-family: inherit;
     border: none;
+
     padding: 0.25rem 0;
     text-align: center;
 
@@ -58,13 +66,15 @@ interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
 const QuantityInput = ({ quantity, onDecrement, onIncrement, ...props }: Props) => {
   return (
     <QuantityInputContainer>
-      <button type="button" onClick={onDecrement}>
-        <AiOutlineMinus />
-      </button>
-      <input type="number" value={quantity} {...props} />
-      <button type="button" onClick={onIncrement}>
-        <AiOutlinePlus />
-      </button>
+      <div>
+        <button type="button" onClick={onDecrement}>
+          <AiOutlineMinus />
+        </button>
+        <input type="number" value={quantity} {...props} />
+        <button type="button" onClick={onIncrement}>
+          <AiOutlinePlus />
+        </button>
+      </div>
     </QuantityInputContainer>
   );
 };
