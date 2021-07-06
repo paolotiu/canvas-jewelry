@@ -34,7 +34,13 @@ const EmptyState = styled(motion.div)`
 `;
 
 const CartContent = () => {
-  const [cartItems] = useAtom(cartAtom);
+  const [cart] = useAtom(cartAtom);
+
+  if (cart.isLoading) {
+    return <div>loading....</div>;
+  }
+
+  const cartItems = cart.data.line_items;
   return (
     <>
       <AnimatePresence exitBeforeEnter>
@@ -51,7 +57,7 @@ const CartContent = () => {
                 transition={{ ease: 'easeOut', type: 'tween' }}
               >
                 {cartItems.map((item) => (
-                  <CartItem key={item.configId} item={item} />
+                  <CartItem key={item.id} item={item} />
                 ))}
               </CartItemsContainer>
             </CartItemsWrapper>
@@ -61,7 +67,11 @@ const CartContent = () => {
                 transition={{ ease: 'easeOut', type: 'tween' }}
               >
                 <CheckoutSection
-                  price={cartItems.reduce((prev, curr) => prev + curr.price * curr.quantity, 0)}
+                  label={
+                    cart.isFetching
+                      ? 'Calculating...'
+                      : `Checkout - ${cart.data.subtotal.formatted_with_symbol}`
+                  }
                 />
               </CheckoutContainer>
             </CheckoutWrapper>

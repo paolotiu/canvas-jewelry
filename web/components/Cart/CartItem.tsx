@@ -57,6 +57,10 @@ const ActionsContainer = styled.div`
   margin-top: auto;
 
   .remove {
+    cursor: pointer;
+    :hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -124,6 +128,7 @@ const CartItem = ({ item }: Props) => {
             readOnly
           />
           <button
+            className="remove"
             type="button"
             onClick={async () => {
               const res = await commerce.cart.remove(item.id);

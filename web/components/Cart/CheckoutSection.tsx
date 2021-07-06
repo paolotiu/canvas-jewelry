@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 interface Props {
-  price: number;
+  label: string;
 }
 
 const CheckoutButtonContainer = styled.div`
@@ -18,18 +18,18 @@ const CheckoutButtonContainer = styled.div`
   }
 `;
 
-const CheckoutSection = ({ price }: Props) => {
+const CheckoutButton = styled(Button)`
+  width: 100%;
+  padding: 1rem;
+`;
+
+const CheckoutSection = ({ label }: Props) => {
   return (
     <CheckoutButtonContainer>
       <span className="shipping-disclaimer">Shipping calculated at checkout</span>
-      <Button
-        backgroundColor="black"
-        color="white"
-        style={{ width: '100%', padding: '1rem' }}
-        size="md"
-      >
-        Checkout - {price}
-      </Button>
+      <CheckoutButton backgroundColor="black" color="white" size="md">
+        {label}
+      </CheckoutButton>
     </CheckoutButtonContainer>
   );
 };
