@@ -1,15 +1,36 @@
 import PreviewHeader from '@components/Preview/PreviewHeader';
+import NProgress from 'nprogress';
 import { Global, ThemeProvider } from '@emotion/react';
 import { globalStyles } from '@styles/globalStyles';
 import { theme } from '@styles/theme';
 import { previewAtom } from '@utils/jotai';
 import { Provider } from 'jotai';
 import { AppProps } from 'next/app';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
+import { Router } from 'next/router';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    const delay = 500; // in milliseconds
+    let timer: NodeJS.Timeout;
+
+    const load = () => {
+      timer = setTimeout(() => {
+        NProgress.start();
+      }, delay);
+    };
+
+    const stop = () => {
+      clearTimeout(timer);
+      NProgress.done();
+    };
+    Router.events.on('routeChangeStart', () => load());
+    Router.events.on('routeChangeComplete', () => stop());
+    Router.events.on('routeChangeError', () => stop());
+  }, []);
+
   return (
     <>
       <Provider initialValues={[[previewAtom, pageProps.preview]]}>
