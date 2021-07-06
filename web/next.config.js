@@ -15,6 +15,6 @@ module.exports = withBundleAnalyzer({
   images: {
     disableStaticImages: true,
 
-    domains: ['cdn.sanity.io'],
+    domains: ['cdn.sanity.io', 'cdn.chec.io'],
   },
 });
