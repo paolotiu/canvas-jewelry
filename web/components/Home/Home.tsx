@@ -47,6 +47,7 @@ const Home = ({ products, homepageSettings }: Props) => {
           />
           <Carousel
             images={homepageSettings.homepageBanners}
+            options={{ imageBuilder: (builder) => builder.quality(80) }}
             autoPlayInterval={5000}
             withAutoPlay
             objectFit="cover"
