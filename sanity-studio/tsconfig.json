@@ -10,6 +10,8 @@
   "include": [
     "./node_modules/@sanity/base/types/**/*.ts",
     "./**/*.ts",
-    "./**/*.tsx"
+    "./**/*.tsx",
+    "deskStructure.js",
+    "components/MyCustomString.jsx"
   ]
 }

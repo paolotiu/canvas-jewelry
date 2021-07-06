@@ -10,6 +10,8 @@ import { optionalFields } from './product/productOptionSchema';
 import { homepageSchema } from './homepage/homepageSchema';
 import { homepageBlock } from './homepage/homepageBlock';
 import { homepageNav } from './homepage/homepageNav';
+import { Document } from './schemaTypes';
+import MyCustomString from '../components/MyCustomString';
 
 import { singleProduct } from './commerce/singleProduct';
 import { commercejsProducts } from './commerce/commercejsProducts';
