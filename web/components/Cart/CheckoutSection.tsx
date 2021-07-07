@@ -1,10 +1,9 @@
 import Button from '@components/Common/Button/Button';
 import styled from '@emotion/styled';
+import { isCartOpenAtom } from '@utils/jotai';
+import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import React from 'react';
-
-interface Props {
-  label: string;
-}
 
 const CheckoutButtonContainer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.colors.gray};
@@ -23,11 +22,24 @@ const CheckoutButton = styled(Button)`
   padding: 1rem;
 `;
 
+interface Props {
+  label: string;
+}
 const CheckoutSection = ({ label }: Props) => {
+  const [, setIsCartOpen] = useAtom(isCartOpenAtom);
+  const router = useRouter();
   return (
     <CheckoutButtonContainer>
       <span className="shipping-disclaimer">Shipping calculated at checkout</span>
-      <CheckoutButton backgroundColor="black" color="white" size="md">
+      <CheckoutButton
+        backgroundColor="black"
+        color="white"
+        size="md"
+        onClick={() => {
+          setIsCartOpen(false);
+          router.push('/checkout');
+        }}
+      >
         {label}
       </CheckoutButton>
     </CheckoutButtonContainer>
