@@ -9,11 +9,10 @@ const QuantityInputContainer = styled.div`
   transition: all 0.2s ease-in;
 
   > div {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
     align-items: center;
-    > *:not(:first-child) {
-      margin-left: 0.3rem;
-    }
+    gap: 0.3rem;
   }
 
   button {
