@@ -29,12 +29,22 @@ export interface ShippingAddressValues {
 }
 
 const ShippingAddress = () => {
-  const { register, control } = useFormContext();
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext<ShippingAddressValues>();
   return (
     <Container>
       <h3>Shipping Address</h3>
       <InputsContainer>
-        <Input type="address" label="Address*" {...register('address')} />
+        <Input
+          type="address"
+          label="Address*"
+          {...register('address', { required: 'Address is requied' })}
+          errorMessage={errors.address?.message}
+          isError={!!errors.address}
+        />
         <Input
           type="text"
           label="Country"
@@ -50,7 +60,6 @@ const ShippingAddress = () => {
             <Controller
               name="region"
               control={control}
-              defaultValue={false}
               rules={{ required: true }}
               render={({ field }) => (
                 <AsyncSelect
@@ -72,7 +81,13 @@ const ShippingAddress = () => {
               )}
             />
           </div>
-          <Input type="text" label="Zip Code" {...register('zipCode')} />
+          <Input
+            type="text"
+            label="Zip Code"
+            {...register('zipCode', { required: 'Zip code is required' })}
+            errorMessage={errors.zipCode?.message}
+            isError={!!errors.zipCode}
+          />
         </SplitInput>
       </InputsContainer>
     </Container>
