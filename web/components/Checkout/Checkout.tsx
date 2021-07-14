@@ -7,12 +7,14 @@ import Button from '@components/Common/Button/Button';
 import { breakpoints } from '@styles/breakpoints';
 import { Cart } from '@chec/commerce.js/types/cart';
 import { paymongo } from '@utils/paymongo/paymongo';
+import { PaymentIntentStatus } from '@paymongo/core';
 import ContactInfo, { ContactInfoValues } from './ContactInfo';
 import ShippingAddress, { ShippingAddressValues } from './ShippingAddress';
 import CartPreview from './CartPreview';
 import PaymentInfo, { PaymentInfoValues } from './PaymentInfo';
 import SecureAuthModal from './SecureAuthModal';
 import { useCheckout } from './useCheckout';
+import SuccessScreen from './SuccessScreen';
 
 const Container = styled.div`
   display: grid;
@@ -64,6 +66,7 @@ const Checkout = ({ checkout }: Props) => {
     paymentMethodRef,
   } = useCheckout();
 
+  const [currentStatus, setCurrentStatus] = useState<PaymentIntentStatus>('processing');
   const [modalOptions, setModalOptions] = useState({ isOpen: false, src: '#' });
 
   const regionObject = methods.watch('region');
@@ -148,6 +151,10 @@ const Checkout = ({ checkout }: Props) => {
     }
   };
 
+  if (currentStatus === 'succeeded') {
+    return <SuccessScreen />;
+  }
+
   return (
     <Layout>
       <Container>
@@ -172,7 +179,13 @@ const Checkout = ({ checkout }: Props) => {
       <SecureAuthModal
         isOpen={modalOptions.isOpen}
         src={modalOptions.src}
-        onComplete={() => console.log('complete')}
+        onComplete={async () => {
+          const intent = await paymongo.paymentIntent.retrieve({
+            client_key: paymentIntentRef.current?.attributes.client_key || '',
+            id: paymentIntentRef.current?.id || '',
+          });
+          setCurrentStatus(intent.attributes.status);
+        }}
       />
     </Layout>
   );

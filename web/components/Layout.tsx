@@ -19,6 +19,7 @@ const Container = styled.div`
   }
 `;
 const ContentWrapper = styled.main`
+  position: relative;
   ${breakpoints.lg} {
     display: flex;
     justify-content: center;
