@@ -25,7 +25,25 @@ const StyledInputContainer = styled.div<{ isError?: boolean }>`
       background-color: ${({ theme }) => theme.colors.blackAlpha['100']};
       color: ${({ theme }) => theme.colors.blackAlpha['500']};
     }
+
+    ::placeholder {
+      color: ${({ theme }) => theme.colors.blackAlpha['500']};
+    }
+
+    // hide arrows
+    /* Chrome, Safari, Edge, Opera */
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    [type='number'] {
+      -moz-appearance: textfield;
+    }
   }
+
   .error {
     color: ${({ theme }) => theme.colors.danger};
     font-size: ${({ theme }) => theme.typography.fontSizes.xs};
@@ -41,8 +59,9 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
   ({ label, name, isError = false, errorMessage, ...props }: Props, ref) => {
     return (
       <StyledInputContainer isError={isError}>
-        <label htmlFor={name}> {label}</label>
-        <input type="text" name={name} {...props} ref={ref} />
+        <label htmlFor={name}>{label}</label>
+
+        <input type="text" name={name} id={name} {...props} ref={ref} />
         {isError ? <span className="error">{errorMessage}</span> : null}
       </StyledInputContainer>
     );

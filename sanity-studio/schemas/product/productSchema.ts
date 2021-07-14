@@ -14,7 +14,10 @@ export const productSchema: Document = {
       },
       validation: (Rules) => Rules.required(),
     },
-
+    // {
+    //   type: 'string',
+    //   name: 'name',
+    // },
     {
       type: 'slug',
       name: 'slug',
@@ -41,6 +44,10 @@ export const productSchema: Document = {
       },
       validation: (Rules) => Rules.required(),
     },
+    // {
+    //   type: 'optionsSwitch',
+    //   name: 'optionsSwitch',
+    // },
     {
       type: 'array',
       name: 'description',

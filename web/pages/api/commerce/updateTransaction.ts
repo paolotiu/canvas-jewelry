@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 });
 
 const handler: NextApiHandler = async (req, res) => {
-  const { orderId, status } = req.body;
+  const { orderId, status, statusReason } = req.body;
 
   if (!orderId || !status) {
     res.status(400).json({ message: 'Not enough params' });
@@ -28,7 +28,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   const { status: resStatus } = await axiosInstance.put(
     `orders/${orderId}/transactions/${transactionId}`,
-    { status },
+    { status, status_reason: statusReason },
   );
 
   if (resStatus === 200) {

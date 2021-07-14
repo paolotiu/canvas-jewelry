@@ -1441,6 +1441,13 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@paymongo/core@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@paymongo/core/-/core-0.2.0.tgz#7ff514c88c2a71c85ff09c49d79db30e89875594"
+  integrity sha512-Ld/0pBSLIW3eYtRXuehNSXtmV+wCyTDqdWdyZXxbHYNU0UYPbAO+s8D11w38KrRTFe6Vi4RUu8WRYNJHWF/Elg==
+  dependencies:
+    axios "^0.21.1"
+
 "@polka/url@^1.0.0-next.9":
   version "1.0.0-next.12"
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.12.tgz#431ec342a7195622f86688bbda82e3166ce8cb28"
@@ -2549,6 +2556,15 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bent@^7.3.1:
+  version "7.3.12"
+  resolved "https://registry.yarnpkg.com/bent/-/bent-7.3.12.tgz#e0a2775d4425e7674c64b78b242af4f49da6b035"
+  integrity sha512-T3yrKnVGB63zRuoco/7Ybl7BwwGZR0lceoVG5XmQyMIH9s19SV5m+a8qam4if0zQuAmOQTyPTPmsQBdAorGK3w==
+  dependencies:
+    bytesish "^0.4.1"
+    caseless "~0.12.0"
+    is-stream "^2.0.0"
+
 big.js@^3.1.3:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-3.2.0.tgz#a5fc298b81b9e0dca2e458824784b65c52ba588e"
@@ -2758,6 +2774,11 @@ bytes@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
+
+bytesish@^0.4.1:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/bytesish/-/bytesish-0.4.4.tgz#f3b535a0f1153747427aee27256748cff92347e6"
+  integrity sha512-i4uu6M4zuMUiyfZN4RU2+i9+peJh//pXhd9x1oSe1LBkZ3LEbCoygu8W0bXTukU1Jme2txKuotpCZRaC3FLxcQ==
 
 cache-base@^1.0.1:
   version "1.0.1"
@@ -6726,6 +6747,13 @@ path-type@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
+
+paymongo@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/paymongo/-/paymongo-1.1.0.tgz#084344cce5a707caf9775a7a01ed0d3388bfc02e"
+  integrity sha512-E7Fys8B/Mtqitg9KG7/EUCl7225y/+pjU2pqorNlU4y8HXsFTvJxqmo/nfpMqJY1OmM4GGL5idQtJFwof3U6ew==
+  dependencies:
+    bent "^7.3.1"
 
 pbkdf2@^3.0.3:
   version "3.1.2"
