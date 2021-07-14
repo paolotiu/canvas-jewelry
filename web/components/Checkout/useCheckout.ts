@@ -39,11 +39,11 @@ export const useCheckout = () => {
   };
 
   return {
-    capture: captureRef.current,
-    paymentIntent: paymentIntentRef.current,
-    paymentMethod: paymentMethodRef.current,
     setCapture,
     setPaymentIntent,
     setPaymentMethod,
+    paymentIntentRef,
+    captureRef,
+    paymentMethodRef,
   };
 };

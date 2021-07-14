@@ -55,8 +55,14 @@ interface Props {
 const Checkout = ({ checkout }: Props) => {
   const methods = useForm<FormValues>();
 
-  const { setCapture, capture, setPaymentIntent, paymentIntent, paymentMethod, setPaymentMethod } =
-    useCheckout();
+  const {
+    setCapture,
+    setPaymentIntent,
+    setPaymentMethod,
+    captureRef,
+    paymentIntentRef,
+    paymentMethodRef,
+  } = useCheckout();
 
   const [modalOptions, setModalOptions] = useState({ isOpen: false, src: '#' });
 
@@ -79,7 +85,7 @@ const Checkout = ({ checkout }: Props) => {
     // Check if its a valid checkout
     if (!checkout) return;
 
-    if (!capture) {
+    if (!captureRef.current) {
       await setCapture(checkout.id, {
         customer: {
           lastname: lastName,
@@ -94,22 +100,22 @@ const Checkout = ({ checkout }: Props) => {
         },
       });
     }
-    if (!paymentIntent) {
+    if (!paymentIntentRef.current) {
       await setPaymentIntent({
         data: {
           attributes: {
-            amount: 100 * 100,
+            amount: (checkout.live.subtotal.raw + (shippingCost || 0)) * 100,
             currency: 'PHP',
             payment_method_allowed: ['card'],
             metadata: {
-              orderId: capture?.id,
+              orderId: captureRef.current?.id,
             },
           },
         },
       });
     }
 
-    if (!paymentMethod) {
+    if (!paymentMethodRef.current) {
       await setPaymentMethod({
         data: {
           attributes: {
@@ -128,11 +134,11 @@ const Checkout = ({ checkout }: Props) => {
     const {
       attributes: { status, next_action },
     } = await paymongo.paymentIntent.attach({
-      id: paymentIntent?.id || '',
+      id: paymentIntentRef.current?.id || '',
       data: {
         attributes: {
-          payment_method: paymentMethod?.id || '',
-          client_key: paymentIntent?.attributes.client_key || '',
+          payment_method: paymentMethodRef.current?.id || '',
+          client_key: paymentIntentRef.current?.attributes.client_key || '',
         },
       },
     });
