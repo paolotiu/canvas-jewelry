@@ -37,6 +37,10 @@ export const useCheckout = () => {
   const setPaymentMethod = async (data: CreatePaymentMethodParams) => {
     paymentMethodRef.current = await paymongo.paymentMethod.create(data);
   };
+  const clearPayment = () => {
+    paymentIntentRef.current = undefined;
+    paymentMethodRef.current = undefined;
+  };
 
   return {
     setCapture,
@@ -45,5 +49,6 @@ export const useCheckout = () => {
     paymentIntentRef,
     captureRef,
     paymentMethodRef,
+    clearPayment,
   };
 };

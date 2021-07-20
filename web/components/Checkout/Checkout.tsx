@@ -42,9 +42,10 @@ const StyledForm = styled.form`
 `;
 
 const ProceedButton = styled(Button)`
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 1rem;
   max-height: 58px;
+  width: 100%;
 `;
 
 interface FormValues extends ContactInfoValues, ShippingAddressValues, PaymentInfoValues {}
@@ -64,6 +65,7 @@ const Checkout = ({ checkout }: Props) => {
     captureRef,
     paymentIntentRef,
     paymentMethodRef,
+    clearPayment,
   } = useCheckout();
 
   const [currentStatus, setCurrentStatus] = useState<PaymentIntentStatus>('processing');
@@ -133,21 +135,28 @@ const Checkout = ({ checkout }: Props) => {
         },
       });
     }
-
-    const {
-      attributes: { status, next_action },
-    } = await paymongo.paymentIntent.attach({
-      id: paymentIntentRef.current?.id || '',
-      data: {
-        attributes: {
-          payment_method: paymentMethodRef.current?.id || '',
-          client_key: paymentIntentRef.current?.attributes.client_key || '',
+    try {
+      const {
+        attributes: { status, next_action },
+      } = await paymongo.paymentIntent.attach({
+        id: paymentIntentRef.current?.id || '',
+        data: {
+          attributes: {
+            payment_method: paymentMethodRef.current?.id || '',
+            client_key: paymentIntentRef.current?.attributes.client_key || '',
+          },
         },
-      },
-    });
+      });
 
-    if (status === 'awaiting_next_action') {
-      setModalOptions({ isOpen: true, src: next_action?.redirect.url || '#' });
+      if (status === 'awaiting_next_action') {
+        setModalOptions({ isOpen: true, src: next_action?.redirect.url || '#' });
+      }
+      if (status === 'succeeded') {
+        setCurrentStatus('succeeded');
+      }
+    } catch (error) {
+      setCurrentStatus('awaiting_payment_method');
+      clearPayment();
     }
   };
 
@@ -163,15 +172,18 @@ const Checkout = ({ checkout }: Props) => {
             <ContactInfo />
             <ShippingAddress />
             <PaymentInfo />
-            <ProceedButton
-              type="submit"
-              backgroundColor="black"
-              color="white"
-              size="md"
-              fontWeight="bold"
-            >
-              Proceed to payment
-            </ProceedButton>
+            <div>
+              {currentStatus === 'awaiting_payment_method' ? <p>An error has occured.</p> : null}
+              <ProceedButton
+                type="submit"
+                backgroundColor="black"
+                color="white"
+                size="md"
+                fontWeight="bold"
+              >
+                Proceed to payment
+              </ProceedButton>
+            </div>
           </StyledForm>
         </FormProvider>
         {checkout && <CartPreview checkout={checkout} shipping={shippingCost} />}
@@ -184,7 +196,9 @@ const Checkout = ({ checkout }: Props) => {
             client_key: paymentIntentRef.current?.attributes.client_key || '',
             id: paymentIntentRef.current?.id || '',
           });
+          clearPayment();
           setCurrentStatus(intent.attributes.status);
+          setModalOptions({ isOpen: false, src: '#' });
         }}
       />
     </Layout>

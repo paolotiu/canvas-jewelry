@@ -96,9 +96,9 @@ const ProductCarousel = ({ products }: Props) => {
                 <Card
                   hasFrom={product.hasFrom}
                   src={product.mainImage}
-                  name={product.product.name || ''}
+                  name={product.product?.name || ''}
                   slug={product.slug}
-                  price={product.product.price?.raw || 0}
+                  price={product.product?.price?.raw || 0}
                 />
               </EmblaSlide>
             );
