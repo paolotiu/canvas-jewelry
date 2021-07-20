@@ -10,22 +10,7 @@ import { optionalFields } from './product/productOptionSchema';
 import { homepageSchema } from './homepage/homepageSchema';
 import { homepageBlock } from './homepage/homepageBlock';
 import { homepageNav } from './homepage/homepageNav';
-import { Document } from './schemaTypes';
-import MyCustomString from '../components/MyCustomString';
 
-const testSchema: Document = {
-  type: 'document',
-  name: 'test',
-  title: 'Test',
-  fields: [
-    {
-      name: 'customString',
-      title: 'COol',
-      type: 'string',
-      inputComponent: MyCustomString,
-    },
-  ],
-};
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
   // We name our schema
@@ -41,6 +26,5 @@ export default createSchema({
     homepageSchema,
     homepageBlock,
     homepageNav,
-    testSchema,
   ]),
 });
