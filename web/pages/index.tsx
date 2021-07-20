@@ -4,7 +4,7 @@ import {
   CATEGORY_BY_SLUG_QUERY,
   HomepageSettings,
   HOMEPAGE_SETTINGS_QUERY,
-  ProductReturnWithPriceVariants,
+  ProductReturn,
 } from '@utils/sanity/queries';
 import { getClient } from '@utils/sanity/sanity.server';
 import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
@@ -13,7 +13,7 @@ export const getStaticProps = async ({
   preview = false,
 }: GetStaticPropsContext): Promise<
   GetStaticPropsResult<{
-    products: ProductReturnWithPriceVariants[];
+    products: ProductReturn[];
     homepageSettings: HomepageSettings;
     preview: boolean;
   }>
