@@ -38,6 +38,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               src="https://static.cloudflareinsights.com/beacon.min.js"
               data-cf-beacon='{"token": "b26ed15e7b0a4e489c1f23984c69c915"}'
             />
+
+            <script
+              async
+              defer
+              data-domain="thecanvasjewelry.com"
+              src="https://plausible.paolotiu.com/js/plausible.js"
+            ></script>
           </Head>
           <DefaultSeo
             defaultTitle="Canvas Jewelry"
