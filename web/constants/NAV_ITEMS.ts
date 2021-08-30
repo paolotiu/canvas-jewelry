@@ -8,7 +8,7 @@ export const NAV_ITEMS: NavItem[] = [
     kind: 'link',
   },
   {
-    label: 'Main Collection',
+    label: 'Main Collections',
     children: [
       { label: 'Essentials', href: 'essentials', kind: 'link' },
       {
@@ -23,6 +23,11 @@ export const NAV_ITEMS: NavItem[] = [
         kind: 'link',
       },
     ],
+    kind: 'group',
+  },
+  {
+    label: 'Special Collections',
+    children: [{ label: 'Daisy Pearls', href: 'daisy-pearls', kind: 'link' }],
     kind: 'group',
   },
   {
